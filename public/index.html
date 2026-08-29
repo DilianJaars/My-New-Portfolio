@@ -1,6 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dilian Jaars - Junior Web Developer</title>
@@ -9,7 +7,7 @@
             location.replace(`websitespage.html${location.hash}`);
         }
     </script>
-    <link rel="icon" href="images/dj-logo.jpg" type="image/jpeg">
+    <link rel="icon" href="IMAGES/dj logo.jpg" type="IMAGES/jpg">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -81,23 +79,31 @@
        
         .sidebar {
             position: fixed;
-            left: 0;
-            top: 0;
-            height: 100vh;
-            width: 100px;
+            top: 20px;
+            right: 20px;
+            left: auto;
+            height: auto;
+            width: auto;
             background: rgba(0, 0, 0, 0.95);
             backdrop-filter: blur(10px);
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             align-items: center;
-            padding: 30px 0;
+            padding: 12px 20px;
             z-index: 1000;
-            border-right: 2px solid rgba(0, 255, 136, 0.2);
-            transition: width 0.3s ease;
+            border: 2px solid rgba(0, 255, 136, 0.2);
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
         }
 
         .sidebar:hover {
-            width: 250px;
+            padding: 12px 30px;
+            border-color: rgba(0, 255, 136, 0.5);
+        }
+
+        .sidebar .sidebar-logo {
+            margin-right: 20px;
         }
 
         .sidebar-logo-img {
@@ -106,7 +112,6 @@
             font-size: 2rem;
             font-weight: 700;
             color: var(--primary-color);
-            margin-bottom: 50px;
             transition: all 0.3s ease;
         }
 
@@ -116,18 +121,24 @@
 
         .sidebar-nav {
             list-style: none;
-            width: 100%;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
         }
 
         .sidebar-nav li {
-            width: 100%;
-            margin-bottom: 20px;
+            margin-right: 10px;
+        }
+
+        .sidebar-nav li:last-child {
+            margin-right: 0;
         }
 
         .sidebar-nav a {
             display: flex;
             align-items: center;
-            padding: 15px 25px;
+            padding: 12px 18px;
+            border-radius: 30px;
             color: var(--text-light);
             text-decoration: none;
             transition: all 0.3s ease;
@@ -142,14 +153,18 @@
         }
 
         .sidebar-nav a span {
-            margin-left: 20px;
+            margin-left: 0;
+            max-width: 0;
             opacity: 0;
+            overflow: hidden;
             white-space: nowrap;
-            transition: opacity 0.3s ease;
+            transition: max-width 0.3s ease, opacity 0.3s ease, margin-left 0.3s ease;
             font-weight: 500;
         }
 
         .sidebar:hover .sidebar-nav a span {
+            margin-left: 10px;
+            max-width: 150px;
             opacity: 1;
         }
 
@@ -181,7 +196,7 @@
 
        
         .main-content {
-            margin-left: 80px;
+            margin-left: 0;
             min-height: 100vh;
         }
 
@@ -351,6 +366,48 @@
             color: rgba(0, 0, 0, 0.5);
             position: relative;
             z-index: 1;
+        }
+
+        .profile-pic-wrap {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+
+        .profile-pic-wrap img {
+            display: block;
+            transition: transform 0.4s ease;
+        }
+
+        .profile-pic-wrap:hover img {
+            transform: scale(1.05);
+        }
+
+        .profile-pic-overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.75);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .profile-pic-wrap:hover .profile-pic-overlay {
+            opacity: 1;
+        }
+
+        .profile-pic-overlay p {
+            font-size: 1.4rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            background: linear-gradient(90deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
        
@@ -638,21 +695,21 @@
 
     
     <nav class="sidebar">
-        <div class="sidebar-logo"><img src="images/dj-logo.jpg" height="100" width="100"></div>
+        <div class="sidebar-logo"><img src="IMAGES/dj logo.jpg" height="100" width="100"></div>
         <ul class="sidebar-nav">
-            <li><a href="index.html"><i class="fas fa-home"></i><span>Home</span></a></li>
+            <li><a href="/"><i class="fas fa-home"></i><span>Home</span></a></li>
             <li><a href="#about"><i class="fas fa-user"></i><span>About</span></a></li>
-            <li><a href="my-skills.html"><i class="fas fa-code"></i><span>skills</span></a></li>
-            <li><a href="view-my-work.html" ><i class="fas fa-briefcase"></i><span>view my work</span></a></li>
-            <li><a href="get-in-touch.html"><i class="fas fa-envelope"></i><span>Get in Touch</span></a></li>
+            <li><a href="My skills.html"><i class="fas fa-code"></i><span>skills</span></a></li>
+            <li><a href="view my work.html"><i class="fas fa-briefcase"></i><span>view my work</span></a></li>
+            <li><a href="Get in touch.html"><i class="fas fa-envelope"></i><span>Get in Touch</span></a></li>
         </ul>
     </nav>
     <nav class="mobile-nav">
-        <a href="index.html"><i class="fas fa-home"></i><span>Home</span></a>
+        <a href="/"><i class="fas fa-home"></i><span>Home</span></a>
         <a href="#about"><i class="fas fa-user"></i><span>About</span></a>
-        <a href="my-skills.html"><i class="fas fa-code"></i><span>Skills</span></a>
-        <a href="view-my-work.html"><i class="fas fa-briefcase"></i><span>Work</span></a>
-        <a href="get-in-touch.html"><i class="fas fa-envelope"></i><span>Contact</span></a>
+        <a href="My skills.html"><i class="fas fa-code"></i><span>Skills</span></a>
+        <a href="view my work.html"><i class="fas fa-briefcase"></i><span>Work</span></a>
+        <a href="Get in touch.html"><i class="fas fa-envelope"></i><span>Contact</span></a>
     </nav>
 
 
@@ -683,10 +740,15 @@
                 </div>
                 <div class="row align-items-center g-5">
                     <div class="col-lg-6">
-                        <img src="images/img-20250217-wa0013.jpg" style="max-width:100%; height:auto; border-radius:10px; display:block;">
+                        <div class="profile-pic-wrap">
+                            <img src="IMAGES/IMG-20250217-WA0013.jpg" style="max-width:100%; height:auto; border-radius:10px; display:block;">
+                            <div class="profile-pic-overlay">
+                                <p>Turning Ideas Into Code ✨</p>
+                            </div>
+                        </div>
                     </div>
-                    <br/>
-                     </br>
+                    <br>
+                     <br>
                     <div class="col-lg-6">
                         <h3 class="mb-4" style="color: var(--primary-color); font-size: 2rem;">I'm Dilian Jaars</h3>
                         <p class="mb-4" style="font-size: 1.1rem; line-height: 1.8; color: #ccc;">
@@ -694,15 +756,15 @@
                             My journey into web development started with curiosity and has evolved into a passion 
                             for building beautiful, functional digital solutions.
                         </p>
-                    </br>
-                     </br>
+                    <br>
+                     <br>
                         <p class="mb-4" style="font-size: 1.1rem; line-height: 1.8; color: #ccc;">
                             I thrive on challenges that push me to grow, whether it's mastering a new framework, 
                             optimizing performance, or solving complex problems with elegant code. My approach 
                             combines technical skill with creative thinking to deliver results that exceed expectations.
                         </p>
-                         </br>
-                          </br>
+                         <br>
+                          <br>
                         <p style="font-size: 1.1rem; line-height: 1.8; color: #ccc;">
                             When I'm not coding, you'll find me exploring the latest web technologies, contributing 
                             to open-source projects, or brainstorming the next big idea. Let's build something amazing together!
@@ -715,7 +777,7 @@
 
     <button id="scrollTopBtn" aria-label="Scroll to top">
     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <path d="M12 4l-8 8h5v8h6v-8h5l-8-8z"/>
+      <path d="M12 4l-8 8h5v8h6v-8h5l-8-8z"></path>
     </svg>
   </button>
 
@@ -762,5 +824,6 @@
       });
     });
     </script>
-</body>
-</html>
+
+
+</body></html>
