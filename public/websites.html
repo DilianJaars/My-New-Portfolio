@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A collection of websites built by Dilian Jaars.">
+    <title>Websites | Dilian Jaars</title>
+    <link rel="icon" href="images/dj-logo.jpg" type="image/jpeg">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --green: #00e881;
+            --cyan: #23c8e8;
+            --pink: #eb3d87;
+            --ink: #080b0d;
+            --surface: #111619;
+            --surface-raised: #171e22;
+            --line: rgba(255, 255, 255, 0.11);
+            --muted: #9aa7ad;
+            --white: #f5faf7;
+            --danger: #ff6b73;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            overflow-x: hidden;
+            background: var(--ink);
+            color: var(--white);
+            font-family: "Trebuchet MS", "Gill Sans", sans-serif;
+        }
+
+        button,
+        input,
+        textarea {
+            font: inherit;
+        }
+
+        button,
+        a {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .page-shell {
+            min-height: 100vh;
+            position: relative;
+            isolation: isolate;
+        }
+
+        .page-shell::before {
+            background:
+                radial-gradient(circle at 78% 7%, rgba(35, 200, 232, 0.14), transparent 29rem),
+                radial-gradient(circle at 12% 67%, rgba(235, 61, 135, 0.10), transparent 32rem),
+                linear-gradient(145deg, #080b0d 18%, #10171a 58%, #080b0d 100%);
+            content: "";
+            inset: 0;
+            position: fixed;
+            z-index: -2;
+        }
+
+        .page-shell::after {
+            background-image: linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+            background-size: 46px 46px;
+            content: "";
+            inset: 0;
+            mask-image: linear-gradient(to bottom, black, transparent 72%);
+            pointer-events: none;
+            position: fixed;
+            z-index: -1;
+        }
+
+        .topbar {
+            align-items: center;
+            display: flex;
+            justify-content: space-between;
+            margin: 0 auto;
+            max-width: 1240px;
+            padding: 28px 24px;
+        }
+
+        .round-button,
+        .owner-button {
+            align-items: center;
+            background: rgba(17, 22, 25, 0.82);
+            border: 1px solid var(--line);
+            color: var(--white);
+            cursor: pointer;
+            display: inline-flex;
+            justify-content: center;
+            text-decoration: none;
+            transition: border-color .2s ease, color .2s ease, transform .2s ease, background .2s ease;
+        }
+
+        .round-button {
+            border-radius: 50%;
+            height: 48px;
+            width: 48px;
+        }
+
+        .owner-button {
+            border-radius: 999px;
+            gap: 10px;
+            min-height: 46px;
+            padding: 0 18px;
+        }
+
+        .round-button:hover,
+        .owner-button:hover {
+            background: var(--green);
+            border-color: var(--green);
+            color: var(--ink);
+            transform: translateY(-2px);
+        }
+
+        .round-button:focus-visible,
+        .owner-button:focus-visible,
+        .project-link:focus-visible,
+        .delete-button:focus-visible,
+        input:focus-visible,
+        textarea:focus-visible {
+            outline: 3px solid rgba(35, 200, 232, .42);
+            outline-offset: 3px;
+        }
+
+        main {
+            margin: 0 auto;
+            max-width: 1240px;
+            padding: 46px 24px 100px;
+        }
+
+        .hero {
+            align-items: end;
+            display: grid;
+            gap: 40px;
+            grid-template-columns: minmax(0, 1.3fr) minmax(280px, .7fr);
+            margin-bottom: 70px;
+        }
+
+        .eyebrow {
+            color: var(--green);
+            font-size: .78rem;
+            font-weight: 800;
+            letter-spacing: .22em;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: clamp(4.4rem, 11vw, 9.4rem);
+            font-weight: 400;
+            letter-spacing: -.075em;
+            line-height: .78;
+        }
+
+        h1 span {
+            color: var(--green);
+            display: block;
+            font-style: italic;
+            margin-left: clamp(18px, 9vw, 130px);
+        }
+
+        .hero-copy {
+            border-left: 2px solid var(--green);
+            color: var(--muted);
+            font-size: 1.08rem;
+            line-height: 1.75;
+            padding: 4px 0 4px 24px;
+        }
+
+        .section-head {
+            align-items: end;
+            border-bottom: 1px solid var(--line);
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 28px;
+            padding-bottom: 18px;
+        }
+
+        .section-head h2 {
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: clamp(1.75rem, 4vw, 3rem);
+            font-weight: 400;
+        }
+
+        .project-count {
+            color: var(--muted);
+            font-size: .82rem;
+            letter-spacing: .13em;
+            text-transform: uppercase;
+        }
+
+        .work-grid {
+            display: grid;
+            gap: 24px;
+            grid-template-columns: repeat(12, 1fr);
+        }
+
+        .work-card {
+            background: linear-gradient(150deg, rgba(23, 30, 34, .98), rgba(13, 18, 20, .98));
+            border: 1px solid var(--line);
+            border-radius: 4px 28px 4px 4px;
+            display: flex;
+            flex-direction: column;
+            grid-column: span 6;
+            min-height: 330px;
+            overflow: hidden;
+            position: relative;
+            transition: border-color .25s ease, transform .25s ease;
+        }
+
+        .work-card:nth-child(3n + 1) {
+            grid-column: span 7;
+        }
+
+        .work-card:nth-child(3n + 2) {
+            grid-column: span 5;
+        }
+
+        .work-card:hover {
+            border-color: rgba(0, 232, 129, .62);
+            transform: translateY(-6px);
+        }
+
+        .card-signal {
+            background: var(--card-accent, var(--green));
+            height: 5px;
+            transform: scaleX(.22);
+            transform-origin: left;
+            transition: transform .35s ease;
+        }
+
+        .work-card:hover .card-signal {
+            transform: scaleX(1);
+        }
+
+        .card-media {
+            background-color: rgba(255, 255, 255, 0.03);
+            background-position: center;
+            background-size: cover;
+            border-bottom: 1px solid var(--line);
+            height: 190px;
+            position: relative;
+        }
+
+        .card-media.is-empty {
+            align-items: center;
+            display: flex;
+            justify-content: center;
+        }
+
+        .card-media.is-empty i {
+            color: rgba(255, 255, 255, 0.15);
+            font-size: 2.6rem;
+        }
+
+        .card-body {
+            display: flex;
+            flex: 1;
+            flex-direction: column;
+            padding: clamp(22px, 4vw, 34px);
+        }
+
+        .card-number {
+            color: var(--card-accent, var(--green));
+            font-family: Georgia, serif;
+            font-size: .95rem;
+            margin-bottom: 20px;
+        }
+
+        .work-card:not(:has(.card-media)) .card-number {
+            margin-bottom: 42px;
+        }
+
+        .work-title {
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: clamp(1.6rem, 3.6vw, 2.5rem);
+            font-weight: 400;
+            line-height: 1.05;
+            margin-bottom: 16px;
+        }
+
+        .work-description {
+            color: var(--muted);
+            line-height: 1.65;
+            margin-bottom: 26px;
+            max-width: 52ch;
+        }
+
+        .card-footer {
+            align-items: end;
+            display: flex;
+            gap: 20px;
+            justify-content: space-between;
+            margin-top: auto;
+        }
+
+        .work-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+        }
+
+        .work-tag {
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            color: #c8d2d6;
+            font-size: .72rem;
+            letter-spacing: .04em;
+            padding: 7px 10px;
+        }
+
+        .card-actions {
+            align-items: center;
+            display: flex;
+            flex: 0 0 auto;
+            gap: 10px;
+        }
+
+        .project-link,
+        .delete-button {
+            align-items: center;
+            border-radius: 50%;
+            display: inline-flex;
+            height: 48px;
+            justify-content: center;
+            transition: transform .2s ease, background .2s ease, color .2s ease;
+            width: 48px;
+        }
+
+        .project-link {
+            background: var(--green);
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .project-link:hover {
+            transform: rotate(-8deg) scale(1.07);
+        }
+
+        .delete-button {
+            background: transparent;
+            border: 1px solid rgba(255, 107, 115, .5);
+            color: var(--danger);
+            cursor: pointer;
+        }
+
+        .delete-button:hover {
+            background: var(--danger);
+            color: var(--ink);
+        }
+
+        .status-panel {
+            align-items: center;
+            border: 1px dashed rgba(255, 255, 255, .2);
+            color: var(--muted);
+            display: flex;
+            flex-direction: column;
+            grid-column: 1 / -1;
+            justify-content: center;
+            min-height: 280px;
+            padding: 50px 24px;
+            text-align: center;
+        }
+
+        .status-panel i {
+            color: var(--green);
+            font-size: 2rem;
+            margin-bottom: 18px;
+        }
+
+        .status-panel h3 {
+            color: var(--white);
+            font-family: Georgia, serif;
+            font-size: 1.7rem;
+            font-weight: 400;
+            margin-bottom: 9px;
+        }
+
+        .skeleton {
+            animation: pulse 1.4s ease-in-out infinite;
+            background: rgba(255,255,255,.06);
+            border-radius: 4px 28px 4px 4px;
+            grid-column: span 6;
+            min-height: 330px;
+        }
+
+        @keyframes pulse {
+            50% { opacity: .45; }
+        }
+
+        dialog {
+            background: transparent;
+            border: 0;
+            color: var(--white);
+            margin: auto;
+            max-height: 92vh;
+            max-width: 620px;
+            padding: 0;
+            width: calc(100% - 32px);
+        }
+
+        dialog::backdrop {
+            backdrop-filter: blur(8px);
+            background: rgba(2, 5, 6, .76);
+        }
+
+        .dialog-card {
+            background: var(--surface);
+            border: 1px solid rgba(0, 232, 129, .35);
+            border-radius: 5px 32px 5px 5px;
+            max-height: 92vh;
+            overflow-y: auto;
+            padding: clamp(25px, 6vw, 48px);
+            position: relative;
+        }
+
+        .dialog-close {
+            position: absolute;
+            right: 18px;
+            top: 18px;
+        }
+
+        .dialog-kicker {
+            color: var(--green);
+            font-size: .72rem;
+            font-weight: 800;
+            letter-spacing: .18em;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+
+        .dialog-card h2 {
+            font-family: Georgia, serif;
+            font-size: clamp(2rem, 7vw, 3.4rem);
+            font-weight: 400;
+            line-height: 1;
+            margin-bottom: 13px;
+        }
+
+        .dialog-intro {
+            color: var(--muted);
+            line-height: 1.55;
+            margin-bottom: 30px;
+        }
+
+        .form-grid {
+            display: grid;
+            gap: 19px;
+        }
+
+        .field {
+            display: grid;
+            gap: 8px;
+        }
+
+        label {
+            color: #d9e2df;
+            font-size: .8rem;
+            font-weight: 700;
+            letter-spacing: .05em;
+            text-transform: uppercase;
+        }
+
+        input,
+        textarea {
+            background: var(--surface-raised);
+            border: 1px solid var(--line);
+            border-radius: 3px;
+            color: var(--white);
+            padding: 14px 15px;
+            width: 100%;
+        }
+
+        input[type="file"] {
+            padding: 10px 12px;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: #657279;
+        }
+
+        .field-hint {
+            color: #657279;
+            font-size: .76rem;
+        }
+
+        .submit-button {
+            align-items: center;
+            background: var(--green);
+            border: 0;
+            border-radius: 3px;
+            color: var(--ink);
+            cursor: pointer;
+            display: inline-flex;
+            font-weight: 800;
+            gap: 10px;
+            justify-content: center;
+            min-height: 52px;
+            padding: 0 22px;
+            transition: transform .2s ease, filter .2s ease;
+        }
+
+        .submit-button:hover {
+            filter: brightness(1.08);
+            transform: translateY(-2px);
+        }
+
+        .submit-button:disabled {
+            cursor: wait;
+            opacity: .55;
+            transform: none;
+        }
+
+        .form-message {
+            border-left: 3px solid var(--danger);
+            color: #ffc3c6;
+            display: none;
+            font-size: .9rem;
+            line-height: 1.5;
+            padding-left: 12px;
+        }
+
+        .form-message.visible {
+            display: block;
+        }
+
+        .form-message.success {
+            border-left-color: var(--green);
+            color: #baf5d6;
+        }
+
+        .signed-in-row {
+            align-items: center;
+            background: rgba(0, 232, 129, .08);
+            border: 1px solid rgba(0, 232, 129, .2);
+            display: flex;
+            gap: 14px;
+            justify-content: space-between;
+            margin-bottom: 28px;
+            padding: 15px;
+        }
+
+        .signed-in-row span {
+            color: var(--muted);
+            display: block;
+            font-size: .78rem;
+            margin-top: 3px;
+        }
+
+        .text-button {
+            background: none;
+            border: 0;
+            color: var(--green);
+            cursor: pointer;
+            font-size: .82rem;
+            font-weight: 800;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        @media (max-width: 820px) {
+            main {
+                padding-top: 24px;
+            }
+
+            .hero {
+                align-items: start;
+                grid-template-columns: 1fr;
+                margin-bottom: 56px;
+            }
+
+            .hero-copy {
+                max-width: 560px;
+            }
+
+            .work-card,
+            .work-card:nth-child(3n + 1),
+            .work-card:nth-child(3n + 2),
+            .skeleton {
+                grid-column: 1 / -1;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .owner-button span {
+                display: none;
+            }
+
+            .owner-button {
+                border-radius: 50%;
+                padding: 0;
+                width: 46px;
+            }
+
+            h1 {
+                font-size: clamp(3.7rem, 20vw, 5.2rem);
+            }
+
+            .card-footer,
+            .signed-in-row {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                transition-duration: .01ms !important;
+                animation-duration: .01ms !important;
+                animation-iteration-count: 1 !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-shell">
+        <header class="topbar">
+            <a href="view-my-work.html" class="round-button" aria-label="Back to view my work" title="Back to view my work">
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
+            <button class="owner-button" id="ownerButton" type="button">
+                <i class="fa-solid fa-lock"></i>
+                <span>Manage websites</span>
+            </button>
+        </header>
+
+        <main>
+            <section class="hero" aria-labelledby="pageTitle">
+                <div>
+                    <p class="eyebrow">Selected digital work</p>
+                    <h1 id="pageTitle">Built for <span>the web.</span></h1>
+                </div>
+                <p class="hero-copy">A growing collection of websites I have designed and built. Open any project to explore the live experience.</p>
+            </section>
+
+            <section aria-labelledby="collectionTitle">
+                <div class="section-head">
+                    <h2 id="collectionTitle">Website collection</h2>
+                    <p class="project-count" id="projectCount">Loading projects</p>
+                </div>
+                <div class="work-grid" id="workGrid" aria-live="polite">
+                    <div class="skeleton"></div>
+                    <div class="skeleton"></div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <dialog id="managerDialog" aria-labelledby="managerTitle">
+        <div class="dialog-card">
+            <button class="round-button dialog-close" id="closeDialog" type="button" aria-label="Close manager">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div id="loginView">
+                <p class="dialog-kicker">Portfolio owner</p>
+                <h2 id="managerTitle">Sign in to manage.</h2>
+                <p class="dialog-intro">Enter the admin password to add or remove websites on this page.</p>
+                <form class="form-grid" id="loginForm">
+                    <div class="field">
+                        <label for="adminPassword">Admin password</label>
+                        <input id="adminPassword" name="password" type="password" autocomplete="current-password" required>
+                    </div>
+                    <p class="form-message" id="loginMessage" role="alert"></p>
+                    <button class="submit-button" type="submit">
+                        <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                        Sign in
+                    </button>
+                </form>
+            </div>
+
+            <div class="hidden" id="adminView">
+                <p class="dialog-kicker">Website manager</p>
+                <h2>Add your latest work.</h2>
+                <p class="dialog-intro">New websites appear in the public collection as soon as they are saved.</p>
+                <div class="signed-in-row">
+                    <div><strong>Signed in</strong><span>Admin access</span></div>
+                    <button class="text-button" id="logoutButton" type="button">Sign out</button>
+                </div>
+                <form class="form-grid" id="itemForm" enctype="multipart/form-data">
+                    <div class="field">
+                        <label for="title">Project title</label>
+                        <input id="title" name="title" type="text" maxlength="120" placeholder="Studio portfolio" required>
+                    </div>
+                    <div class="field">
+                        <label for="url">Live website link</label>
+                        <input id="url" name="url" type="url" placeholder="https://example.com" required>
+                    </div>
+                    <div class="field">
+                        <label for="image">Screenshot (optional)</label>
+                        <input id="image" name="image" type="file" accept="image/*">
+                        <p class="field-hint">A preview image for the card. Leave blank to show a plain card.</p>
+                    </div>
+                    <div class="field">
+                        <label for="description">Short description</label>
+                        <textarea id="description" name="description" maxlength="500" placeholder="What you created and who it was for"></textarea>
+                    </div>
+                    <div class="field">
+                        <label for="tags">Tags / tools used</label>
+                        <input id="tags" name="tags" type="text" placeholder="HTML, CSS, JavaScript">
+                    </div>
+                    <p class="form-message" id="itemMessage" role="alert"></p>
+                    <button class="submit-button" type="submit">
+                        <i class="fa-solid fa-plus"></i>
+                        Add website
+                    </button>
+                </form>
+            </div>
+        </div>
+    </dialog>
+
+    <script>
+        const API_PATH = "websites";
+        const accents = ["#00e881", "#23c8e8", "#eb3d87", "#f0b75f"];
+        const grid = document.getElementById("workGrid");
+        const count = document.getElementById("projectCount");
+        const dialog = document.getElementById("managerDialog");
+        const loginView = document.getElementById("loginView");
+        const adminView = document.getElementById("adminView");
+        const loginForm = document.getElementById("loginForm");
+        const itemForm = document.getElementById("itemForm");
+        const loginMessage = document.getElementById("loginMessage");
+        const itemMessage = document.getElementById("itemMessage");
+        let isAdmin = false;
+        let items = [];
+
+        function setMessage(element, message = "", success = false) {
+            element.textContent = message;
+            element.classList.toggle("visible", Boolean(message));
+            element.classList.toggle("success", success);
+        }
+
+        function createStatus(icon, heading, text) {
+            const panel = document.createElement("div");
+            panel.className = "status-panel";
+            const symbol = document.createElement("i");
+            symbol.className = `fa-solid ${icon}`;
+            const title = document.createElement("h3");
+            title.textContent = heading;
+            const copy = document.createElement("p");
+            copy.textContent = text;
+            panel.append(symbol, title, copy);
+            return panel;
+        }
+
+        function createProjectCard(project, index) {
+            const card = document.createElement("article");
+            card.className = "work-card";
+            card.style.setProperty("--card-accent", accents[index % accents.length]);
+
+            const signal = document.createElement("div");
+            signal.className = "card-signal";
+
+            let media = null;
+            if (project.image) {
+                media = document.createElement("div");
+                media.className = "card-media";
+                media.style.backgroundImage = `url(${project.image})`;
+            }
+
+            const body = document.createElement("div");
+            body.className = "card-body";
+
+            const number = document.createElement("p");
+            number.className = "card-number";
+            number.textContent = String(index + 1).padStart(2, "0");
+
+            const title = document.createElement("h3");
+            title.className = "work-title";
+            title.textContent = project.title;
+
+            const description = document.createElement("p");
+            description.className = "work-description";
+            description.textContent = project.description || "Open the live project to see the full website.";
+
+            const footer = document.createElement("div");
+            footer.className = "card-footer";
+
+            const tags = document.createElement("div");
+            tags.className = "work-tags";
+            (project.tags && project.tags.length ? project.tags : ["Website"]).forEach((tag) => {
+                const pill = document.createElement("span");
+                pill.className = "work-tag";
+                pill.textContent = tag;
+                tags.appendChild(pill);
+            });
+
+            const actions = document.createElement("div");
+            actions.className = "card-actions";
+
+            if (isAdmin) {
+                const remove = document.createElement("button");
+                remove.className = "delete-button";
+                remove.type = "button";
+                remove.title = `Delete ${project.title}`;
+                remove.setAttribute("aria-label", `Delete ${project.title}`);
+                remove.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
+                remove.addEventListener("click", () => deleteItem(project));
+                actions.appendChild(remove);
+            }
+
+            if (project.url) {
+                const link = document.createElement("a");
+                link.className = "project-link";
+                link.href = project.url;
+                link.target = "_blank";
+                link.rel = "noopener noreferrer";
+                link.title = `Open ${project.title}`;
+                link.setAttribute("aria-label", `Open ${project.title} in a new tab`);
+                link.innerHTML = '<i class="fa-solid fa-arrow-up-right-from-square"></i>';
+                actions.appendChild(link);
+            }
+
+            footer.append(tags, actions);
+            body.append(number, title, description, footer);
+            card.append(signal);
+            if (media) card.append(media);
+            card.append(body);
+            return card;
+        }
+
+        function renderProjects() {
+            grid.replaceChildren();
+            count.textContent = `${items.length} ${items.length === 1 ? "website" : "websites"}`;
+
+            if (!items.length) {
+                grid.appendChild(createStatus("fa-compass-drafting", "New work is on the way.", "Use the website manager to add the first live project."));
+                return;
+            }
+
+            items.forEach((project, index) => grid.appendChild(createProjectCard(project, index)));
+        }
+
+        async function loadItems() {
+            try {
+                const response = await fetch(`/api/${API_PATH}`, { headers: { Accept: "application/json" } });
+                if (!response.ok) throw new Error();
+                items = await response.json();
+                renderProjects();
+            } catch {
+                grid.replaceChildren(createStatus("fa-triangle-exclamation", "Projects could not load.", "Please refresh the page and try again."));
+                count.textContent = "Unavailable";
+            }
+        }
+
+        async function checkSession() {
+            try {
+                const response = await fetch("/api/session");
+                const data = await response.json();
+                isAdmin = Boolean(data.loggedIn);
+            } catch {
+                isAdmin = false;
+            }
+        }
+
+        function showAuthView() {
+            loginView.classList.toggle("hidden", isAdmin);
+            adminView.classList.toggle("hidden", !isAdmin);
+        }
+
+        async function deleteItem(project) {
+            if (!confirm(`Remove "${project.title}" from your ${API_PATH} collection?`)) return;
+
+            try {
+                const response = await fetch(`/api/${API_PATH}/${project.id}`, { method: "DELETE" });
+                if (!response.ok) throw new Error();
+                items = items.filter((entry) => entry.id !== project.id);
+                renderProjects();
+            } catch {
+                alert("This item could not be deleted. Please sign in again and retry.");
+            }
+        }
+
+        document.getElementById("ownerButton").addEventListener("click", async () => {
+            await checkSession();
+            showAuthView();
+            dialog.showModal();
+        });
+
+        document.getElementById("closeDialog").addEventListener("click", () => dialog.close());
+        dialog.addEventListener("click", (event) => {
+            if (event.target === dialog) dialog.close();
+        });
+
+        loginForm.addEventListener("submit", async (event) => {
+            event.preventDefault();
+            setMessage(loginMessage);
+            const button = loginForm.querySelector("button[type='submit']");
+            button.disabled = true;
+
+            try {
+                const data = new FormData(loginForm);
+                const response = await fetch("/api/login", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ password: data.get("password") }),
+                });
+                if (!response.ok) {
+                    setMessage(loginMessage, "Incorrect password. Try again.");
+                    return;
+                }
+                isAdmin = true;
+                loginForm.reset();
+                showAuthView();
+                renderProjects();
+            } catch {
+                setMessage(loginMessage, "Sign-in failed. Please try again.");
+            } finally {
+                button.disabled = false;
+            }
+        });
+
+        document.getElementById("logoutButton").addEventListener("click", async () => {
+            await fetch("/api/logout", { method: "POST" });
+            isAdmin = false;
+            showAuthView();
+            renderProjects();
+        });
+
+        itemForm.addEventListener("submit", async (event) => {
+            event.preventDefault();
+            setMessage(itemMessage);
+            const button = itemForm.querySelector("button[type='submit']");
+            button.disabled = true;
+
+            try {
+                const data = new FormData(itemForm);
+                const response = await fetch(`/api/${API_PATH}`, {
+                    method: "POST",
+                    body: data,
+                });
+                const result = await response.json();
+                if (!response.ok) throw new Error(result.error || "This item could not be added.");
+                items.unshift(result);
+                itemForm.reset();
+                renderProjects();
+                setMessage(itemMessage, "Added! Closing…", true);
+                setTimeout(() => {
+                    setMessage(itemMessage);
+                    dialog.close();
+                }, 700);
+            } catch (error) {
+                setMessage(itemMessage, error.message || "This item could not be added.");
+            } finally {
+                button.disabled = false;
+            }
+        });
+
+        (async function init() {
+            await checkSession();
+            showAuthView();
+            await loadItems();
+        })();
+    </script>
+</body>
+</html>

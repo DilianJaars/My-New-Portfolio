@@ -1,0 +1,24 @@
+{
+  "websites": [],
+  "logos": [
+    {
+      "id": "seed-logo-1",
+      "title": "Dilian Jaars Portfolio Mark",
+      "description": "The animated logo and wordmark used for the portfolio site itself, built around a gradient backdrop and a bold sans-serif treatment.",
+      "url": "",
+      "tags": ["Branding", "Motion", "Wordmark"],
+      "image": "/images/portfolio-banner.jpg",
+      "createdAt": "2026-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "seed-logo-2",
+      "title": "KD Emblem",
+      "description": "A splash-styled monogram combining the letters K and D inside a paint-burst ring, designed for a bold, energetic brand feel.",
+      "url": "",
+      "tags": ["Monogram", "Illustration"],
+      "image": "/images/kd-logo.jpg",
+      "createdAt": "2025-12-01T00:00:00.000Z"
+    }
+  ],
+  "mockups": []
+}

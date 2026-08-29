@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dilian Jaars - Junior Web Developer</title>
+    <link rel="icon" href="images/dj-logo.jpg" type="image/jpeg">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #00ff88;
+            --secondary-color: #00d4ff;
+            --accent-color: #ff0080;
+            --dark-bg: #0a0a0a;
+            --card-bg: #000000;
+            --text-light: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+            background: var(--dark-bg);
+            color: var(--text-light);
+        }
+
+       
+        .animated-bg {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            background: var(--dark-bg);
+            overflow: hidden;
+        }
+
+        .animated-bg::before {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, var(--primary-color) 0%, transparent 70%);
+            border-radius: 50%;
+            top: 10%;
+            right: 10%;
+            opacity: 0.15;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .animated-bg::after {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, var(--accent-color) 0%, transparent 70%);
+            border-radius: 50%;
+            bottom: 10%;
+            left: 10%;
+            opacity: 0.15;
+            animation: float 10s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(50px, 50px) scale(1.1); }
+        }
+
+       
+       
+       
+        .main-content {
+            min-height: 100vh;
+        }
+
+        
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1) 0%, rgba(255, 0, 128, 0.1) 100%);
+        }
+
+        .glitch {
+            position: relative;
+            font-size: 5rem;
+            font-weight: 900;
+            color: var(--text-light);
+            letter-spacing: 5px;
+            animation: glitch 3s infinite;
+        }
+
+        @keyframes glitch {
+            0%, 90%, 100% { transform: translate(0); }
+            92% { transform: translate(-2px, 2px); }
+            94% { transform: translate(2px, -2px); }
+            96% { transform: translate(-2px, -2px); }
+            98% { transform: translate(2px, 2px); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, var(--primary-color) 0%, var(--secondary-color) 50%, var(--accent-color) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero-subtitle {
+            font-size: 1.8rem;
+            font-weight: 300;
+            margin-bottom: 2rem;
+            color: var(--secondary-color);
+            animation: fadeInUp 1s ease 0.2s backwards;
+        }
+
+        .neon-line {
+            width: 150px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            margin: 2rem 0;
+            box-shadow: 0 0 20px var(--primary-color);
+            animation: fadeInUp 1s ease 0.4s backwards;
+        }
+
+        .hero-description {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            max-width: 700px;
+            animation: fadeInUp 1s ease 0.6s backwards;
+            color: #cccccc;
+        }
+
+        .cta-group {
+            display: flex;
+            gap: 20px;
+            margin-top: 3rem;
+            animation: fadeInUp 1s ease 0.8s backwards;
+        }
+
+        .neon-button {
+            padding: 18px 45px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border: 3px solid var(--primary-color);
+            background: transparent;
+            color: var(--primary-color);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .neon-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--primary-color);
+            transition: left 0.4s ease;
+            z-index: -1;
+        }
+
+        .neon-button:hover::before {
+            left: 0;
+        }
+
+        .neon-button:hover {
+            color: var(--dark-bg);
+            box-shadow: 0 0 30px var(--primary-color);
+        }
+
+        .neon-button.secondary {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        .neon-button.secondary::before {
+            background: var(--accent-color);
+        }
+
+        .neon-button.secondary:hover {
+            box-shadow: 0 0 30px var(--accent-color);
+        }
+
+     
+        .about-section {
+            padding: 120px 0;
+            background: rgba(26, 26, 26, 0.5);
+            backdrop-filter: blur(10px);
+        }
+
+        .section-title {
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-subtitle {
+            font-size: 1.3rem;
+            color: #888;
+            margin-bottom: 4rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        } 
+
+      .section-img {
+        height: 100;
+        width:100 ;
+      }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .profile-image i {
+            font-size: 8rem;
+            color: rgba(0, 0, 0, 0.5);
+            position: relative;
+            z-index: 1;
+        }
+
+       
+        .skills-section {
+            padding: 120px 0;
+        }
+
+        .skill-card {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 15px;
+            border: 2px solid transparent;
+            transition: all 0.4s ease;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skill-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .skill-card:hover::before {
+            opacity: 0.1;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-15px);
+            border-color: var(--primary-color);
+            box-shadow: 0 20px 60px rgba(0, 255, 136, 0.4);
+        }
+
+        .skill-icon {
+            font-size: 4rem;
+            margin-bottom: 25px;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            z-index: 1;
+        }
+
+        .skill-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .skill-card p {
+            color: #aaa;
+            position: relative;
+            z-index: 1;
+        }
+
+       
+        .contact-section {
+            padding: 120px 0;
+            background: rgba(26, 26, 26, 0.5);
+        }
+
+        .contact-info {
+            font-size: 1.2rem;
+            margin-bottom: 25px;
+            color: #ccc;
+        }
+
+        .contact-info i {
+            margin-right: 20px;
+            color: var(--primary-color);
+            font-size: 1.5rem;
+        }
+
+        .form-control {
+            padding: 15px 20px;
+            border-radius: 10px;
+            border: 2px solid rgba(0, 255, 136, 0.3);
+            margin-bottom: 20px;
+            background: rgba(26, 26, 26, 0.8);
+            color: var(--text-light);
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
+            background: rgba(26, 26, 26, 0.9);
+            color: var(--text-light);
+        }
+     /* Back Button */
+        .back-btn {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--card-bg);
+            border: 2px solid var(--primary-color);
+            border-radius: 50%;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 999;
+            text-decoration: none;
+        }
+
+        .back-btn:hover {
+            background: var(--primary-color);
+            color: var(--dark-bg);
+            transform: scale(1.1);
+            box-shadow: 0 0 30px var(--primary-color);
+        }
+
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        
+        @media (max-width: 768px) {
+            .contact-title {
+                font-size: 2.5rem;
+            }
+
+            .contact-subtitle {
+                font-size: 1.2rem;
+            }
+
+            .gmail-form {
+                padding: 30px 20px;
+            }
+
+            .contact-methods {
+                grid-template-columns: 1fr;
+            }
+
+            .back-btn {
+                top: 20px;
+                left: 20px;
+                width: 45px;
+                height: 45px;
+            }
+
+            .skills-section {
+                padding: 60px 0;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .skill-card {
+                padding: 25px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .section-title {
+                font-size: 1.7rem;
+            }
+
+            .skill-icon {
+                font-size: 3rem;
+            }
+        }
+       
+         #scrollTopBtn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+      background: #333;
+      color: white;
+      border: none;
+      cursor: pointer;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    #scrollTopBtn.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    #scrollTopBtn:hover {
+      background: #555;
+    }
+
+    #scrollTopBtn svg {
+      width: 24px;
+      height: 24px;
+      fill: white;
+    }
+
+    @media (max-width: 768px) {
+      #scrollTopBtn {
+        width: 45px;
+        height: 45px;
+      }
+    }
+    </style>
+</head>
+<body>
+    <div class="animated-bg">
+        <div class="floating-shape"></div>
+    </div>
+
+    
+    <a href="index.html" class="back-btn" title="Go Back">
+        <i class="fas fa-arrow-left"></i>
+    </a>
+    <div class="animated-bg"></div>
+
+        <section id="skills" class="skills-section">
+            <div class="container">
+                <div class="text-center mb-5">
+                    <h2 class="section-title">My Skills</h2>
+                    <p class="section-subtitle">Tech Stack & Skills</p>
+                </div>
+                <div class="row g-4">
+                    <div class="col-md-6 col-lg-4">
+                        <div class="skill-card text-center">
+                            <div class="skill-icon"><i class="fab fa-html5"></i></div>
+                            <h4 class="skill-title">HTML5 </h4>
+                            <p>(Hyper Text Mark- up Language)</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                        <div class="skill-card text-center">
+                            <div class="skill-icon"><i class="fab fa-css3-alt"></i></div>
+                            <h4 class="skill-title">CSS</h4>
+                            <p>Cascading Style Sheets</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                        <div class="skill-card text-center">
+                            <div class="skill-icon"><i class="fab fa-js"></i></div>
+                            <h4 class="skill-title">JavaScript Programming</h4>
+                            <p>Creating interactive, dynamic experiences </p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                        <div class="skill-card text-center">
+                            <div class="skill-icon"><i class="fab fa-bootstrap"></i></div>
+                            <h4 class="skill-title">Bootstrap & JQuery</h4>
+                            <p>Rapid prototyping with responsive components and custom designs</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                        <div class="skill-card text-center">
+                            <div class="skill-icon"><img src="data:image/webp;base64,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" 
+         alt="C#.NET" style="width:60px;"></div>
+                            <h4 class="skill-title">C#.Net Programming</h4>
+                            <p>modern, open-source, and cross-platform object-oriented programming language</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                        <div class="skill-card text-center">
+                            <div class="skill-icon"><img src="https://th.bing.com/th/id/OIP.c_8lpb-z5jWcQUSgq4ViEQHaEK?w=322&h=181&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3" 
+         alt="Python" style="width:150px;">
+</div>
+                            <h4 class="skill-title">Python3 Programming</h4>
+                            <p>high-level, general-purpose programming language. Its design philosophy emphasizes code readability with the use of significant indentation.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                        <div class="skill-card text-center">
+                            <div class="skill-icon"><i class="fab fa-git-alt"></i></div>
+                            <h4 class="skill-title">Git & GitHub</h4>
+                            <p>Version control mastery and collaborative development workflows</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                        <div class="skill-card text-center">
+                            <div class="skill-icon"> <i class="fas fa-database"></i></div>
+                            <h4 class="skill-title">SQL Database</h4>
+                            <p>domain-specific language used to manage data, especially in a relational database management system</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                        <div class="skill-card text-center">
+                            <div class="skill-icon"><img src="https://th.bing.com/th/id/OIP.bdWcHFutpxYyc9pIiBSdxwHaHa?w=161&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3" 
+         alt="Adobe Photoshop" style="width:60px;"></div>
+                            <h4 class="skill-title">Adobo Photoshop</h4>
+                            <p>tool for professional digital art, especially in raster graphics editing</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                        <div class="skill-card text-center">
+                            <div class="skill-icon"><img src="https://th.bing.com/th/id/OIP.jLuFrDtqloXu3vHpmmZeTgHaFj?w=195&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3" 
+         alt="Figma" style="width:100px;"></i></div>
+                            <h4 class="skill-title">Figma</h4>
+                            <p> collaborative web application for interface design</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                        <div class="skill-card text-center">
+                            <div class="skill-icon"><img src="data:image/webp;base64,UklGRsgDAABXRUJQVlA4ILwDAABwHACdASrTAOoAPp1Opk0lpKQiIlVYYLATiWlu4XCBG+sz7Q/8/Xn758pNgXpGplXi++mvYN6M37aezN+uQY8G9PihZsO0nrkBS6qfFCzYdpPXICl1U+KFmw431qtB1nr7tl1KPVlPXDaqfFCs89PgZkF75rNL+FfLxWhi8gKXTe8lpsRE0G70VhQW2dHKbieuQEv9zYyLrFovL6T1yAmOnf/dlFc4gUIVQNh2NuOZIH96Fbpbrc0i4TJpPJG41LqLICl1UwzHDLAFZRxfskHxQs2HaT1yApdVPihZsO0nrkBS6qfFCzYdpPV4AAD+/mKgAA/IRe4cCH8QyeccuRyI8U5uVT1vrO80Z+1cZEwCdMl5zRGHc4cvwPvdC05b6z/0swQKmrQx6kl+puUFpxOaMyvJldokr2Qs6Jx32T2/etCTMOVAERxTUSUIvGIBp8j7VEB9Shr1DMGnlCtkgXCZaO2MSmj3Ojtky7zm2MB5HXEw44HXsFErBYm8atuBZj9OiWefbH06s3eQwgunWaYaB3N3sXOOhdJzoYn5jw/v6iMJJEWeIYs4zi8NsRThBtXZuqBNJUGWRNNZ4Qkl/h9iptuw2aZ0JWbponcLLPl1hw1YR+5raWkbBbMyVeZJA5GcF0ZvxZDAnADH3+P71XE7sSJS9+JJ5SUMdjy3yY9ZdVOGbqgFTNmvJbix7uF6b5R2xlPBlIEJfZ4q6XhDIPhykG9VRq3iGSvPSiFELONYE3QoA/HU5SKJWo+c+W+EMLt8DLT79JLeXDYmSeotmzPgA5ETUIyhBNkPWvhCflIksEWdklZpIM2NLo7ssLpP8Ik2f54ecqOA91KmTlFnWf+G/gsA5vB6czEeqXIZ7n8f2Gh4sEHTvuF6uw/HpNfZLf7iW12t+DgyGJk3Ur4XWUpPWf3rXMLj+w4a2lT9BqMrV2AQWUzfmdEfgwvFZLVt+BEDafI1J1UeiLUy4W0GuUZD2oWZw2HctxMZkIo/YflPncH1hUTV9VlrxJ+1iSdDEK5aDZj9czOhQgPB7D9k7bKOZbou7xqgWOIel0ezI23m0+nFD5/mXt0EXXtYNXiaZrD3238Utxs3eREqRWCwZGKOr3tMXJRhfSYrGtHyedyTL7nJyGMMMLLHfuXgOwct5caRy9ZVVXeSPX4ltZl4EWZXDTO3LrVCQv0tAQqOJWazts12c3ywizub2qbGhhwFxtpkmeAIZy/9FuePi0kB0vyjm/7d4jMVmz1mxgPkhQlugWOuPka46l4AAAAAAA==" 
+         alt="Canva" style="width:100px;"></div>
+                            <h4 class="skill-title">Canva</h4>
+                            <p>platform to create visual content for presentations, websites, and similar products</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+      
+        
+
+        
+    </div>
+
+    
+    <div class="main-content" id="projectsPage" style="display: none;">
+        <section class="hero-section" style="min-height: auto; padding: 120px 0;">
+            <div class="container">
+                <div class="text-center mb-5">
+                    <h2 class="section-title">My Projects</h2>
+                    <p class="section-subtitle">Featured Work & Case Studies</p>
+                    <button class="neon-button mt-4" onclick="showMainPage()">
+                        <i class="fas fa-arrow-left"></i> Back to Home
+                    </button>
+                </div>
+                <div class="row g-4 mt-5">
+                    <div class="col-md-6 col-lg-4">
+                        <div class="skill-card">
+                            <div style="height: 250px; background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+                                <i class="fas fa-laptop-code" style="font-size: 5rem; color: rgba(0,0,0,0.5);"></i>
+                            </div>
+                            <h4 class="skill-title">Modern Portfolio</h4>
+                            <p style="color: #aaa; margin-bottom: 20px;">
+                                A cutting-edge portfolio website featuring smooth animations, dark mode, 
+                                and responsive design built with HTML, CSS, and JavaScript.
+                            </p>
+                            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                                <span style="background: rgba(0,255,136,0.2); color: var(--primary-color); padding: 5px 12px; border-radius: 5px; font-size: 0.85rem;">HTML</span>
+                                <span style="background: rgba(0,255,136,0.2); color: var(--primary-color); padding: 5px 12px; border-radius: 5px; font-size: 0.85rem;">CSS</span>
+                                <span style="background: rgba(0,255,136,0.2); color: var(--primary-color); padding: 5px 12px; border-radius: 5px; font-size: 0.85rem;">JavaScript</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                        <div class="skill-card">
+                            <div style="height: 250px; background: linear-gradient(135deg, var(--accent-color) 0%, var(--secondary-color) 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+                                <i class="fas fa-shopping-cart" style="font-size: 5rem; color: rgba(0,0,0,0.5);"></i>
+                            </div>
+                            <h4 class="skill-title">E-Commerce Platform</h4>
+                            <p style="color: #aaa; margin-bottom: 20px;">
+                                Full-featured online store with product filtering, cart functionality, 
+                                and checkout process using Bootstrap and JavaScript.
+                            </p>
+                            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                                <span style="background: rgba(255,0,128,0.2); color: var(--accent-color); padding: 5px 12px; border-radius: 5px; font-size: 0.85rem;">React</span>
+                                <span style="background: rgba(255,0,128,0.2); color: var(--accent-color); padding: 5px 12px; border-radius: 5px; font-size: 0.85rem;">Bootstrap</span>
+                                <span style="background: rgba(255,0,128,0.2); color: var(--accent-color); padding: 5px 12px; border-radius: 5px; font-size: 0.85rem;">API</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                        <div class="skill-card">
+                            <div style="height: 250px; background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+                                <i class="fas fa-blog" style="font-size: 5rem; color: rgba(0,0,0,0.5);"></i>
+                            </div>
+                            <h4 class="skill-title">Dynamic Blog</h4>
+                            <p style="color: #aaa; margin-bottom: 20px;">
+                                Content management system with admin panel, post creation, 
+                                and responsive layout for optimal reading experience.
+                            </p>
+                            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                                <span style="background: rgba(0,212,255,0.2); color: var(--secondary-color); padding: 5px 12px; border-radius: 5px; font-size: 0.85rem;">JavaScript</span>
+                                <span style="background: rgba(0,212,255,0.2); color: var(--secondary-color); padding: 5px 12px; border-radius: 5px; font-size: 0.85rem;">CSS</span>
+                                <span style="background: rgba(0,212,255,0.2); color: var(--secondary-color); padding: 5px 12px; border-radius: 5px; font-size: 0.85rem;">Bootstrap</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                        <div class="skill-card">
+                            <div style="height: 250px; background: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+                                <i class="fas fa-gamepad" style="font-size: 5rem; color: rgba(0,0,0,0.5);"></i>
+                            </div>
+                            <h4 class="skill-title">Interactive Game</h4>
+                            <p style="color: #aaa; margin-bottom: 20px;">
+                                Browser-based game with smooth animations, score tracking, 
+                                and local storage for high scores. Pure JavaScript fun!
+                            </p>
+                            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                                <span style="background: rgba(255,107,107,0.2); color: #ff6b6b; padding: 5px 12px; border-radius: 5px; font-size: 0.85rem;">JavaScript</span>
+                                <span style="background: rgba(255,107,107,0.2); color: #ff6b6b; padding: 5px 12px; border-radius: 5px; font-size: 0.85rem;">Canvas API</span>
+                                <span style="background: rgba(255,107,107,0.2); color: #ff6b6b; padding: 5px 12px; border-radius: 5px; font-size: 0.85rem;">HTML5</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                        <div class="skill-card">
+                            <div style="height: 250px; background: linear-gradient(135deg, #a29bfe 0%, #6c5ce7 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+                                <i class="fas fa-cloud" style="font-size: 5rem; color: rgba(0,0,0,0.5);"></i>
+                            </div>
+                            <h4 class="skill-title">Weather Dashboard</h4>
+                            <p style="color: #aaa; margin-bottom: 20px;">
+                                Real-time weather app with API integration, geolocation support, 
+                                and beautiful UI showing forecasts and conditions.
+                            </p>
+                            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                                <span style="background: rgba(162,155,254,0.2); color: #a29bfe; padding: 5px 12px; border-radius: 5px; font-size: 0.85rem;">React</span>
+                                <span style="background: rgba(162,155,254,0.2); color: #a29bfe; padding: 5px 12px; border-radius: 5px; font-size: 0.85rem;">API</span>
+                                <span style="background: rgba(162,155,254,0.2); color: #a29bfe; padding: 5px 12px; border-radius: 5px; font-size: 0.85rem;">CSS3</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                        <div class="skill-card">
+                            <div style="height: 250px; background: linear-gradient(135deg, #fd79a8 0%, #fdcb6e 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+                                <i class="fas fa-tasks" style="font-size: 5rem; color: rgba(0,0,0,0.5);"></i>
+                            </div>
+                            <h4 class="skill-title">Task Manager Pro</h4>
+                            <p style="color: #aaa; margin-bottom: 20px;">
+                                Productivity app with drag-and-drop functionality, categories, 
+                                filters, and data persistence for managing daily tasks.
+                            </p>
+                            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                                <span style="background: rgba(253,121,168,0.2); color: #fd79a8; padding: 5px 12px; border-radius: 5px; font-size: 0.85rem;">JavaScript</span>
+                                <span style="background: rgba(253,121,168,0.2); color: #fd79a8; padding: 5px 12px; border-radius: 5px; font-size: 0.85rem;">Bootstrap</span>
+                                <span style="background: rgba(253,121,168,0.2); color: #fd79a8; padding: 5px 12px; border-radius: 5px; font-size: 0.85rem;">LocalStorage</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        
+        <footer>
+            <div class="container">
+                <div class="social-links mb-4">
+                    <a href="#"><i class="fab fa-github"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+                <p style="color: #666;">&copy; 2025 Dilian Jaars. Coded with <span style="color: var(--accent-color);">♥</span></p>
+            </div>
+        </footer>
+    </div>
+    <button id="scrollTopBtn" aria-label="Scroll to top">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 4l-8 8h5v8h6v-8h5l-8-8z"/>
+    </svg>
+  </button>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function showProjects() {
+            document.getElementById('mainPage').style.display = 'none';
+            document.getElementById('projectsPage').style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+
+        function showMainPage() {
+            document.getElementById('projectsPage').style.display = 'none';
+            document.getElementById('mainPage').style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+
+        
+        document.querySelectorAll('.sidebar-nav a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        const btn = document.getElementById('scrollTopBtn');
+
+    window.addEventListener('scroll', () => {
+      if (window.pageYOffset > 300) {
+        btn.classList.add('show');
+      } else {
+        btn.classList.remove('show');
+      }
+    });
+
+    btn.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+    </script>
+</body>
+</html>
