@@ -136,10 +136,16 @@
 
         /* Contact Cards */
         .contact-methods {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
             gap: 30px;
             margin-bottom: 60px;
+        }
+
+        .contact-methods .contact-card {
+            width: 300px;
+            flex: 0 1 300px;
         }
 
         .contact-card {
@@ -364,7 +370,13 @@
             }
 
             .contact-methods {
-                grid-template-columns: 1fr;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .contact-methods .contact-card {
+                width: 100%;
+                max-width: 400px;
             }
 
             .back-btn {
@@ -445,22 +457,22 @@
                 <p class="contact-method-value">dilian.jaars@gmail.com</p>
             </div>
 
-            <div class="contact-card" onclick="window.open('tel:+27123456789', '_blank')">
+            <div class="contact-card" onclick="window.open('https://github.com/DilianJaars', '_blank')">
                 <div class="contact-icon">
-                    <i class="fas fa-phone"></i>
+                    <i class="fab fa-github"></i>
                 </div>
-                <h3 class="contact-method-title">Phone</h3>
-                <p class="contact-method-text">Call me for urgent inquiries</p>
-                <p class="contact-method-value">+27 082 477 2919</p>
+                <h3 class="contact-method-title">GitHub</h3>
+                <p class="contact-method-text">View my projects and code</p>
+                <p class="contact-method-value">DilianJaars</p>
             </div>
 
-            <div class="contact-card" onclick="window.open('https://wa.me/27123456789', '_blank')">
+            <div class="contact-card" onclick="window.open('https://www.linkedin.com/in/dilian-jaars-337781320/', '_blank')">
                 <div class="contact-icon">
-                    <i class="fab fa-whatsapp"></i>
+                    <i class="fab fa-linkedin"></i>
                 </div>
-                <h3 class="contact-method-title">WhatsApp</h3>
-                <p class="contact-method-text">Quick message on WhatsApp</p>
-                <p class="contact-method-value">+27 061 629 1789</p>
+                <h3 class="contact-method-title">LinkedIn</h3>
+                <p class="contact-method-text">Connect with me professionally</p>
+                <p class="contact-method-value">Dilian Jaars</p>
             </div>
         </div>
 
