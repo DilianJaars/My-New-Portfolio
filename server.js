@@ -14,7 +14,7 @@ const UPLOADS_DIR = path.join(PUBLIC_DIR, "uploads");
 const DATA_FILE = path.join(__dirname, "data", "db.json");
 const COLLECTIONS = ["websites", "logos", "mockups"];
 
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "changeme";
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "Dilly@2005";
 const SESSION_SECRET = process.env.SESSION_SECRET || "dev-secret-change-me";
 
 if (!process.env.ADMIN_PASSWORD) {
