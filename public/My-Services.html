@@ -1,1 +1,662 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description" content="My Services - Websites, WordPress, Hosting, Software Development and Digital Services.">
+
+    <title>My Services</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #000;
+            color: #fff;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: auto;
+            padding: 40px 0 70px;
+        }
+
+        /* Back Button */
+        .back-button {
+            display: inline-block;
+            color: #fff;
+            text-decoration: none;
+            border: 1px solid #444;
+            padding: 10px 18px;
+            border-radius: 6px;
+            margin-bottom: 45px;
+            transition: 0.2s ease;
+        }
+
+        .back-button:hover {
+            background: #fff;
+            color: #000;
+        }
+
+        /* Page Header */
+        .page-header {
+            margin-bottom: 50px;
+        }
+
+        .page-header h1 {
+            font-size: 42px;
+            margin-bottom: 10px;
+        }
+
+        .page-header p {
+            color: #aaa;
+            font-size: 17px;
+            max-width: 650px;
+        }
+
+        /* Service Sections */
+        .service-section {
+            margin-bottom: 45px;
+        }
+
+        .service-section h2 {
+            font-size: 25px;
+            margin-bottom: 18px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #333;
+        }
+
+        /* Services */
+        .service-list {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .service {
+            display: flex;
+            justify-content: space-between;
+            gap: 30px;
+            padding: 14px 0;
+            border-bottom: 1px solid #1d1d1d;
+        }
+
+        .service-name {
+            color: #ddd;
+        }
+
+        .price {
+            color: #fff;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        /* Packages */
+        .packages {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .package {
+            border: 1px solid #333;
+            padding: 25px;
+            border-radius: 8px;
+            transition: 0.2s ease;
+        }
+
+        .package:hover {
+            border-color: #fff;
+            transform: translateY(-3px);
+        }
+
+        .package h3 {
+            font-size: 21px;
+            margin-bottom: 8px;
+        }
+
+        .package-price {
+            font-size: 25px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .package ul {
+            list-style: none;
+            color: #bbb;
+        }
+
+        .package li {
+            margin-bottom: 7px;
+        }
+
+        .package li::before {
+            content: "✓ ";
+            color: #fff;
+        }
+
+        /* Note */
+        .note {
+            margin-top: 30px;
+            padding: 18px;
+            border-left: 2px solid #fff;
+            color: #aaa;
+        }
+
+        /* View My Work */
+        .work-link {
+            display: block;
+            text-decoration: none;
+            color: #fff;
+            margin-top: 35px;
+        }
+
+        .work-box {
+            border: 1px solid #333;
+            padding: 30px;
+            border-radius: 8px;
+            transition: 0.2s ease;
+        }
+
+        .work-box:hover {
+            border-color: #fff;
+            transform: translateY(-3px);
+        }
+
+        .work-box h2 {
+            font-size: 25px;
+            margin-bottom: 8px;
+        }
+
+        .work-box p {
+            color: #aaa;
+            margin-bottom: 18px;
+        }
+
+        .work-box span {
+            color: #fff;
+            font-weight: bold;
+        }
+
+        /* Mobile */
+        @media (max-width: 700px) {
+
+            .container {
+                width: 92%;
+                padding-top: 25px;
+            }
+
+            .page-header h1 {
+                font-size: 34px;
+            }
+
+            .page-header p {
+                font-size: 15px;
+            }
+
+            .service {
+                flex-direction: column;
+                gap: 4px;
+            }
+
+            .price {
+                font-size: 15px;
+            }
+
+            .packages {
+                grid-template-columns: 1fr;
+            }
+
+            .package {
+                padding: 22px;
+            }
+
+            .work-box {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="container">
+
+        <!-- Back Button -->
+        <a href="index.html" class="back-button">← Back</a>
+
+
+        <!-- Page Header -->
+        <header class="page-header">
+            <h1>My Services</h1>
+
+            <p>
+                Affordable digital and software solutions for individuals,
+                businesses and personal projects.
+            </p>
+        </header>
+
+
+        <!-- Websites -->
+        <section class="service-section">
+
+            <h2>Websites</h2>
+
+            <div class="service-list">
+
+                <div class="service">
+                    <span class="service-name">Landing Page</span>
+                    <span class="price">R1,500 – R3,000</span>
+                </div>
+
+                <div class="service">
+                    <span class="service-name">Basic Website</span>
+                    <span class="price">R2,500 – R4,000</span>
+                </div>
+
+                <div class="service">
+                    <span class="service-name">Business Website</span>
+                    <span class="price">R4,500 – R7,500</span>
+                </div>
+
+                <div class="service">
+                    <span class="service-name">Professional Website</span>
+                    <span class="price">R7,500 – R12,000</span>
+                </div>
+
+                <div class="service">
+                    <span class="service-name">Custom Website</span>
+                    <span class="price">R8,000 – R15,000+</span>
+                </div>
+
+                <div class="service">
+                    <span class="service-name">Portfolio Website</span>
+                    <span class="price">R2,500 – R5,000</span>
+                </div>
+
+                <div class="service">
+                    <span class="service-name">Website Redesign</span>
+                    <span class="price">R2,500 – R7,500</span>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- WordPress -->
+        <section class="service-section">
+
+            <h2>WordPress</h2>
+
+            <div class="service-list">
+
+                <div class="service">
+                    <span class="service-name">WordPress Setup</span>
+                    <span class="price">R1,000 – R2,000</span>
+                </div>
+
+                <div class="service">
+                    <span class="service-name">Basic WordPress Website</span>
+                    <span class="price">R3,000 – R5,000</span>
+                </div>
+
+                <div class="service">
+                    <span class="service-name">Business WordPress Website</span>
+                    <span class="price">R5,000 – R8,000</span>
+                </div>
+
+                <div class="service">
+                    <span class="service-name">Custom WordPress Website</span>
+                    <span class="price">R8,000 – R15,000</span>
+                </div>
+
+                <div class="service">
+                    <span class="service-name">WooCommerce Store</span>
+                    <span class="price">R7,500 – R15,000+</span>
+                </div>
+
+                <div class="service">
+                    <span class="service-name">Plugin / Theme Setup</span>
+                    <span class="price">R300 – R750</span>
+                </div>
+
+                <div class="service">
+                    <span class="service-name">WordPress Bug Fixing</span>
+                    <span class="price">R400 – R1,000</span>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- E-Commerce -->
+        <section class="service-section">
+
+            <h2>E-Commerce</h2>
+
+            <div class="service-list">
+
+                <div class="service">
+                    <span class="service-name">Basic Online Store</span>
+                    <span class="price">R7,500 – R12,000</span>
+                </div>
+
+                <div class="service">
+                    <span class="service-name">WooCommerce Store</span>
+                    <span class="price">R8,000 – R15,000</span>
+                </div>
+
+                <div class="service">
+                    <span class="service-name">Custom E-Commerce Website</span>
+                    <span class="price">R15,000 – R25,000+</span>
+                </div>
+
+                <div class="service">
+                    <span class="service-name">Payment Gateway Setup</span>
+                    <span class="price">R750 – R2,000</span>
+                </div>
+
+                <div class="service">
+                    <span class="service-name">Product Uploads</span>
+                    <span class="price">R20 – R50 / Product</span>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- Hosting -->
+        <section class="service-section">
+
+            <h2>Hosting & Website Management</h2>
+
+            <div class="service-list">
+
+                <div class="service">
+                    <span class="service-name">Basic Hosting</span>
+                    <span class="price">R99 / Month</span>
+                </div>
+
+                <div class="service">
+                    <span class="service-name">Business Hosting</span>
+                    <span class="price">R199 / Month</span>
+                </div>
+
+                <div class="service">
+                    <span class="service-name">Premium Hosting</span>
+                    <span class="price">R349 / Month</span>
+                </div>
+
+                <div class="service">
+                    <span class="service-name">Website Maintenance</span>
+                    <span class="price">R500 – R1,500 / Month</span>
+                </div>
+
+                <div class="service">
+                    <span class="service-name">Website Migration</span>
+                    <span class="price">R750 – R2,000</span>
+                </div>
+
+                <div class="service">
+                    <span class="service-name">Backup Setup</span>
+                    <span class="price">R300 – R750</span>
+                </div>
+
+                <div class="service">
+                    <span class="service-name">SSL Setup</span>
+                    <span class="price">R250 – R500</span>
+                </div>
+
+                <div class="service">
+                    <span class="service-name">Business Email Setup</span>
+                    <span class="price">R300 – R750</span>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- Software Development -->
+        <section class="service-section">
+
+            <h2>Software Development</h2>
+
+            <div class="service-list">
+
+                <div class="service">
+                    <span class="service-name">Bug Fixing</span>
+                    <span class="price">R300 – R750 / Hour</span>
+                </div>
+
+                <div class="service">
+                    <span class="service-name">General Development</span>
+                    <span class="price">R300 – R450 / Hour</span>
+                </div>
+
+                <div class="service">
+                    <span class="service-name">API Integration</span>
+                    <span class="price">R1,500 – R5,000+</span>
+                </div>
+
+                <div class="service">
+                    <span class="service-name">Database Setup</span>
+                    <span class="price">R1,000 – R3,000</span>
+                </div>
+
+                <div class="service">
+                    <span class="service-name">Login / Register System</span>
+                    <span class="price">R1,500 – R4,000</span>
+                </div>
+
+                <div class="service">
+                    <span class="service-name">Admin Dashboard</span>
+                    <span class="price">R2,500 – R7,500</span>
+                </div>
+
+                <div class="service">
+                    <span class="service-name">Booking System</span>
+                    <span class="price">R2,000 – R6,000</span>
+                </div>
+
+                <div class="service">
+                    <span class="service-name">WhatsApp Integration</span>
+                    <span class="price">R500 – R1,500</span>
+                </div>
+
+                <div class="service">
+                    <span class="service-name">Google Maps Integration</span>
+                    <span class="price">R500 – R1,500</span>
+                </div>
+
+                <div class="service">
+                    <span class="service-name">Basic SEO Setup</span>
+                    <span class="price">R750 – R2,000</span>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- Design & Extras -->
+        <section class="service-section">
+
+            <h2>Design & Extras</h2>
+
+            <div class="service-list">
+
+                <div class="service">
+                    <span class="service-name">Logo Design</span>
+                    <span class="price">R500 – R1,500</span>
+                </div>
+
+                <div class="service">
+                    <span class="service-name">Favicon</span>
+                    <span class="price">R150 – R300</span>
+                </div>
+
+                <div class="service">
+                    <span class="service-name">Website Speed Optimisation</span>
+                    <span class="price">R500 – R2,000</span>
+                </div>
+
+                <div class="service">
+                    <span class="service-name">Social Media Integration</span>
+                    <span class="price">R250 – R500</span>
+                </div>
+
+                <div class="service">
+                    <span class="service-name">Website Content Updates</span>
+                    <span class="price">R300 – R500 / Hour</span>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- Website Packages -->
+        <section class="service-section">
+
+            <h2>Website Packages</h2>
+
+            <div class="packages">
+
+                <!-- Starter -->
+                <div class="package">
+
+                    <h3>Starter</h3>
+
+                    <div class="package-price">
+                        R2,999
+                    </div>
+
+                    <ul>
+                        <li>1–3 Pages</li>
+                        <li>Mobile Friendly</li>
+                        <li>Contact Form</li>
+                        <li>WhatsApp Button</li>
+                        <li>Social Media Links</li>
+                        <li>Basic SEO</li>
+                        <li>1 Revision</li>
+                    </ul>
+
+                </div>
+
+
+                <!-- Business -->
+                <div class="package">
+
+                    <h3>Business</h3>
+
+                    <div class="package-price">
+                        R5,999
+                    </div>
+
+                    <ul>
+                        <li>Up to 6 Pages</li>
+                        <li>Custom Design</li>
+                        <li>Mobile Responsive</li>
+                        <li>Contact Form</li>
+                        <li>WhatsApp Integration</li>
+                        <li>Google Maps</li>
+                        <li>Basic SEO</li>
+                        <li>Hosting Setup</li>
+                        <li>2 Revisions</li>
+                    </ul>
+
+                </div>
+
+
+                <!-- Professional -->
+                <div class="package">
+
+                    <h3>Professional</h3>
+
+                    <div class="package-price">
+                        R9,999
+                    </div>
+
+                    <ul>
+                        <li>Up to 10 Pages</li>
+                        <li>Custom Design</li>
+                        <li>WordPress / CMS</li>
+                        <li>Booking System</li>
+                        <li>SEO</li>
+                        <li>Analytics</li>
+                        <li>WhatsApp Integration</li>
+                        <li>Hosting Setup</li>
+                        <li>3 Revisions</li>
+                    </ul>
+
+                </div>
+
+
+                <!-- E-Commerce -->
+                <div class="package">
+
+                    <h3>E-Commerce</h3>
+
+                    <div class="package-price">
+                        From R7,999
+                    </div>
+
+                    <ul>
+                        <li>Online Store</li>
+                        <li>Product Pages</li>
+                        <li>Shopping Cart</li>
+                        <li>Checkout</li>
+                        <li>Payment Gateway</li>
+                        <li>Customer Accounts</li>
+                        <li>Mobile Responsive</li>
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- Pricing Note -->
+        <div class="note">
+            Prices may change depending on the size and requirements of the project.
+            Larger or more complex projects can be quoted separately.
+        </div>
+
+
+        <!-- View My Work -->
+        <a href="view-my-work.html" class="work-link">
+
+            <div class="work-box">
+
+                <h2>View My Work</h2>
+
+                <p>
+                    See some of the websites, projects and designs I've created.
+                </p>
+
+                <span>
+                    View Projects →
+                </span>
+
+            </div>
+
+        </a>
+
+    </main>
+
+</body>
+</html>
