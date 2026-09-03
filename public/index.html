@@ -505,6 +505,43 @@
             background-clip: text;
         }
 
+        /* =========================
+           ABOUT TEXT — LINE-BY-LINE
+           REVEAL ON PICTURE HOVER
+           ========================= */
+
+        .about-text-col {
+            min-height: 260px;
+        }
+
+        .reveal-line {
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .about-row.reveal-active .reveal-line {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .about-row.reveal-active .reveal-line[data-line="1"] { transition-delay: 0.05s; }
+        .about-row.reveal-active .reveal-line[data-line="2"] { transition-delay: 0.35s; }
+        .about-row.reveal-active .reveal-line[data-line="3"] { transition-delay: 0.65s; }
+
+        @media (prefers-reduced-motion: reduce) {
+            .reveal-line {
+                transition: none;
+            }
+        }
+
+        @media (max-width: 991px) {
+            .reveal-line {
+                opacity: 1;
+                transform: none;
+            }
+        }
+
 
         .category-grid {
             display: grid;
@@ -1033,11 +1070,11 @@
                 </div>
 
 
-                <div class="row align-items-center g-5">
+                <div class="row align-items-center g-5 about-row" id="aboutRow">
 
                     <div class="col-lg-6">
 
-                        <div class="profile-pic-wrap">
+                        <div class="profile-pic-wrap" id="aboutPicWrap">
 
                             <img
                                 src="images/img-20250217-wa0013.jpg"
@@ -1061,7 +1098,7 @@
                     <br>
 
 
-                    <div class="col-lg-6">
+                    <div class="col-lg-6 about-text-col">
 
                         <h3
                             class="mb-4"
@@ -1072,7 +1109,8 @@
 
 
                         <p
-                            class="mb-4"
+                            class="mb-4 reveal-line"
+                            data-line="1"
                             style="font-size: 1.1rem; line-height: 1.8; color: #ccc;"
                         >
                             I'm a junior web developer with an insatiable appetite for learning and creating. 
@@ -1086,7 +1124,8 @@
 
 
                         <p
-                            class="mb-4"
+                            class="mb-4 reveal-line"
+                            data-line="2"
                             style="font-size: 1.1rem; line-height: 1.8; color: #ccc;"
                         >
                             I thrive on challenges that push me to grow, whether it's mastering a new framework, 
@@ -1100,6 +1139,8 @@
 
 
                         <p
+                            class="reveal-line"
+                            data-line="3"
                             style="font-size: 1.1rem; line-height: 1.8; color: #ccc;"
                         >
                             When I'm not coding, you'll find me exploring the latest web technologies, contributing 
@@ -1311,6 +1352,31 @@
                     : currentScroll;
 
         });
+
+
+
+        const aboutRow =
+            document.getElementById('aboutRow');
+
+        const aboutPicWrap =
+            document.getElementById('aboutPicWrap');
+
+
+        if (aboutRow && aboutPicWrap) {
+
+            aboutPicWrap.addEventListener('mouseenter', () => {
+
+                aboutRow.classList.add('reveal-active');
+
+            });
+
+            aboutPicWrap.addEventListener('mouseleave', () => {
+
+                aboutRow.classList.remove('reveal-active');
+
+            });
+
+        }
 
     </script>
 
