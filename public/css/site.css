@@ -1,0 +1,1010 @@
+/* Dilian Jaars portfolio: shared styles
+   Palette: paper, ink, ultramarine, and one yellow used like a shop price sticker.
+   Type: Bricolage Grotesque for headings and UI, Newsreader for reading text. */
+
+:root {
+    --paper: #f2f3f7;
+    --ink: #0a0f2c;
+    --blue: #2b3cf0;
+    --blue-deep: #1a28c2;
+    --signal: #ffd43b;
+    --slate: #555c77;
+    --line: #d3d7e5;
+    --white: #ffffff;
+    --danger: #b42318;
+    --radius: 6px;
+
+    --display: "Bricolage Grotesque", "Helvetica Neue", Arial, sans-serif;
+    --text: "Newsreader", Georgia, "Times New Roman", serif;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--text);
+    font-size: 1.125rem;
+    line-height: 1.65;
+    margin: 0;
+    min-height: 100vh;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+ul,
+dl,
+dd {
+    margin: 0;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+a {
+    color: var(--blue);
+    text-underline-offset: 0.2em;
+}
+
+a:hover {
+    color: var(--blue-deep);
+}
+
+button,
+input,
+textarea {
+    font: inherit;
+}
+
+:focus-visible {
+    outline: 3px solid var(--blue);
+    outline-offset: 3px;
+}
+
+.on-blue :focus-visible {
+    outline-color: var(--signal);
+}
+
+.skip-link {
+    background: var(--ink);
+    color: var(--paper);
+    left: 16px;
+    padding: 10px 16px;
+    position: absolute;
+    top: -80px;
+    z-index: 100;
+}
+
+.skip-link:focus {
+    top: 16px;
+}
+
+.wrap {
+    margin-inline: auto;
+    width: min(1180px, 100% - 48px);
+}
+
+/* ---------- header ---------- */
+
+.site-header {
+    padding: 18px 0;
+}
+
+.site-header .wrap {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 32px;
+    justify-content: space-between;
+}
+
+.brand {
+    align-items: center;
+    color: var(--ink);
+    display: inline-flex;
+    font-family: var(--display);
+    font-size: 1.05rem;
+    font-weight: 700;
+    gap: 12px;
+    text-decoration: none;
+}
+
+.brand img {
+    border-radius: 50%;
+    height: 40px;
+    object-fit: cover;
+    width: 40px;
+}
+
+.site-nav ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 28px;
+}
+
+.site-nav a {
+    color: var(--ink);
+    font-family: var(--display);
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 6px 0;
+    text-decoration: none;
+}
+
+.site-nav a:hover {
+    color: var(--blue);
+    text-decoration: underline;
+    text-underline-offset: 0.35em;
+}
+
+.site-nav a[aria-current="page"] {
+    border-bottom: 3px solid var(--signal);
+    font-weight: 700;
+}
+
+/* ---------- type ---------- */
+
+.display {
+    font-family: var(--display);
+    font-stretch: 75%;
+    font-variation-settings: "wdth" 75;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 0.88;
+}
+
+.heading {
+    font-family: var(--display);
+    font-size: clamp(2rem, 5vw, 3.4rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.02;
+}
+
+.lede {
+    font-size: clamp(1.2rem, 2.2vw, 1.45rem);
+    line-height: 1.5;
+    max-width: 36rem;
+}
+
+.prose {
+    max-width: 38rem;
+}
+
+.prose p + p {
+    margin-top: 1.1em;
+}
+
+.muted {
+    color: var(--slate);
+}
+
+/* ---------- buttons ---------- */
+
+.btn {
+    align-items: center;
+    background: var(--ink);
+    border: 2px solid var(--ink);
+    border-radius: var(--radius);
+    color: var(--paper);
+    cursor: pointer;
+    display: inline-flex;
+    font-family: var(--display);
+    font-size: 1rem;
+    font-weight: 600;
+    gap: 10px;
+    justify-content: center;
+    min-height: 48px;
+    padding: 10px 22px;
+    text-decoration: none;
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.btn:hover {
+    background: var(--blue);
+    border-color: var(--blue);
+    color: var(--white);
+}
+
+.btn-ghost {
+    background: transparent;
+    color: var(--ink);
+}
+
+.btn-signal {
+    background: var(--signal);
+    border-color: var(--signal);
+    color: var(--ink);
+}
+
+.btn-signal:hover {
+    background: var(--white);
+    border-color: var(--white);
+    color: var(--ink);
+}
+
+.btn:disabled {
+    cursor: wait;
+    opacity: 0.55;
+}
+
+.btn-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+/* ---------- home hero ---------- */
+
+.hero {
+    background: var(--blue);
+    color: var(--white);
+    overflow: hidden;
+    padding: clamp(40px, 7vw, 88px) 0 clamp(56px, 9vw, 112px);
+    position: relative;
+}
+
+.hero .wrap {
+    position: relative;
+}
+
+.hero-name {
+    font-size: clamp(4.5rem, 20vw, 13rem);
+}
+
+.hero-name span {
+    display: block;
+    overflow: hidden;
+    padding-bottom: 0.04em;
+}
+
+.hero-name span b {
+    animation: rise 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+    display: block;
+    font-weight: inherit;
+}
+
+.hero-name span:nth-child(2) b {
+    animation-delay: 0.12s;
+}
+
+@keyframes rise {
+    from {
+        transform: translateY(105%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+.hero-copy {
+    margin-top: clamp(24px, 4vw, 44px);
+    max-width: 34rem;
+}
+
+.hero-copy .role {
+    font-family: var(--display);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.hero-copy .lede {
+    margin-bottom: 28px;
+}
+
+.sticker {
+    align-items: center;
+    background: var(--signal);
+    border-radius: 50%;
+    bottom: 0;
+    box-shadow: 0 10px 0 rgba(10, 15, 44, 0.25);
+    color: var(--ink);
+    display: flex;
+    flex-direction: column;
+    font-family: var(--display);
+    height: clamp(150px, 19vw, 210px);
+    justify-content: center;
+    line-height: 1.05;
+    padding: 18px;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    text-decoration: none;
+    transform: rotate(-9deg);
+    transition: transform 0.2s ease;
+    width: clamp(150px, 19vw, 210px);
+}
+
+.sticker:hover {
+    color: var(--ink);
+    transform: rotate(0deg) scale(1.04);
+}
+
+.sticker small {
+    font-size: clamp(0.8rem, 1.3vw, 0.95rem);
+    font-weight: 600;
+}
+
+.sticker strong {
+    font-size: clamp(1.8rem, 3.6vw, 2.7rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+/* ---------- sections ---------- */
+
+.section {
+    padding: clamp(56px, 9vw, 112px) 0;
+}
+
+.section + .section {
+    padding-top: 0;
+}
+
+.section-head {
+    align-items: end;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 32px;
+    justify-content: space-between;
+    margin-bottom: clamp(24px, 4vw, 44px);
+}
+
+.split {
+    align-items: start;
+    display: grid;
+    gap: clamp(28px, 5vw, 72px);
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+}
+
+.portrait {
+    border-radius: var(--radius);
+    max-height: 560px;
+    object-fit: cover;
+    width: 100%;
+}
+
+/* ---------- index rows (work, services, skills teasers) ---------- */
+
+.index-list {
+    border-top: 2px solid var(--ink);
+}
+
+.index-row {
+    align-items: baseline;
+    border-bottom: 1px solid var(--line);
+    color: var(--ink);
+    display: grid;
+    gap: 6px 24px;
+    grid-template-columns: minmax(0, 4fr) minmax(0, 6fr) auto;
+    padding: 22px 0;
+    text-decoration: none;
+    transition: background 0.15s ease, padding 0.15s ease;
+}
+
+a.index-row:hover {
+    background: var(--white);
+    color: var(--ink);
+    padding-left: 14px;
+    padding-right: 14px;
+}
+
+.index-row h3 {
+    font-family: var(--display);
+    font-size: clamp(1.4rem, 2.6vw, 2rem);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+}
+
+.index-row p {
+    color: var(--slate);
+    line-height: 1.5;
+}
+
+.index-row .go {
+    color: var(--blue);
+    font-family: var(--display);
+    font-weight: 600;
+}
+
+/* ---------- call to action band ---------- */
+
+.cta-band {
+    background: var(--blue);
+    color: var(--white);
+    padding: clamp(56px, 9vw, 104px) 0;
+}
+
+.cta-band .heading {
+    margin-bottom: 20px;
+    max-width: 16ch;
+}
+
+.cta-band p {
+    margin-bottom: 28px;
+    max-width: 32rem;
+}
+
+/* ---------- footer ---------- */
+
+.site-footer {
+    border-top: 1px solid var(--line);
+    color: var(--slate);
+    font-size: 0.95rem;
+    padding: 28px 0 40px;
+}
+
+.site-footer .wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 32px;
+    justify-content: space-between;
+}
+
+.site-footer a {
+    color: var(--slate);
+}
+
+.site-footer ul {
+    display: flex;
+    gap: 20px;
+}
+
+/* ---------- page intro (inner pages) ---------- */
+
+.page-intro {
+    padding: clamp(32px, 6vw, 72px) 0 clamp(32px, 5vw, 56px);
+}
+
+.page-intro .display {
+    font-size: clamp(4rem, 15vw, 10rem);
+    margin-bottom: 20px;
+}
+
+/* ---------- skills ---------- */
+
+.skill-group {
+    border-top: 2px solid var(--ink);
+    display: grid;
+    gap: 16px 32px;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 9fr);
+    padding: 28px 0 44px;
+}
+
+.skill-group h2 {
+    font-family: var(--display);
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+}
+
+.skill-list {
+    display: grid;
+    gap: 0 40px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.skill-list li {
+    border-bottom: 1px solid var(--line);
+    padding: 14px 0;
+}
+
+.skill-list strong {
+    display: block;
+    font-family: var(--display);
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.skill-list span {
+    color: var(--slate);
+    font-size: 1rem;
+    line-height: 1.45;
+}
+
+/* ---------- services ---------- */
+
+.price-block {
+    border-top: 2px solid var(--ink);
+    display: grid;
+    gap: 16px 32px;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 9fr);
+    padding: 28px 0 44px;
+}
+
+.price-block h2 {
+    font-family: var(--display);
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+}
+
+.price-list li {
+    align-items: baseline;
+    display: flex;
+    gap: 10px;
+    padding: 9px 0;
+}
+
+.price-list .name {
+    font-family: var(--display);
+    font-weight: 500;
+}
+
+.price-list .leader {
+    border-bottom: 2px dotted var(--line);
+    flex: 1;
+    min-width: 16px;
+    transform: translateY(-4px);
+}
+
+.price-list .price {
+    font-family: var(--display);
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+    text-align: right;
+}
+
+.packages {
+    display: grid;
+    gap: 28px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.package {
+    border-top: 8px solid var(--blue);
+    padding-top: 18px;
+}
+
+.package h3 {
+    font-family: var(--display);
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.package .amount {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    font-family: var(--display);
+    font-size: 2.2rem;
+    font-weight: 800;
+    justify-content: flex-end;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin: 6px 0 16px;
+    min-height: 3.6rem;
+}
+
+.package .amount .from {
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 1;
+}
+
+.package li {
+    border-bottom: 1px solid var(--line);
+    font-size: 1rem;
+    padding: 7px 0;
+}
+
+.note {
+    background: var(--white);
+    border-left: 8px solid var(--signal);
+    margin-top: 40px;
+    max-width: 44rem;
+    padding: 18px 22px;
+}
+
+/* ---------- contact ---------- */
+
+.contact-grid.section {
+    padding-top: 0;
+}
+
+.contact-grid {
+    display: grid;
+    gap: clamp(32px, 6vw, 80px);
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+}
+
+.contact-list li {
+    border-bottom: 1px solid var(--line);
+    padding: 18px 0;
+}
+
+.contact-list li:first-child {
+    border-top: 2px solid var(--ink);
+}
+
+.contact-list .label {
+    color: var(--slate);
+    display: block;
+    font-family: var(--display);
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.contact-list a {
+    font-family: var(--display);
+    font-size: 1.35rem;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+/* ---------- forms ---------- */
+
+.form-grid {
+    display: grid;
+    gap: 20px;
+}
+
+.field {
+    display: grid;
+    gap: 6px;
+}
+
+label {
+    font-family: var(--display);
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+input,
+textarea {
+    background: var(--white);
+    border: 2px solid var(--line);
+    border-radius: var(--radius);
+    color: var(--ink);
+    padding: 12px 14px;
+    width: 100%;
+}
+
+input:hover,
+textarea:hover {
+    border-color: var(--slate);
+}
+
+textarea {
+    min-height: 140px;
+    resize: vertical;
+}
+
+input[type="file"] {
+    padding: 9px 12px;
+}
+
+.hint {
+    color: var(--slate);
+    font-size: 0.9rem;
+}
+
+.form-message {
+    border-left: 4px solid var(--danger);
+    color: var(--danger);
+    display: none;
+    font-family: var(--display);
+    font-size: 0.95rem;
+    padding-left: 12px;
+}
+
+.form-message.visible {
+    display: block;
+}
+
+.form-message.success {
+    border-left-color: var(--blue);
+    color: var(--blue-deep);
+}
+
+/* ---------- work page ---------- */
+
+.tabs {
+    border-bottom: 2px solid var(--ink);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 28px;
+}
+
+.tab {
+    background: none;
+    border: 0;
+    border-bottom: 6px solid transparent;
+    color: var(--slate);
+    cursor: pointer;
+    font-family: var(--display);
+    font-size: clamp(1.3rem, 3vw, 1.9rem);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin-bottom: -2px;
+    padding: 6px 0 10px;
+}
+
+.tab:hover {
+    color: var(--ink);
+}
+
+.tab[aria-selected="true"] {
+    border-bottom-color: var(--signal);
+    color: var(--ink);
+}
+
+.tab .count {
+    color: var(--slate);
+    font-size: 0.6em;
+    font-weight: 600;
+    margin-left: 6px;
+}
+
+.work-toolbar {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 24px;
+    justify-content: space-between;
+    margin: 20px 0 8px;
+}
+
+.work-item {
+    align-items: start;
+    border-bottom: 1px solid var(--line);
+    display: grid;
+    gap: 20px 40px;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    padding: 36px 0;
+}
+
+.work-item.no-image {
+    grid-template-columns: minmax(0, 1fr);
+}
+
+.work-media {
+    aspect-ratio: 16 / 10;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+}
+
+.work-media img {
+    height: 100%;
+    object-fit: cover;
+    width: 100%;
+}
+
+.work-item h3 {
+    font-family: var(--display);
+    font-size: clamp(1.7rem, 3.4vw, 2.6rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+    margin-bottom: 12px;
+}
+
+.work-item .desc {
+    color: var(--slate);
+    max-width: 36rem;
+}
+
+.work-item .tools {
+    font-family: var(--display);
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin-top: 14px;
+}
+
+.work-item .actions {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px 22px;
+    margin-top: 20px;
+}
+
+.link-button {
+    background: none;
+    border: 0;
+    color: var(--danger);
+    cursor: pointer;
+    font-family: var(--display);
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 6px 0;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+}
+
+.empty {
+    border: 2px dashed var(--line);
+    border-radius: var(--radius);
+    margin-top: 28px;
+    padding: 40px 28px;
+}
+
+.empty h3 {
+    font-family: var(--display);
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.skeleton {
+    animation: pulse 1.4s ease-in-out infinite;
+    background: var(--line);
+    border-radius: var(--radius);
+    height: 220px;
+    margin-top: 28px;
+}
+
+@keyframes pulse {
+    50% {
+        opacity: 0.45;
+    }
+}
+
+dialog {
+    background: transparent;
+    border: 0;
+    color: var(--ink);
+    max-height: 92vh;
+    max-width: 560px;
+    padding: 0;
+    width: calc(100% - 32px);
+}
+
+dialog::backdrop {
+    background: rgba(10, 15, 44, 0.7);
+}
+
+.dialog-card {
+    background: var(--paper);
+    border-radius: var(--radius);
+    border-top: 8px solid var(--signal);
+    max-height: 92vh;
+    overflow-y: auto;
+    padding: clamp(24px, 5vw, 40px);
+}
+
+.dialog-card h2 {
+    font-family: var(--display);
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+    margin-bottom: 10px;
+}
+
+.dialog-card .intro {
+    color: var(--slate);
+    margin-bottom: 24px;
+}
+
+.dialog-top {
+    align-items: start;
+    display: flex;
+    gap: 16px;
+    justify-content: space-between;
+}
+
+.signed-in {
+    align-items: center;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 22px;
+    padding: 12px 16px;
+}
+
+.hidden,
+[hidden] {
+    display: none !important;
+}
+
+.mt-lg {
+    margin-top: 28px;
+}
+
+.lost .lede {
+    margin: 16px 0 28px;
+}
+
+/* ---------- 404 ---------- */
+
+.lost .display {
+    font-size: clamp(7rem, 30vw, 20rem);
+    margin-bottom: 12px;
+}
+
+/* ---------- responsive ---------- */
+
+@media (max-width: 900px) {
+    .split,
+    .contact-grid,
+    .work-item {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .skill-group,
+    .price-block {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .packages {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .portrait {
+        max-height: 420px;
+    }
+}
+
+@media (max-width: 640px) {
+    body {
+        font-size: 1.05rem;
+    }
+
+    .site-nav ul {
+        gap: 4px 18px;
+    }
+
+    .index-row {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .skill-list,
+    .packages {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .sticker {
+        bottom: auto;
+        margin-top: 28px;
+        position: relative;
+        right: auto;
+        transform: rotate(-6deg);
+    }
+
+    .hero .wrap {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition-duration: 0.01ms !important;
+    }
+}
