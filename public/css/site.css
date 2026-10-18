@@ -250,6 +250,21 @@ textarea {
     text-decoration: none;
 }
 
+button.brand {
+    background: none;
+    border: 0;
+    cursor: pointer;
+    padding: 0;
+    text-align: left;
+}
+
+button.brand:hover span,
+button.brand[aria-expanded="true"] span {
+    text-decoration: underline;
+    text-decoration-thickness: 3px;
+    text-underline-offset: 4px;
+}
+
 .brand img {
     border-radius: 50%;
     height: 42px;
