@@ -55,16 +55,19 @@
         <section class="section" id="about" aria-labelledby="about-title">
             <div class="wrap split">
                 <figure>
-                    <img class="portrait" src="/images/img-20250217-wa0013.jpg" alt="Dilian Jaars" width="600" height="700">
+                    <button class="portrait-btn" type="button" id="portraitBtn" aria-controls="aboutText" aria-expanded="false" title="Click to read my story">
+                        <img class="portrait" src="/images/img-20250217-wa0013.jpg" alt="Dilian Jaars. Click the photo to read my story." width="600" height="700">
+                    </button>
                     <figcaption class="portrait-caption">Turning ideas into code</figcaption>
                 </figure>
                 <div>
                     <h2 class="heading" id="about-title">I'm Dilian Jaars</h2>
-                    <div class="prose">
+                    <div class="prose" id="aboutText">
                         <p>I'm a junior web developer with an insatiable appetite for learning and creating. My journey into web development started with curiosity and has evolved into a passion for building beautiful, functional digital solutions.</p>
                         <p>I thrive on challenges that push me to grow, whether it's mastering a new framework, optimising performance, or solving complex problems with elegant code. My approach combines technical skill with creative thinking to deliver results that exceed expectations.</p>
                         <p>When I'm not coding, you'll find me exploring the latest web technologies, contributing to open-source projects, or brainstorming the next big idea. Let's build something amazing together!</p>
                     </div>
+                    <p class="reveal-hint" id="aboutHint" hidden>Click the photo to read my story.</p>
                 </div>
             </div>
         </section>
@@ -184,6 +187,7 @@
     </footer>
 
     <script type="module" src="/js/client/site.js"></script>
+    <script type="module" src="/js/client/about.js"></script>
     <script type="module" src="/js/client/book.js"></script>
 </body>
 </html>
