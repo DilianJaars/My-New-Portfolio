@@ -316,69 +316,72 @@ button.brand[aria-expanded="true"] span {
     gap: 22px;
 }
 
-/* ---------- home hero: three plates, printed out of register ---------- */
+/* ---------- drifting plates: ink circles wandering behind every page ---------- */
 
 .hero {
-    isolation: isolate;
-    overflow: hidden;
     padding: clamp(24px, 5vw, 64px) 0 clamp(48px, 8vw, 104px);
     position: relative;
 }
 
-.plates {
+.drift {
     inset: 0;
+    overflow: hidden;
     pointer-events: none;
-    position: absolute;
+    position: fixed;
     z-index: -1;
 }
 
 .plate {
-    animation: register 1.3s cubic-bezier(0.2, 0.8, 0.2, 1) both;
     aspect-ratio: 1;
     border-radius: 50%;
+    left: 0;
     mix-blend-mode: multiply;
+    opacity: 0.4;
     position: absolute;
+    top: 0;
     width: var(--d);
+    will-change: transform;
 }
 
 .plate.cyan {
-    --d: clamp(250px, 36vw, 520px);
-    --dx: -60px;
-    --dy: 40px;
+    --d: clamp(220px, 34vmax, 520px);
+    animation: wander-a 71s ease-in-out infinite alternate;
     background: var(--cyan);
-    right: clamp(-40px, 3vw, 48px);
-    top: 4%;
 }
 
 .plate.pink {
-    --d: clamp(210px, 29vw, 420px);
-    --dx: 70px;
-    --dy: 20px;
-    animation-delay: 0.12s;
+    --d: clamp(190px, 28vmax, 420px);
+    animation: wander-b 83s ease-in-out infinite alternate;
     background: radial-gradient(circle, var(--pink) 38%, transparent 41%) 0 0 / 9px 9px;
-    right: clamp(110px, 17vw, 250px);
-    top: 38%;
 }
 
 .plate.yellow {
-    --d: clamp(150px, 21vw, 300px);
-    --dx: -30px;
-    --dy: -60px;
-    animation-delay: 0.24s;
+    --d: clamp(140px, 20vmax, 300px);
+    animation: wander-c 59s ease-in-out infinite alternate;
     background: var(--yellow);
-    right: clamp(-10px, 2vw, 30px);
-    top: 56%;
 }
 
-@keyframes register {
-    from {
-        opacity: 0;
-        transform: translate(var(--dx), var(--dy)) scale(0.94);
-    }
-    to {
-        opacity: 1;
-        transform: none;
-    }
+@keyframes wander-a {
+    0% { transform: translate(62vw, -8vh) rotate(0deg); }
+    25% { transform: translate(8vw, 22vh); }
+    50% { transform: translate(40vw, 62vh); }
+    75% { transform: translate(78vw, 48vh); }
+    100% { transform: translate(18vw, -6vh) rotate(40deg); }
+}
+
+@keyframes wander-b {
+    0% { transform: translate(10vw, 66vh); }
+    30% { transform: translate(70vw, 70vh); }
+    55% { transform: translate(84vw, 10vh); }
+    80% { transform: translate(30vw, 28vh); }
+    100% { transform: translate(52vw, 80vh); }
+}
+
+@keyframes wander-c {
+    0% { transform: translate(40vw, 40vh); }
+    33% { transform: translate(-4vw, 70vh); }
+    66% { transform: translate(60vw, 4vh); }
+    100% { transform: translate(86vw, 62vh); }
 }
 
 .hero-name {
@@ -1235,41 +1238,20 @@ dialog::backdrop {
         border-right: 0;
     }
 
-    /* On phones the plates sit in their own band above the name so ink
-       never overlaps the text. */
-    .plates {
-        height: 230px;
-        inset: auto;
-        margin: 0 auto 20px;
-        position: relative;
-        width: min(1200px, 100% - 48px);
-        z-index: 0;
-    }
-
-    .plate.cyan {
-        --d: 190px;
-        right: 12%;
-        top: 0;
-    }
-
-    .plate.pink {
-        --d: 150px;
-        right: 42%;
-        top: 70px;
-    }
-
-    .plate.yellow {
-        --d: 100px;
-        right: 2%;
-        top: 120px;
-    }
-
     .hero {
         padding-top: 8px;
     }
 }
 
 @media (prefers-reduced-motion: reduce) {
+    .plate {
+        animation: none;
+    }
+
+    .plate.cyan { transform: translate(62vw, 6vh); }
+    .plate.pink { transform: translate(10vw, 62vh); }
+    .plate.yellow { transform: translate(70vw, 60vh); }
+
     html {
         scroll-behavior: auto;
     }
