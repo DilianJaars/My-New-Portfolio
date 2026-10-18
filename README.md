@@ -78,8 +78,8 @@ away.
 Security notes:
 
 - There is **no default password**. `ADMIN_PASSWORD` must come from the
-  environment. In production the server also refuses to start without
-  `SESSION_SECRET`.
+  environment. Set `SESSION_SECRET` too; without it the server uses a random
+  secret and admin sign-ins end whenever it restarts.
 - After 5 wrong passwords an IP address is locked out for 15 minutes.
 - Uploads are limited to JPG, PNG, WebP and GIF (no SVG) up to 8 MB.
 - Deleting an entry only removes files it uploaded itself. Images under
@@ -96,9 +96,8 @@ Security notes:
 1. Push the repo to GitHub.
 2. In [Render](https://render.com): **New → Blueprint** (or **Web Service**) and
    connect the repo. `render.yaml` fills in the settings:
-   - Build: `npm install --include=dev && npm run build` (TypeScript is a dev
-     dependency, so `--include=dev` is needed even though `NODE_ENV` is
-     `production`)
+   - Build: `npm install` (its `postinstall` step compiles the TypeScript, so
+     a plain `npm install` or `yarn` build command also works)
    - Start: `npm start`
    - Health check: `/healthz`
 3. In the service's **Environment** tab set `ADMIN_PASSWORD`. `SESSION_SECRET`

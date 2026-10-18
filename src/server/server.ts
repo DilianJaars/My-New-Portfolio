@@ -26,8 +26,7 @@ if (!ADMIN_PASSWORD) {
     console.warn("ADMIN_PASSWORD is not set, so admin login is disabled.");
 }
 if (IS_PROD && !SESSION_SECRET) {
-    console.error("SESSION_SECRET must be set in production. Exiting.");
-    process.exit(1);
+    console.warn("SESSION_SECRET is not set. Using a random one, so admin sessions end whenever the server restarts.");
 }
 
 fs.mkdirSync(UPLOADS_DIR, { recursive: true });
