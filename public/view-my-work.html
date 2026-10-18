@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Work | Dilian Jaars</title>
-    <meta name="description" content="Websites, logos and mockups designed and built by Dilian Jaars.">
+    <title>Websites | Dilian Jaars</title>
+    <meta name="description" content="Websites designed and built by Dilian Jaars.">
     <meta name="theme-color" content="#f2f2ec">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Work | Dilian Jaars">
-    <meta property="og:description" content="Websites, logos and mockups designed and built by Dilian Jaars.">
+    <meta property="og:title" content="Websites | Dilian Jaars">
+    <meta property="og:description" content="Websites designed and built by Dilian Jaars.">
     <link rel="icon" href="/images/dj-logo.jpg" type="image/jpeg">
     <link rel="preload" href="/fonts/anybody.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="/fonts/schibsted-grotesk.woff2" as="font" type="font/woff2" crossorigin>
@@ -26,7 +26,7 @@
             <nav class="site-nav" aria-label="Main">
                 <ul>
                     <li><a href="/">Home</a></li>
-                    <li><a href="/view-my-work.html" aria-current="page">Work</a></li>
+                    <li><a href="/view-my-work.html" aria-current="page">Websites</a></li>
                     <li><a href="/my-skills.html">Skills</a></li>
                     <li><a href="/my-services.html">Services</a></li>
                     <li><a href="/get-in-touch.html">Contact</a></li>
@@ -38,22 +38,16 @@
     <main id="main">
         <div class="wrap">
             <section class="page-intro" aria-labelledby="page-title">
-                <h1 class="display" id="page-title">Work</h1>
-                <p class="lede">Websites I've built, logos I've drawn and interfaces I've mocked up.</p>
+                <h1 class="display" id="page-title">Websites</h1>
+                <p class="lede">Live sites and web apps I've designed and built end to end.</p>
             </section>
-
-            <div class="tabs" role="tablist" aria-label="Work collections">
-                <button class="tab" role="tab" id="tab-websites" data-collection="websites" aria-controls="panel" aria-selected="true">Websites<span class="count"></span></button>
-                <button class="tab" role="tab" id="tab-logos" data-collection="logos" aria-controls="panel" aria-selected="false" tabindex="-1">Logos<span class="count"></span></button>
-                <button class="tab" role="tab" id="tab-mockups" data-collection="mockups" aria-controls="panel" aria-selected="false" tabindex="-1">Mockups<span class="count"></span></button>
-            </div>
 
             <div class="work-toolbar">
                 <p class="muted" id="toolbarText"></p>
                 <button class="btn btn-ghost" id="manageButton" type="button">Manage</button>
             </div>
 
-            <div id="panel" role="tabpanel" aria-live="polite" tabindex="-1">
+            <div id="panel" aria-live="polite" tabindex="-1">
                 <div class="skeleton"></div>
             </div>
         </div>
@@ -76,7 +70,7 @@
                     <h2 id="managerTitle">Sign in to manage</h2>
                     <button class="btn btn-ghost" type="button" data-close>Close</button>
                 </div>
-                <p class="intro">Enter the admin password to add or remove work.</p>
+                <p class="intro">Enter the admin password to add or remove websites.</p>
                 <form class="form-grid" id="loginForm">
                     <div class="field">
                         <label for="adminPassword">Admin password</label>
@@ -102,13 +96,13 @@
                         <input id="title" name="title" type="text" maxlength="120" required>
                     </div>
                     <div class="field">
-                        <label for="url" id="urlLabel">Live website link</label>
-                        <input id="url" name="url" type="url" placeholder="https://example.com">
+                        <label for="url">Live website link</label>
+                        <input id="url" name="url" type="url" placeholder="https://example.com" required>
                     </div>
                     <div class="field">
-                        <label for="image">Image</label>
+                        <label for="image">Screenshot</label>
                         <input id="image" name="image" type="file" accept="image/jpeg,image/png,image/webp,image/gif">
-                        <p class="hint">JPG, PNG, WebP or GIF, up to 8 MB.</p>
+                        <p class="hint">JPG, PNG, WebP or GIF, up to 8 MB. Shown on the left page of the book on the home page.</p>
                     </div>
                     <div class="field">
                         <label for="description">Short description</label>

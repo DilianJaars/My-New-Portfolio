@@ -1,5 +1,3 @@
-import type { Collection } from "./collections.js";
-
 /** One entry in a collection, as stored in data/db.json and returned by the API. */
 export interface WorkItem {
     id: string;
@@ -11,7 +9,9 @@ export interface WorkItem {
     createdAt: string;
 }
 
-export type Database = Record<Collection, WorkItem[]>;
+export interface Database {
+    websites: WorkItem[];
+}
 
 export interface SessionInfo {
     loggedIn: boolean;

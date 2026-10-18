@@ -6,7 +6,6 @@ import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
 import { fileURLToPath } from "node:url";
-import { COLLECTIONS, isCollection, type Collection } from "../shared/collections.js";
 import type { Database, WorkItem } from "../shared/types.js";
 
 // Works both compiled (dist/server) and under tsx (src/server): the project
@@ -36,7 +35,7 @@ fs.mkdirSync(path.dirname(DATA_FILE), { recursive: true });
 
 // ---------- tiny JSON "database" ----------
 function emptyDB(): Database {
-    return { websites: [], logos: [], mockups: [] };
+    return { websites: [] };
 }
 
 // Write to a temp file and rename it so a crash mid-write can't corrupt the data.
@@ -54,10 +53,7 @@ function readDB(): Database {
     }
     const parsed = JSON.parse(fs.readFileSync(DATA_FILE, "utf-8")) as Partial<Database>;
     const db = emptyDB();
-    for (const key of COLLECTIONS) {
-        const list = parsed[key];
-        if (Array.isArray(list)) db[key] = list;
-    }
+    if (Array.isArray(parsed.websites)) db.websites = parsed.websites;
     return db;
 }
 
@@ -185,9 +181,9 @@ app.get("/healthz", (_req, res) => {
 
 // Old page names still work, so existing links and bookmarks don't break.
 const REDIRECTS: Readonly<Record<string, string>> = {
-    "/websites.html": "/view-my-work.html#websites",
-    "/logos.html": "/view-my-work.html#logos",
-    "/mockups.html": "/view-my-work.html#mockups",
+    "/websites.html": "/view-my-work.html",
+    "/logos.html": "/view-my-work.html",
+    "/mockups.html": "/view-my-work.html",
     "/My-Services.html": "/my-services.html",
 };
 for (const [from, to] of Object.entries(REDIRECTS)) {
@@ -210,14 +206,6 @@ function requireAuth(req: Request, res: Response, next: NextFunction): void {
         return;
     }
     res.status(401).json({ error: "Sign in required." });
-}
-
-function validCollection(req: Request, res: Response, next: NextFunction): void {
-    if (!isCollection(asText(req.params.collection))) {
-        res.status(404).json({ error: "Unknown collection." });
-        return;
-    }
-    next();
 }
 
 // ---------- auth routes ----------
@@ -261,10 +249,9 @@ app.get("/api/session", (req, res) => {
     });
 });
 
-// ---------- collection routes (websites / logos / mockups) ----------
-app.get("/api/:collection", validCollection, (req, res) => {
-    const collection = req.params.collection as Collection;
-    const items = [...readDB()[collection]].sort(
+// ---------- website routes ----------
+app.get("/api/websites", (_req, res) => {
+    const items = [...readDB().websites].sort(
         (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
     );
     res.set("Cache-Control", "no-cache");
@@ -272,8 +259,7 @@ app.get("/api/:collection", validCollection, (req, res) => {
 });
 
 app.post(
-    "/api/:collection",
-    validCollection,
+    "/api/websites",
     requireAuth,
     (req: Request, res: Response, next: NextFunction) => {
         upload.single("image")(req, res, (err: unknown) => {
@@ -285,7 +271,6 @@ app.post(
         });
     },
     (req: Request, res: Response) => {
-        const collection = req.params.collection as Collection;
         const body = (req.body ?? {}) as Record<string, unknown>;
         const title = asText(body.title).trim();
         const description = asText(body.description).trim();
@@ -306,7 +291,7 @@ app.post(
             res.status(400).json({ error: "Enter a full link starting with http:// or https://." });
             return;
         }
-        if (collection === "websites" && !link) {
+        if (!link) {
             discardUpload();
             res.status(400).json({ error: "A live link is required for websites." });
             return;
@@ -327,17 +312,16 @@ app.post(
             createdAt: new Date().toISOString(),
         };
 
-        db[collection].unshift(item);
+        db.websites.unshift(item);
         writeDB(db);
         res.status(201).json(item);
     }
 );
 
-app.delete("/api/:collection/:id", validCollection, requireAuth, (req, res) => {
-    const collection = req.params.collection as Collection;
+app.delete("/api/websites/:id", requireAuth, (req, res) => {
     const id = asText(req.params.id);
     const db = readDB();
-    const item = db[collection].find((entry) => entry.id === id);
+    const item = db.websites.find((entry) => entry.id === id);
 
     if (!item) {
         res.status(404).json({ error: "Item not found." });
@@ -350,7 +334,7 @@ app.delete("/api/:collection/:id", validCollection, requireAuth, (req, res) => {
         fs.unlink(path.join(UPLOADS_DIR, path.basename(item.image)), () => {});
     }
 
-    db[collection] = db[collection].filter((entry) => entry.id !== id);
+    db.websites = db.websites.filter((entry) => entry.id !== id);
     writeDB(db);
     res.status(204).end();
 });

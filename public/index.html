@@ -26,7 +26,7 @@
             <nav class="site-nav" aria-label="Main">
                 <ul>
                     <li><a href="/" aria-current="page">Home</a></li>
-                    <li><a href="/view-my-work.html">Work</a></li>
+                    <li><a href="/view-my-work.html">Websites</a></li>
                     <li><a href="/my-skills.html">Skills</a></li>
                     <li><a href="/my-services.html">Services</a></li>
                     <li><a href="/get-in-touch.html">Contact</a></li>
@@ -49,7 +49,7 @@
                     <p class="lede">Crafting digital experiences with code.</p>
                     <p class="intro">Welcome to my digital space! I'm a passionate junior web developer who loves turning creative ideas into reality through clean, modern code. I specialise in building responsive websites that not only look amazing but also deliver exceptional user experiences.</p>
                     <div class="btn-row">
-                        <a class="btn" href="/view-my-work.html">View my work</a>
+                        <a class="btn" href="/view-my-work.html">See my websites</a>
                         <a class="btn btn-ghost" href="/get-in-touch.html">Get in touch</a>
                     </div>
                 </div>
@@ -73,34 +73,19 @@
             </div>
         </section>
 
-        <section class="section" aria-labelledby="work-title">
+        <section class="section" aria-labelledby="sites-title">
             <div class="wrap">
                 <div class="section-head">
-                    <h2 class="heading" id="work-title">View my work</h2>
-                    <p class="muted">Three collections. Pick one.</p>
+                    <h2 class="heading" id="sites-title">Websites I've built</h2>
+                    <a href="/view-my-work.html">See all websites</a>
                 </div>
-                <div class="tiles">
-                    <a class="tile ink-cyan" href="/view-my-work.html#websites">
-                        <div>
-                            <h3>Websites</h3>
-                            <p>Live sites and web apps I've designed and built end to end.</p>
-                        </div>
-                        <span class="go">Browse websites</span>
-                    </a>
-                    <a class="tile ink-pink" href="/view-my-work.html#logos">
-                        <div>
-                            <h3>Logos</h3>
-                            <p>Marks and monograms, from my own portfolio mark to the KD emblem.</p>
-                        </div>
-                        <span class="go">Browse logos</span>
-                    </a>
-                    <a class="tile ink-yellow" href="/view-my-work.html#mockups">
-                        <div>
-                            <h3>Mockups</h3>
-                            <p>Interface designs and concepts before they're built.</p>
-                        </div>
-                        <span class="go">Browse mockups</span>
-                    </a>
+                <div class="book-wrap" id="bookWrap" role="region" aria-label="Websites I've built, one spread per website">
+                    <div class="book" id="book"></div>
+                    <div class="book-controls">
+                        <button class="btn btn-ghost is-disabled" type="button" id="prevBtn" aria-disabled="true">Previous page</button>
+                        <p class="book-status" id="bookStatus" aria-live="polite">Loading websites</p>
+                        <button class="btn is-disabled" type="button" id="nextBtn" aria-disabled="true">Next page</button>
+                    </div>
                 </div>
             </div>
         </section>
@@ -203,5 +188,6 @@
     </footer>
 
     <script type="module" src="/js/client/site.js"></script>
+    <script type="module" src="/js/client/book.js"></script>
 </body>
 </html>

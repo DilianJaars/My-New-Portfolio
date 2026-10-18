@@ -432,53 +432,6 @@ textarea {
     margin-bottom: 24px;
 }
 
-/* ---------- collection tiles (home) ---------- */
-
-.tiles {
-    display: grid;
-    gap: 20px;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
-.tile {
-    border: 2px solid var(--ink);
-    color: var(--ink);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    min-height: 280px;
-    padding: 24px;
-    text-decoration: none;
-    transition: box-shadow 0.12s ease, transform 0.12s ease;
-}
-
-.tile:hover {
-    box-shadow: 8px 8px 0 var(--ink);
-    transform: translate(-4px, -4px);
-}
-
-.tile h3 {
-    font-family: var(--display);
-    font-size: clamp(1.8rem, 3.4vw, 2.6rem);
-    font-stretch: 120%;
-    font-weight: 800;
-    letter-spacing: -0.02em;
-    line-height: 1;
-    margin-bottom: 12px;
-}
-
-.tile p {
-    max-width: 22rem;
-}
-
-.tile .go {
-    font-weight: 700;
-    margin-top: 28px;
-    text-decoration: underline;
-    text-decoration-thickness: 3px;
-    text-underline-offset: 0.18em;
-}
-
 .ink-cyan {
     background: var(--cyan);
 }
@@ -561,6 +514,195 @@ textarea {
 
 .package li:last-child {
     border-bottom: 0;
+}
+
+/* ---------- the book of websites (home) ---------- */
+
+.book-wrap {
+    perspective: 2400px;
+}
+
+.book {
+    background: var(--white);
+    border: 2px solid var(--ink);
+    box-shadow: 12px 12px 0 var(--cyan);
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    min-height: clamp(400px, 44vw, 540px);
+    position: relative;
+    transform-style: preserve-3d;
+}
+
+/* The spine: a soft shadow down the middle. */
+.book::after {
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(20, 22, 31, 0.14) 44%,
+        rgba(20, 22, 31, 0.3) 50%,
+        rgba(20, 22, 31, 0.14) 56%,
+        transparent
+    );
+    bottom: 0;
+    content: "";
+    left: 50%;
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    transform: translateX(-50%);
+    width: 44px;
+    z-index: 3;
+}
+
+.page {
+    background: var(--white);
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    padding: clamp(20px, 3vw, 36px);
+    position: relative;
+}
+
+.page-left {
+    border-right: 1px solid var(--line);
+}
+
+.shot {
+    aspect-ratio: 4 / 3;
+    border: 2px solid var(--ink);
+    overflow: hidden;
+    position: relative;
+}
+
+.shot img {
+    height: 100%;
+    inset: 0;
+    object-fit: cover;
+    position: absolute;
+    width: 100%;
+}
+
+.shot.placeholder {
+    align-items: center;
+    background: var(--shot, var(--cyan));
+    display: flex;
+    font-family: var(--display);
+    font-size: clamp(3.4rem, 9vw, 7rem);
+    font-stretch: 125%;
+    font-weight: 800;
+    justify-content: center;
+    letter-spacing: -0.02em;
+}
+
+.page-body {
+    flex: 1;
+}
+
+.page-right h3 {
+    font-family: var(--display);
+    font-size: clamp(1.6rem, 3.2vw, 2.5rem);
+    font-stretch: 118%;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+    margin-bottom: 14px;
+}
+
+.page-right .desc {
+    margin-bottom: 14px;
+}
+
+.page-right .tools {
+    color: var(--muted);
+    font-weight: 600;
+    margin-bottom: 24px;
+}
+
+.folio {
+    color: var(--muted);
+    font-size: 0.9rem;
+    font-variant-numeric: tabular-nums;
+    margin-top: 16px;
+}
+
+.page-left .folio {
+    align-self: flex-start;
+}
+
+.page-right .folio {
+    align-self: flex-end;
+}
+
+/* The page that turns. It sits over one half of the book and flips across
+   the spine; its two faces are the page being left and the page arriving. */
+.leaf {
+    height: 100%;
+    position: absolute;
+    top: 0;
+    transform-style: preserve-3d;
+    transition: transform 0.9s cubic-bezier(0.45, 0.05, 0.25, 1);
+    width: 50%;
+    z-index: 2;
+}
+
+.leaf-next {
+    left: 50%;
+    transform-origin: left center;
+}
+
+.leaf-prev {
+    left: 0;
+    transform-origin: right center;
+}
+
+.leaf-next.turning {
+    transform: rotateY(-180deg);
+}
+
+.leaf-prev.turning {
+    transform: rotateY(180deg);
+}
+
+.leaf .page {
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    inset: 0;
+    position: absolute;
+}
+
+.leaf .page.back {
+    transform: rotateY(180deg);
+}
+
+.book-controls {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px 24px;
+    justify-content: space-between;
+    margin-top: 36px;
+}
+
+.book-status {
+    font-weight: 600;
+    order: 0;
+}
+
+.btn:disabled {
+    box-shadow: none;
+    transform: none;
+}
+
+.btn.is-disabled {
+    box-shadow: none;
+    cursor: not-allowed;
+    opacity: 0.45;
+    transform: none;
+}
+
+.btn.is-disabled:hover {
+    box-shadow: none;
+    transform: none;
 }
 
 /* ---------- call to action ---------- */
@@ -810,52 +952,6 @@ input[type="file"] {
 
 /* ---------- work page ---------- */
 
-.tabs {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-}
-
-.tab {
-    background: var(--paper);
-    border: 2px solid var(--ink);
-    border-radius: 999px;
-    color: var(--ink);
-    cursor: pointer;
-    font-family: var(--display);
-    font-size: clamp(1.05rem, 2.4vw, 1.4rem);
-    font-stretch: 115%;
-    font-weight: 800;
-    padding: 8px 22px;
-}
-
-.tab:hover {
-    background: var(--white);
-}
-
-.tab[aria-selected="true"] {
-    box-shadow: 4px 4px 0 var(--ink);
-}
-
-.tab[data-collection="websites"][aria-selected="true"] {
-    background: var(--cyan);
-}
-
-.tab[data-collection="logos"][aria-selected="true"] {
-    background: var(--pink);
-}
-
-.tab[data-collection="mockups"][aria-selected="true"] {
-    background: var(--yellow);
-}
-
-.tab .count {
-    font-family: var(--text);
-    font-size: 0.8em;
-    font-weight: 600;
-    margin-left: 8px;
-}
-
 .work-toolbar {
     align-items: center;
     display: flex;
@@ -865,21 +961,20 @@ input[type="file"] {
     margin: 28px 0 12px;
 }
 
-#panel[data-collection="websites"] {
+#panel {
+    padding-bottom: clamp(40px, 7vw, 88px);
+}
+
+.work-item:nth-child(3n + 1) {
     --accent: var(--cyan);
 }
 
-#panel[data-collection="logos"] {
+.work-item:nth-child(3n + 2) {
     --accent: var(--pink);
 }
 
-#panel[data-collection="mockups"] {
+.work-item:nth-child(3n) {
     --accent: var(--yellow);
-}
-
-#panel {
-    --accent: var(--cyan);
-    padding-bottom: clamp(40px, 7vw, 88px);
 }
 
 .work-item {
@@ -1047,14 +1142,6 @@ dialog::backdrop {
         grid-template-columns: minmax(0, 1fr);
     }
 
-    .tiles {
-        grid-template-columns: minmax(0, 1fr);
-    }
-
-    .tile {
-        min-height: 200px;
-    }
-
     .packages {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
@@ -1092,6 +1179,41 @@ dialog::backdrop {
     .packages,
     .skill-list {
         grid-template-columns: minmax(0, 1fr);
+    }
+
+    /* On phones the book is one page at a time: screenshot, then details. */
+    .book {
+        box-shadow: 8px 8px 0 var(--cyan);
+        grid-template-columns: minmax(0, 1fr);
+        min-height: 0;
+    }
+
+    .book::after {
+        display: none;
+    }
+
+    .page-left {
+        border-bottom: 1px solid var(--line);
+        border-right: 0;
+    }
+
+    .shot {
+        aspect-ratio: 16 / 10;
+    }
+
+    .book-controls {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .book-status {
+        grid-column: 1 / -1;
+        order: -1;
+    }
+
+    .page-left .folio,
+    .page-right .folio {
+        display: none;
     }
 
     .skill-list li:nth-child(odd) {
