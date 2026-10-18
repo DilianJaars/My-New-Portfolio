@@ -5,11 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Work | Dilian Jaars</title>
     <meta name="description" content="Websites, logos and mockups designed and built by Dilian Jaars.">
-    <meta name="theme-color" content="#2b3cf0">
+    <meta name="theme-color" content="#f2f2ec">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Work | Dilian Jaars">
+    <meta property="og:description" content="Websites, logos and mockups designed and built by Dilian Jaars.">
     <link rel="icon" href="/images/dj-logo.jpg" type="image/jpeg">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Newsreader:opsz,wght@6..72,400..600&display=swap" rel="stylesheet">
+    <link rel="preload" href="/fonts/anybody.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/schibsted-grotesk.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="/css/site.css">
 </head>
 <body>
@@ -18,7 +20,7 @@
     <header class="site-header">
         <div class="wrap">
             <a class="brand" href="/">
-                <img src="/images/dj-logo.jpg" alt="" width="40" height="40">
+                <img src="/images/dj-logo.jpg" alt="" width="42" height="42">
                 Dilian Jaars
             </a>
             <nav class="site-nav" aria-label="Main">
@@ -56,14 +58,12 @@
             </div>
         </div>
 
-        <section class="section">
+        <section class="cta" aria-labelledby="cta-title">
             <div class="wrap">
-                <div class="index-list">
-                    <a class="index-row" href="/get-in-touch.html">
-                        <h3>Like what you see?</h3>
-                        <p>Tell me about your project and I'll send a quote.</p>
-                        <span class="go">Get in touch</span>
-                    </a>
+                <h2 class="display" id="cta-title">Like what you see?</h2>
+                <p>Tell me about your project and I'll send a quote.</p>
+                <div class="btn-row">
+                    <a class="btn" href="/get-in-touch.html">Get in touch</a>
                 </div>
             </div>
         </section>
@@ -128,7 +128,7 @@
 
     <footer class="site-footer">
         <div class="wrap">
-            <p>&copy; <span data-year>2026</span> Dilian Jaars</p>
+            <p>&copy; <span data-year>2026</span> Dilian Jaars. Coded with &hearts;</p>
             <ul>
                 <li><a href="https://github.com/DilianJaars" target="_blank" rel="noopener noreferrer">GitHub</a></li>
                 <li><a href="https://www.linkedin.com/in/dilian-jaars-337781320/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
@@ -137,7 +137,7 @@
         </div>
     </footer>
 
-    <script src="/js/site.js" defer></script>
-    <script src="/js/work.js" defer></script>
+    <script type="module" src="/js/client/site.js"></script>
+    <script type="module" src="/js/client/work.js"></script>
 </body>
 </html>

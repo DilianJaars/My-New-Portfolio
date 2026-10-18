@@ -1,25 +1,27 @@
 import "dotenv/config";
-import express from "express";
+import express, { type NextFunction, type Request, type Response } from "express";
 import cookieSession from "cookie-session";
 import multer from "multer";
-import fs from "fs";
-import path from "path";
-import crypto from "crypto";
-import { fileURLToPath } from "url";
+import fs from "node:fs";
+import path from "node:path";
+import crypto from "node:crypto";
+import { fileURLToPath } from "node:url";
+import { COLLECTIONS, isCollection, type Collection } from "../shared/collections.js";
+import type { Database, WorkItem } from "../shared/types.js";
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
-const PUBLIC_DIR = path.join(__dirname, "public");
+// Works both compiled (dist/server) and under tsx (src/server): the project
+// root is always two folders up.
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", "..");
+const PUBLIC_DIR = path.join(ROOT, "public");
 const UPLOADS_DIR = path.join(PUBLIC_DIR, "uploads");
-const DATA_FILE = path.join(__dirname, "data", "db.json");
-const COLLECTIONS = ["websites", "logos", "mockups"];
+const DATA_FILE = path.join(ROOT, "data", "db.json");
 const IS_PROD = process.env.NODE_ENV === "production";
 
 // ---------- configuration ----------
 // There is deliberately no fallback password. Without ADMIN_PASSWORD the admin
 // login stays switched off and the public site keeps working read-only.
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "";
-const SESSION_SECRET = process.env.SESSION_SECRET || "";
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD ?? "";
+const SESSION_SECRET = process.env.SESSION_SECRET ?? "";
 
 if (!ADMIN_PASSWORD) {
     console.warn("ADMIN_PASSWORD is not set, so admin login is disabled.");
@@ -33,35 +35,42 @@ fs.mkdirSync(UPLOADS_DIR, { recursive: true });
 fs.mkdirSync(path.dirname(DATA_FILE), { recursive: true });
 
 // ---------- tiny JSON "database" ----------
-function readDB() {
-    if (!fs.existsSync(DATA_FILE)) {
-        const empty = { websites: [], logos: [], mockups: [] };
-        writeDB(empty);
-        return empty;
-    }
-    const parsed = JSON.parse(fs.readFileSync(DATA_FILE, "utf-8"));
-    for (const key of COLLECTIONS) {
-        if (!Array.isArray(parsed[key])) parsed[key] = [];
-    }
-    return parsed;
+function emptyDB(): Database {
+    return { websites: [], logos: [], mockups: [] };
 }
 
 // Write to a temp file and rename it so a crash mid-write can't corrupt the data.
-function writeDB(db) {
+function writeDB(db: Database): void {
     const tmp = `${DATA_FILE}.${process.pid}.tmp`;
     fs.writeFileSync(tmp, JSON.stringify(db, null, 2));
     fs.renameSync(tmp, DATA_FILE);
 }
 
+function readDB(): Database {
+    if (!fs.existsSync(DATA_FILE)) {
+        const empty = emptyDB();
+        writeDB(empty);
+        return empty;
+    }
+    const parsed = JSON.parse(fs.readFileSync(DATA_FILE, "utf-8")) as Partial<Database>;
+    const db = emptyDB();
+    for (const key of COLLECTIONS) {
+        const list = parsed[key];
+        if (Array.isArray(list)) db[key] = list;
+    }
+    return db;
+}
+
 // ---------- helpers ----------
-function safeEqual(a, b) {
-    const ha = crypto.createHash("sha256").update(String(a)).digest();
-    const hb = crypto.createHash("sha256").update(String(b)).digest();
+function safeEqual(a: string, b: string): boolean {
+    const ha = crypto.createHash("sha256").update(a).digest();
+    const hb = crypto.createHash("sha256").update(b).digest();
     return crypto.timingSafeEqual(ha, hb);
 }
 
-function cleanUrl(value) {
-    const raw = String(value || "").trim();
+/** Returns a clean http(s) URL, "" when empty, or null when invalid. */
+function cleanUrl(value: unknown): string | null {
+    const raw = String(value ?? "").trim();
     if (!raw) return "";
     try {
         const parsed = new URL(raw);
@@ -71,12 +80,20 @@ function cleanUrl(value) {
     }
 }
 
+function asText(value: unknown): string {
+    return typeof value === "string" ? value : "";
+}
+
 // Login throttling: 5 wrong passwords per IP, then a 15 minute lockout.
-const attempts = new Map();
+interface Attempt {
+    count: number;
+    first: number;
+}
+const attempts = new Map<string, Attempt>();
 const MAX_ATTEMPTS = 5;
 const LOCKOUT_MS = 15 * 60 * 1000;
 
-function lockedOut(ip) {
+function lockedOut(ip: string): boolean {
     const entry = attempts.get(ip);
     if (!entry) return false;
     if (Date.now() - entry.first > LOCKOUT_MS) {
@@ -86,7 +103,7 @@ function lockedOut(ip) {
     return entry.count >= MAX_ATTEMPTS;
 }
 
-function recordFailure(ip) {
+function recordFailure(ip: string): void {
     const entry = attempts.get(ip);
     if (!entry || Date.now() - entry.first > LOCKOUT_MS) {
         attempts.set(ip, { count: 1, first: Date.now() });
@@ -96,7 +113,7 @@ function recordFailure(ip) {
 }
 
 // ---------- image uploads ----------
-const IMAGE_TYPES = {
+const IMAGE_TYPES: Readonly<Record<string, string>> = {
     "image/jpeg": ".jpg",
     "image/png": ".png",
     "image/webp": ".webp",
@@ -104,9 +121,9 @@ const IMAGE_TYPES = {
 };
 
 const storage = multer.diskStorage({
-    destination: (req, file, cb) => cb(null, UPLOADS_DIR),
-    filename: (req, file, cb) => {
-        const ext = IMAGE_TYPES[file.mimetype] || ".jpg";
+    destination: (_req, _file, cb) => cb(null, UPLOADS_DIR),
+    filename: (_req, file, cb) => {
+        const ext = IMAGE_TYPES[file.mimetype] ?? ".jpg";
         cb(null, `${Date.now()}-${crypto.randomBytes(6).toString("hex")}${ext}`);
     },
 });
@@ -114,9 +131,10 @@ const storage = multer.diskStorage({
 const upload = multer({
     storage,
     limits: { fileSize: 8 * 1024 * 1024, files: 1 },
-    fileFilter: (req, file, cb) => {
+    fileFilter: (_req, file, cb) => {
         if (!IMAGE_TYPES[file.mimetype]) {
-            return cb(new Error("Upload a JPG, PNG, WebP or GIF image."));
+            cb(new Error("Upload a JPG, PNG, WebP or GIF image."));
+            return;
         }
         cb(null, true);
     },
@@ -128,13 +146,13 @@ app.disable("x-powered-by");
 app.set("case sensitive routing", true); // so /My-Services.html and /my-services.html stay different routes
 app.set("trust proxy", 1);
 
-app.use((req, res, next) => {
+app.use((_req, res, next) => {
     res.set({
         "Content-Security-Policy": [
             "default-src 'self'",
             "script-src 'self'",
-            "style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com",
-            "font-src 'self' https://cdnjs.cloudflare.com https://fonts.gstatic.com",
+            "style-src 'self' 'unsafe-inline'",
+            "font-src 'self'",
             "img-src 'self' data: https:",
             "form-action 'self' mailto:",
             "frame-ancestors 'none'",
@@ -161,37 +179,43 @@ app.use(
     })
 );
 
-app.get("/healthz", (req, res) => res.type("text").send("ok"));
+app.get("/healthz", (_req, res) => {
+    res.type("text").send("ok");
+});
 
 // Old page names still work, so existing links and bookmarks don't break.
-const REDIRECTS = {
+const REDIRECTS: Readonly<Record<string, string>> = {
     "/websites.html": "/view-my-work.html#websites",
     "/logos.html": "/view-my-work.html#logos",
     "/mockups.html": "/view-my-work.html#mockups",
     "/My-Services.html": "/my-services.html",
 };
 for (const [from, to] of Object.entries(REDIRECTS)) {
-    app.get(from, (req, res) => res.redirect(301, to));
+    app.get(from, (_req, res) => res.redirect(301, to));
 }
 
 app.use(
     express.static(PUBLIC_DIR, {
         extensions: ["html"],
         setHeaders: (res, filePath) => {
-            const longLived = /\.(jpg|jpeg|png|webp|gif|svg|ico|woff2?)$/i.test(filePath);
+            const longLived = /\.(jpe?g|png|webp|gif|svg|ico|woff2?)$/i.test(filePath);
             res.set("Cache-Control", longLived ? "public, max-age=604800" : "no-cache");
         },
     })
 );
 
-function requireAuth(req, res, next) {
-    if (req.session && req.session.isAdmin) return next();
-    return res.status(401).json({ error: "Sign in required." });
+function requireAuth(req: Request, res: Response, next: NextFunction): void {
+    if (req.session?.isAdmin) {
+        next();
+        return;
+    }
+    res.status(401).json({ error: "Sign in required." });
 }
 
-function validCollection(req, res, next) {
-    if (!COLLECTIONS.includes(req.params.collection)) {
-        return res.status(404).json({ error: "Unknown collection." });
+function validCollection(req: Request, res: Response, next: NextFunction): void {
+    if (!isCollection(asText(req.params.collection))) {
+        res.status(404).json({ error: "Unknown collection." });
+        return;
     }
     next();
 }
@@ -199,23 +223,28 @@ function validCollection(req, res, next) {
 // ---------- auth routes ----------
 app.post("/api/login", (req, res) => {
     if (!ADMIN_PASSWORD) {
-        return res.status(503).json({ error: "Admin login is not set up on this server." });
+        res.status(503).json({ error: "Admin login is not set up on this server." });
+        return;
     }
-    if (lockedOut(req.ip)) {
-        return res.status(429).json({ error: "Too many attempts. Try again in 15 minutes." });
+    const ip = req.ip ?? "unknown";
+    if (lockedOut(ip)) {
+        res.status(429).json({ error: "Too many attempts. Try again in 15 minutes." });
+        return;
     }
 
-    const { password } = req.body || {};
+    const password: unknown = (req.body as { password?: unknown } | undefined)?.password;
     if (typeof password !== "string" || password.length === 0) {
-        return res.status(400).json({ error: "Password is required." });
+        res.status(400).json({ error: "Password is required." });
+        return;
     }
     if (!safeEqual(password, ADMIN_PASSWORD)) {
-        recordFailure(req.ip);
-        return res.status(401).json({ error: "Incorrect password." });
+        recordFailure(ip);
+        res.status(401).json({ error: "Incorrect password." });
+        return;
     }
 
-    attempts.delete(req.ip);
-    req.session.isAdmin = true;
+    attempts.delete(ip);
+    if (req.session) req.session.isAdmin = true;
     res.json({ ok: true });
 });
 
@@ -227,15 +256,16 @@ app.post("/api/logout", (req, res) => {
 app.get("/api/session", (req, res) => {
     res.set("Cache-Control", "no-store");
     res.json({
-        loggedIn: Boolean(req.session && req.session.isAdmin),
+        loggedIn: Boolean(req.session?.isAdmin),
         adminEnabled: Boolean(ADMIN_PASSWORD),
     });
 });
 
 // ---------- collection routes (websites / logos / mockups) ----------
 app.get("/api/:collection", validCollection, (req, res) => {
-    const items = [...readDB()[req.params.collection]].sort(
-        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+    const collection = req.params.collection as Collection;
+    const items = [...readDB()[collection]].sort(
+        (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
     );
     res.set("Cache-Control", "no-cache");
     res.json(items);
@@ -245,39 +275,50 @@ app.post(
     "/api/:collection",
     validCollection,
     requireAuth,
-    (req, res, next) => {
-        upload.single("image")(req, res, (err) => {
-            if (err) return res.status(400).json({ error: err.message });
+    (req: Request, res: Response, next: NextFunction) => {
+        upload.single("image")(req, res, (err: unknown) => {
+            if (err) {
+                res.status(400).json({ error: err instanceof Error ? err.message : "Upload failed." });
+                return;
+            }
             next();
         });
     },
-    (req, res) => {
-        const { collection } = req.params;
-        const { title, url, description, tags } = req.body || {};
-        const discardUpload = () => req.file && fs.unlink(req.file.path, () => {});
+    (req: Request, res: Response) => {
+        const collection = req.params.collection as Collection;
+        const body = (req.body ?? {}) as Record<string, unknown>;
+        const title = asText(body.title).trim();
+        const description = asText(body.description).trim();
+        const tags = asText(body.tags);
+        const discardUpload = (): void => {
+            if (req.file) fs.unlink(req.file.path, () => {});
+        };
 
-        if (!title || !title.trim()) {
+        if (!title) {
             discardUpload();
-            return res.status(400).json({ error: "A title is required." });
+            res.status(400).json({ error: "A title is required." });
+            return;
         }
 
-        const link = cleanUrl(url);
+        const link = cleanUrl(body.url);
         if (link === null) {
             discardUpload();
-            return res.status(400).json({ error: "Enter a full link starting with http:// or https://." });
+            res.status(400).json({ error: "Enter a full link starting with http:// or https://." });
+            return;
         }
         if (collection === "websites" && !link) {
             discardUpload();
-            return res.status(400).json({ error: "A live link is required for websites." });
+            res.status(400).json({ error: "A live link is required for websites." });
+            return;
         }
 
         const db = readDB();
-        const item = {
+        const item: WorkItem = {
             id: crypto.randomUUID(),
-            title: title.trim().slice(0, 120),
-            description: (description || "").trim().slice(0, 500),
+            title: title.slice(0, 120),
+            description: description.slice(0, 500),
             url: link,
-            tags: (tags || "")
+            tags: tags
                 .split(",")
                 .map((t) => t.trim().slice(0, 30))
                 .filter(Boolean)
@@ -293,19 +334,20 @@ app.post(
 );
 
 app.delete("/api/:collection/:id", validCollection, requireAuth, (req, res) => {
-    const { collection, id } = req.params;
+    const collection = req.params.collection as Collection;
+    const id = asText(req.params.id);
     const db = readDB();
     const item = db[collection].find((entry) => entry.id === id);
 
     if (!item) {
-        return res.status(404).json({ error: "Item not found." });
+        res.status(404).json({ error: "Item not found." });
+        return;
     }
 
     // Only remove files that were uploaded through the admin panel. Images that
     // ship with the repo (under /images) must never be deleted from here.
-    if (item.image && item.image.startsWith("/uploads/")) {
-        const imagePath = path.join(UPLOADS_DIR, path.basename(item.image));
-        fs.unlink(imagePath, () => {});
+    if (item.image.startsWith("/uploads/")) {
+        fs.unlink(path.join(UPLOADS_DIR, path.basename(item.image)), () => {});
     }
 
     db[collection] = db[collection].filter((entry) => entry.id !== id);
@@ -316,20 +358,24 @@ app.delete("/api/:collection/:id", validCollection, requireAuth, (req, res) => {
 // ---------- fallback ----------
 app.use((req, res) => {
     if (req.path.startsWith("/api/")) {
-        return res.status(404).json({ error: "Not found." });
+        res.status(404).json({ error: "Not found." });
+        return;
     }
     res.status(404).sendFile(path.join(PUBLIC_DIR, "404.html"), (err) => {
         if (err) res.status(404).send("Not found");
     });
 });
 
-app.use((err, req, res, next) => {
+app.use((err: unknown, _req: Request, res: Response, next: NextFunction) => {
     console.error(err);
-    if (res.headersSent) return next(err);
+    if (res.headersSent) {
+        next(err);
+        return;
+    }
     res.status(500).json({ error: "Something went wrong on the server." });
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = Number(process.env.PORT) || 3000;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });

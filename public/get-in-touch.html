@@ -5,11 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Get in touch | Dilian Jaars</title>
     <meta name="description" content="Email Dilian Jaars, find him on GitHub or LinkedIn, or send a message to start a website project.">
-    <meta name="theme-color" content="#2b3cf0">
+    <meta name="theme-color" content="#f2f2ec">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Get in touch | Dilian Jaars">
+    <meta property="og:description" content="Email Dilian Jaars, find him on GitHub or LinkedIn, or send a message to start a website project.">
     <link rel="icon" href="/images/dj-logo.jpg" type="image/jpeg">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Newsreader:opsz,wght@6..72,400..600&display=swap" rel="stylesheet">
+    <link rel="preload" href="/fonts/anybody.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/schibsted-grotesk.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="/css/site.css">
 </head>
 <body>
@@ -18,7 +20,7 @@
     <header class="site-header">
         <div class="wrap">
             <a class="brand" href="/">
-                <img src="/images/dj-logo.jpg" alt="" width="40" height="40">
+                <img src="/images/dj-logo.jpg" alt="" width="42" height="42">
                 Dilian Jaars
             </a>
             <nav class="site-nav" aria-label="Main">
@@ -36,22 +38,22 @@
     <main id="main">
         <div class="wrap">
             <section class="page-intro" aria-labelledby="page-title">
-                <h1 class="display" id="page-title">Let's talk</h1>
-                <p class="lede">Tell me what you're building and I'll reply with next steps and a quote.</p>
+                <h1 class="display" id="page-title">Get in touch</h1>
+                <p class="lede">Let's create something amazing together. Tell me what you're building and I'll reply with next steps and a quote.</p>
             </section>
 
-            <div class="contact-grid section">
+            <div class="contact-grid">
                 <ul class="contact-list">
                     <li>
-                        <span class="label">Email</span>
+                        <span class="label">Email. Send me a message anytime.</span>
                         <a href="mailto:dilian.jaars@gmail.com">dilian.jaars@gmail.com</a>
                     </li>
                     <li>
-                        <span class="label">GitHub</span>
+                        <span class="label">GitHub. View my projects and code.</span>
                         <a href="https://github.com/DilianJaars" target="_blank" rel="noopener noreferrer">github.com/DilianJaars</a>
                     </li>
                     <li>
-                        <span class="label">LinkedIn</span>
+                        <span class="label">LinkedIn. Connect with me professionally.</span>
                         <a href="https://www.linkedin.com/in/dilian-jaars-337781320/" target="_blank" rel="noopener noreferrer">Dilian Jaars</a>
                     </li>
                 </ul>
@@ -67,11 +69,11 @@
                     </div>
                     <div class="field">
                         <label for="subject">Subject</label>
-                        <input id="subject" name="subject" type="text" placeholder="For example: A website for my bakery" required>
+                        <input id="subject" name="subject" type="text" placeholder="What's this about?" required>
                     </div>
                     <div class="field">
                         <label for="message">Message</label>
-                        <textarea id="message" name="message" required></textarea>
+                        <textarea id="message" name="message" placeholder="Write your message here" required></textarea>
                         <p class="hint">This opens a ready-to-send email in your mail app. Nothing is sent until you press send there.</p>
                     </div>
                     <p class="form-message" id="formMessage" role="alert"></p>
@@ -86,7 +88,7 @@
 
     <footer class="site-footer">
         <div class="wrap">
-            <p>&copy; <span data-year>2026</span> Dilian Jaars</p>
+            <p>&copy; <span data-year>2026</span> Dilian Jaars. Coded with &hearts;</p>
             <ul>
                 <li><a href="https://github.com/DilianJaars" target="_blank" rel="noopener noreferrer">GitHub</a></li>
                 <li><a href="https://www.linkedin.com/in/dilian-jaars-337781320/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
@@ -95,7 +97,7 @@
         </div>
     </footer>
 
-    <script src="/js/site.js" defer></script>
-    <script src="/js/contact.js" defer></script>
+    <script type="module" src="/js/client/site.js"></script>
+    <script type="module" src="/js/client/contact.js"></script>
 </body>
 </html>

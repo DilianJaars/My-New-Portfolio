@@ -4,15 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dilian Jaars | Junior web developer</title>
-    <meta name="description" content="Dilian Jaars is a junior web developer building responsive websites for individuals and small businesses. See the work, the skills and the prices.">
-    <meta name="theme-color" content="#2b3cf0">
+    <meta name="description" content="Dilian Jaars is a junior web developer crafting digital experiences with code: responsive websites for individuals and small businesses.">
+    <meta name="theme-color" content="#f2f2ec">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Dilian Jaars | Junior web developer">
-    <meta property="og:description" content="Responsive websites for individuals and small businesses. See the work, the skills and the prices.">
+    <meta property="og:description" content="Dilian Jaars is a junior web developer crafting digital experiences with code: responsive websites for individuals and small businesses.">
     <link rel="icon" href="/images/dj-logo.jpg" type="image/jpeg">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Newsreader:opsz,wght@6..72,400..600&display=swap" rel="stylesheet">
+    <link rel="preload" href="/fonts/anybody.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/schibsted-grotesk.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="/css/site.css">
 </head>
 <body>
@@ -21,7 +20,7 @@
     <header class="site-header">
         <div class="wrap">
             <a class="brand" href="/">
-                <img src="/images/dj-logo.jpg" alt="" width="40" height="40">
+                <img src="/images/dj-logo.jpg" alt="" width="42" height="42">
                 Dilian Jaars
             </a>
             <nav class="site-nav" aria-label="Main">
@@ -37,37 +36,38 @@
     </header>
 
     <main id="main">
-        <section class="hero on-blue" aria-labelledby="name">
+        <section class="hero" aria-labelledby="name">
+            <div class="plates" aria-hidden="true">
+                <i class="plate cyan"></i>
+                <i class="plate pink"></i>
+                <i class="plate yellow"></i>
+            </div>
             <div class="wrap">
-                <h1 class="display hero-name" id="name">
-                    <span><b>Dilian</b></span>
-                    <span><b>Jaars</b></span>
-                </h1>
+                <h1 class="display hero-name" id="name">Dilian<br>Jaars</h1>
                 <div class="hero-copy">
                     <p class="role">Junior web developer</p>
-                    <p class="lede">I design and build responsive websites for individuals and small businesses.</p>
+                    <p class="lede">Crafting digital experiences with code.</p>
+                    <p class="intro">Welcome to my digital space! I'm a passionate junior web developer who loves turning creative ideas into reality through clean, modern code. I specialise in building responsive websites that not only look amazing but also deliver exceptional user experiences.</p>
                     <div class="btn-row">
-                        <a class="btn btn-signal" href="/view-my-work.html">See my work</a>
-                        <a class="btn btn-signal" href="/get-in-touch.html">Get a quote</a>
+                        <a class="btn" href="/view-my-work.html">View my work</a>
+                        <a class="btn btn-ghost" href="/get-in-touch.html">Get in touch</a>
                     </div>
                 </div>
-                <a class="sticker" href="/my-services.html" aria-label="Landing pages from R1,500. See all prices.">
-                    <small>Landing pages from</small>
-                    <strong>R1,500</strong>
-                </a>
             </div>
         </section>
 
         <section class="section" id="about" aria-labelledby="about-title">
             <div class="wrap split">
-                <img class="portrait" src="/images/img-20250217-wa0013.jpg" alt="Dilian Jaars" width="600" height="700">
+                <figure>
+                    <img class="portrait" src="/images/img-20250217-wa0013.jpg" alt="Dilian Jaars" width="600" height="700">
+                    <figcaption class="portrait-caption">Turning ideas into code</figcaption>
+                </figure>
                 <div>
-                    <h2 class="heading" id="about-title">I like building things that work and look good.</h2>
-                    <div class="prose mt-lg">
-                        <p>I'm a junior web developer with an appetite for learning and creating. My journey started with curiosity and has grown into a passion for building beautiful, functional websites.</p>
-                        <p>I like challenges that make me grow, whether that's learning a new framework, improving performance or solving a tricky problem with clean code.</p>
-                        <p>When I'm not coding, I'm exploring new web technologies, contributing to open-source projects or brainstorming my next idea.</p>
-                        <p>My toolbox includes HTML, CSS, JavaScript, C#, Python, Java and SQL. <a href="/my-skills.html">See everything I work with.</a></p>
+                    <h2 class="heading" id="about-title">I'm Dilian Jaars</h2>
+                    <div class="prose">
+                        <p>I'm a junior web developer with an insatiable appetite for learning and creating. My journey into web development started with curiosity and has evolved into a passion for building beautiful, functional digital solutions.</p>
+                        <p>I thrive on challenges that push me to grow, whether it's mastering a new framework, optimising performance, or solving complex problems with elegant code. My approach combines technical skill with creative thinking to deliver results that exceed expectations.</p>
+                        <p>When I'm not coding, you'll find me exploring the latest web technologies, contributing to open-source projects, or brainstorming the next big idea. Let's build something amazing together!</p>
                     </div>
                 </div>
             </div>
@@ -76,24 +76,30 @@
         <section class="section" aria-labelledby="work-title">
             <div class="wrap">
                 <div class="section-head">
-                    <h2 class="heading" id="work-title">Work</h2>
-                    <p class="muted">Pick a collection to browse.</p>
+                    <h2 class="heading" id="work-title">View my work</h2>
+                    <p class="muted">Three collections. Pick one.</p>
                 </div>
-                <div class="index-list">
-                    <a class="index-row" href="/view-my-work.html#websites">
-                        <h3>Websites</h3>
-                        <p>Live sites and web apps I've designed and built.</p>
-                        <span class="go">Browse</span>
+                <div class="tiles">
+                    <a class="tile ink-cyan" href="/view-my-work.html#websites">
+                        <div>
+                            <h3>Websites</h3>
+                            <p>Live sites and web apps I've designed and built end to end.</p>
+                        </div>
+                        <span class="go">Browse websites</span>
                     </a>
-                    <a class="index-row" href="/view-my-work.html#logos">
-                        <h3>Logos</h3>
-                        <p>Marks and monograms for brands and projects.</p>
-                        <span class="go">Browse</span>
+                    <a class="tile ink-pink" href="/view-my-work.html#logos">
+                        <div>
+                            <h3>Logos</h3>
+                            <p>Marks and monograms, from my own portfolio mark to the KD emblem.</p>
+                        </div>
+                        <span class="go">Browse logos</span>
                     </a>
-                    <a class="index-row" href="/view-my-work.html#mockups">
-                        <h3>Mockups</h3>
-                        <p>Interface designs and concepts before they're built.</p>
-                        <span class="go">Browse</span>
+                    <a class="tile ink-yellow" href="/view-my-work.html#mockups">
+                        <div>
+                            <h3>Mockups</h3>
+                            <p>Interface designs and concepts before they're built.</p>
+                        </div>
+                        <span class="go">Browse mockups</span>
                     </a>
                 </div>
             </div>
@@ -102,51 +108,92 @@
         <section class="section" aria-labelledby="services-title">
             <div class="wrap">
                 <div class="section-head">
-                    <h2 class="heading" id="services-title">Services and prices</h2>
-                    <p class="muted">Affordable digital solutions, priced in rand.</p>
+                    <h2 class="heading" id="services-title">Building the digital side of your business</h2>
+                    <a href="/my-services.html">See every service and price</a>
                 </div>
-                <div class="index-list">
-                    <a class="index-row" href="/my-services.html">
-                        <h3>Websites</h3>
-                        <p>Landing pages, business sites, portfolios and redesigns.</p>
-                        <span class="go">From R1,500</span>
-                    </a>
-                    <a class="index-row" href="/my-services.html">
-                        <h3>WordPress</h3>
-                        <p>Setup, themes, plugins, custom sites and bug fixing.</p>
-                        <span class="go">From R300</span>
-                    </a>
-                    <a class="index-row" href="/my-services.html">
+                <div class="packages">
+                <article class="package">
+                    <header class="ink-cyan">
+                        <h3>Starter</h3>
+                        <p class="amount"><span>R2,999</span></p>
+                    </header>
+                    <ul>
+                        <li>1–3 pages</li>
+                        <li>Mobile friendly</li>
+                        <li>Contact form</li>
+                        <li>WhatsApp button</li>
+                        <li>Social media links</li>
+                        <li>Basic SEO</li>
+                        <li>1 revision</li>
+                    </ul>
+                </article>
+                <article class="package">
+                    <header class="ink-pink">
+                        <h3>Business</h3>
+                        <p class="amount"><span>R5,999</span></p>
+                    </header>
+                    <ul>
+                        <li>Up to 6 pages</li>
+                        <li>Custom design</li>
+                        <li>Mobile responsive</li>
+                        <li>Contact form</li>
+                        <li>WhatsApp integration</li>
+                        <li>Google Maps</li>
+                        <li>Basic SEO</li>
+                        <li>Hosting setup</li>
+                        <li>2 revisions</li>
+                    </ul>
+                </article>
+                <article class="package">
+                    <header class="ink-yellow">
+                        <h3>Professional</h3>
+                        <p class="amount"><span>R9,999</span></p>
+                    </header>
+                    <ul>
+                        <li>Up to 10 pages</li>
+                        <li>Custom design</li>
+                        <li>WordPress or CMS</li>
+                        <li>Booking system</li>
+                        <li>SEO</li>
+                        <li>Analytics</li>
+                        <li>WhatsApp integration</li>
+                        <li>Hosting setup</li>
+                        <li>3 revisions</li>
+                    </ul>
+                </article>
+                <article class="package">
+                    <header class="ink-black">
                         <h3>E-commerce</h3>
-                        <p>Online stores with product pages, cart and payments.</p>
-                        <span class="go">From R7,500</span>
-                    </a>
-                    <a class="index-row" href="/my-services.html">
-                        <h3>Hosting and management</h3>
-                        <p>Hosting, maintenance, backups, SSL and business email.</p>
-                        <span class="go">From R99 a month</span>
-                    </a>
-                    <a class="index-row" href="/my-services.html">
-                        <h3>Design and extras</h3>
-                        <p>Logos, favicons, speed optimisation and content updates.</p>
-                        <span class="go">From R150</span>
-                    </a>
+                        <p class="amount"><span class="from">From</span><span>R7,999</span></p>
+                    </header>
+                    <ul>
+                        <li>Online store</li>
+                        <li>Product pages</li>
+                        <li>Shopping cart</li>
+                        <li>Checkout</li>
+                        <li>Payment gateway</li>
+                        <li>Customer accounts</li>
+                        <li>Mobile responsive</li>
+                    </ul>
+                </article>
                 </div>
             </div>
         </section>
 
-        <section class="cta-band on-blue" aria-labelledby="cta-title">
+        <section class="cta" aria-labelledby="cta-title">
             <div class="wrap">
-                <h2 class="heading" id="cta-title">Have a project in mind?</h2>
+                <h2 class="display" id="cta-title">Let's build something amazing together.</h2>
                 <p>Tell me what you need and I'll come back with a quote.</p>
-                <a class="btn btn-signal" href="/get-in-touch.html">Get in touch</a>
+                <div class="btn-row">
+                    <a class="btn" href="/get-in-touch.html">Get in touch</a>
+                </div>
             </div>
         </section>
     </main>
 
     <footer class="site-footer">
         <div class="wrap">
-            <p>&copy; <span data-year>2026</span> Dilian Jaars</p>
+            <p>&copy; <span data-year>2026</span> Dilian Jaars. Coded with &hearts;</p>
             <ul>
                 <li><a href="https://github.com/DilianJaars" target="_blank" rel="noopener noreferrer">GitHub</a></li>
                 <li><a href="https://www.linkedin.com/in/dilian-jaars-337781320/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
@@ -155,6 +202,6 @@
         </div>
     </footer>
 
-    <script src="/js/site.js" defer></script>
+    <script type="module" src="/js/client/site.js"></script>
 </body>
 </html>

@@ -5,11 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Skills | Dilian Jaars</title>
     <meta name="description" content="The languages, tools and design software Dilian Jaars works with, from HTML and JavaScript to C#, Python, SQL and Figma.">
-    <meta name="theme-color" content="#2b3cf0">
+    <meta name="theme-color" content="#f2f2ec">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Skills | Dilian Jaars">
+    <meta property="og:description" content="The languages, tools and design software Dilian Jaars works with, from HTML and JavaScript to C#, Python, SQL and Figma.">
     <link rel="icon" href="/images/dj-logo.jpg" type="image/jpeg">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Newsreader:opsz,wght@6..72,400..600&display=swap" rel="stylesheet">
+    <link rel="preload" href="/fonts/anybody.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/schibsted-grotesk.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="/css/site.css">
 </head>
 <body>
@@ -18,7 +20,7 @@
     <header class="site-header">
         <div class="wrap">
             <a class="brand" href="/">
-                <img src="/images/dj-logo.jpg" alt="" width="40" height="40">
+                <img src="/images/dj-logo.jpg" alt="" width="42" height="42">
                 Dilian Jaars
             </a>
             <nav class="site-nav" aria-label="Main">
@@ -34,61 +36,61 @@
     </header>
 
     <main id="main">
-        <div class="wrap">
+        <div class="wrap pad-bottom">
             <section class="page-intro" aria-labelledby="page-title">
                 <h1 class="display" id="page-title">Skills</h1>
-                <p class="lede">What I build with, grouped by what it's for.</p>
+                <p class="lede">My tech stack, grouped by what it's for.</p>
             </section>
 
-            <section class="skill-group" aria-labelledby="g-front">
-                <h2 id="g-front">Front end</h2>
+            <section class="skill-group" aria-labelledby="g0">
+                <h2 class="ink-cyan" id="g0">Front end</h2>
                 <ul class="skill-list">
-                    <li><strong>HTML5</strong><span>Page structure and meaningful markup.</span></li>
-                    <li><strong>CSS</strong><span>Styling, layout and responsive design.</span></li>
-                    <li><strong>JavaScript</strong><span>Interactive, dynamic experiences in the browser.</span></li>
-                    <li><strong>Bootstrap and jQuery</strong><span>Responsive components and quick prototyping.</span></li>
+                    <li><strong>HTML5</strong><span>Hyper Text Markup Language</span></li>
+                    <li><strong>CSS</strong><span>Cascading Style Sheets</span></li>
+                    <li><strong>JavaScript</strong><span>Creating interactive, dynamic experiences</span></li>
+                    <li><strong>Bootstrap and jQuery</strong><span>Rapid prototyping with responsive components and custom designs</span></li>
                 </ul>
             </section>
 
-            <section class="skill-group" aria-labelledby="g-back">
-                <h2 id="g-back">Programming and data</h2>
+            <section class="skill-group" aria-labelledby="g1">
+                <h2 class="ink-pink" id="g1">Programming and data</h2>
                 <ul class="skill-list">
-                    <li><strong>C# and .NET</strong><span>Object-oriented applications on a modern, open-source, cross-platform platform.</span></li>
-                    <li><strong>Python 3</strong><span>Readable, general-purpose programs and scripts.</span></li>
-                    <li><strong>Java</strong><span>Object-oriented applications, tools and Android basics.</span></li>
-                    <li><strong>SQL</strong><span>Managing and querying data in relational databases.</span></li>
-                    <li><strong>RESTful APIs</strong><span>Connecting applications to data with GET, POST, PUT and DELETE requests.</span></li>
+                    <li><strong>C# and .NET</strong><span>A modern, open-source, cross-platform, object-oriented programming language</span></li>
+                    <li><strong>Python 3</strong><span>A high-level, general-purpose language that favours readable code</span></li>
+                    <li><strong>Java</strong><span>Object-oriented language used to build applications, tools and Android basics</span></li>
+                    <li><strong>SQL</strong><span>A language for managing data, especially in relational databases</span></li>
+                    <li><strong>RESTful APIs</strong><span>Connecting applications to data with GET, POST, PUT and DELETE requests</span></li>
                 </ul>
             </section>
 
-            <section class="skill-group" aria-labelledby="g-practice">
-                <h2 id="g-practice">How I work</h2>
+            <section class="skill-group" aria-labelledby="g2">
+                <h2 class="ink-yellow" id="g2">How I work</h2>
                 <ul class="skill-list">
-                    <li><strong>Git and GitHub</strong><span>Version control and collaborative workflows.</span></li>
-                    <li><strong>Problem solving and debugging</strong><span>Breaking bugs down methodically and reasoning through the logic.</span></li>
-                    <li><strong>Data structures and algorithms</strong><span>Arrays, lists, stacks, queues and the basics of efficient code.</span></li>
-                    <li><strong>Unit testing</strong><span>Simple tests that catch bugs early and keep code reliable.</span></li>
-                    <li><strong>Command line and Linux basics</strong><span>Navigating the terminal, running scripts and managing files.</span></li>
+                    <li><strong>Git and GitHub</strong><span>Version control and collaborative development workflows</span></li>
+                    <li><strong>Data structures and algorithms</strong><span>Arrays, lists, stacks, queues and the fundamentals of writing efficient code</span></li>
+                    <li><strong>Problem solving and debugging</strong><span>Breaking down bugs methodically and reasoning through logic step by step</span></li>
+                    <li><strong>Unit testing</strong><span>Writing simple tests to catch bugs early and keep code reliable</span></li>
+                    <li><strong>Command line and Linux basics</strong><span>Navigating the terminal, running scripts and managing files without a GUI</span></li>
                 </ul>
             </section>
 
-            <section class="skill-group" aria-labelledby="g-design">
-                <h2 id="g-design">Design</h2>
+            <section class="skill-group" aria-labelledby="g3">
+                <h2 class="ink-black" id="g3">Design</h2>
                 <ul class="skill-list">
-                    <li><strong>Figma</strong><span>Collaborative interface design.</span></li>
-                    <li><strong>Adobe Photoshop</strong><span>Raster graphics editing and digital art.</span></li>
-                    <li><strong>Canva</strong><span>Quick visual content for presentations and the web.</span></li>
+                    <li><strong>Figma</strong><span>Collaborative web application for interface design</span></li>
+                    <li><strong>Adobe Photoshop</strong><span>Professional digital art and raster graphics editing</span></li>
+                    <li><strong>Canva</strong><span>Create visual content for presentations, websites and more</span></li>
                 </ul>
             </section>
         </div>
 
-        <section class="cta-band on-blue" aria-labelledby="cta-title">
+        <section class="cta" aria-labelledby="cta-title">
             <div class="wrap">
-                <h2 class="heading" id="cta-title">Want these skills on your project?</h2>
+                <h2 class="display" id="cta-title">Want these skills on your project?</h2>
                 <p>See what I've built, or tell me what you need.</p>
                 <div class="btn-row">
-                    <a class="btn btn-signal" href="/view-my-work.html">See my work</a>
-                    <a class="btn btn-signal" href="/get-in-touch.html">Get in touch</a>
+                    <a class="btn" href="/view-my-work.html">View my work</a>
+                    <a class="btn" href="/get-in-touch.html">Get in touch</a>
                 </div>
             </div>
         </section>
@@ -96,7 +98,7 @@
 
     <footer class="site-footer">
         <div class="wrap">
-            <p>&copy; <span data-year>2026</span> Dilian Jaars</p>
+            <p>&copy; <span data-year>2026</span> Dilian Jaars. Coded with &hearts;</p>
             <ul>
                 <li><a href="https://github.com/DilianJaars" target="_blank" rel="noopener noreferrer">GitHub</a></li>
                 <li><a href="https://www.linkedin.com/in/dilian-jaars-337781320/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
@@ -105,6 +107,6 @@
         </div>
     </footer>
 
-    <script src="/js/site.js" defer></script>
+    <script type="module" src="/js/client/site.js"></script>
 </body>
 </html>

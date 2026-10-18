@@ -1,4 +1,7 @@
 node_modules/
+dist/
+# compiled from src/client by `npm run build`
+public/js/
 .env
 public/uploads/*
 !public/uploads/.gitkeep
