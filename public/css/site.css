@@ -389,6 +389,25 @@ button.brand[aria-expanded="true"] span {
     margin-bottom: clamp(24px, 4vw, 44px);
 }
 
+/* A little bounce: each letter hops slightly, one after the other. */
+.hero-name .word span {
+    animation: hop 2.8s ease-in-out infinite;
+    display: inline-block;
+}
+
+.hero-name .word span:nth-child(2) { animation-delay: 0.12s; }
+.hero-name .word span:nth-child(3) { animation-delay: 0.24s; }
+.hero-name .word span:nth-child(4) { animation-delay: 0.36s; }
+.hero-name .word span:nth-child(5) { animation-delay: 0.48s; }
+.hero-name .word span:nth-child(6) { animation-delay: 0.6s; }
+
+@keyframes hop {
+    0%, 55%, 100% { transform: translateY(0); }
+    15% { transform: translateY(-0.07em); }
+    30% { transform: translateY(0); }
+    40% { transform: translateY(-0.025em); }
+}
+
 .hero-copy {
     max-width: 31rem;
 }
