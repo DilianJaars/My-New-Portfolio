@@ -2,18 +2,15 @@ import "dotenv/config";
 import express, { type NextFunction, type Request, type Response } from "express";
 import cookieSession from "cookie-session";
 import multer from "multer";
-import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
 import { fileURLToPath } from "node:url";
-import type { Database, WorkItem } from "../shared/types.js";
+import { IMAGE_TYPES, createStore, usingSupabase } from "./store.js";
 
 // Works both compiled (dist/server) and under tsx (src/server): the project
 // root is always two folders up.
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", "..");
 const PUBLIC_DIR = path.join(ROOT, "public");
-const UPLOADS_DIR = path.join(PUBLIC_DIR, "uploads");
-const DATA_FILE = path.join(ROOT, "data", "db.json");
 const IS_PROD = process.env.NODE_ENV === "production";
 
 // ---------- configuration ----------
@@ -29,31 +26,11 @@ if (IS_PROD && !SESSION_SECRET) {
     console.warn("SESSION_SECRET is not set. Using a random one, so admin sessions end whenever the server restarts.");
 }
 
-fs.mkdirSync(UPLOADS_DIR, { recursive: true });
-fs.mkdirSync(path.dirname(DATA_FILE), { recursive: true });
-
-// ---------- tiny JSON "database" ----------
-function emptyDB(): Database {
-    return { websites: [] };
-}
-
-// Write to a temp file and rename it so a crash mid-write can't corrupt the data.
-function writeDB(db: Database): void {
-    const tmp = `${DATA_FILE}.${process.pid}.tmp`;
-    fs.writeFileSync(tmp, JSON.stringify(db, null, 2));
-    fs.renameSync(tmp, DATA_FILE);
-}
-
-function readDB(): Database {
-    if (!fs.existsSync(DATA_FILE)) {
-        const empty = emptyDB();
-        writeDB(empty);
-        return empty;
-    }
-    const parsed = JSON.parse(fs.readFileSync(DATA_FILE, "utf-8")) as Partial<Database>;
-    const db = emptyDB();
-    if (Array.isArray(parsed.websites)) db.websites = parsed.websites;
-    return db;
+const store = createStore(ROOT);
+if (usingSupabase) {
+    console.log("Websites added in Manage are saved in Supabase.");
+} else {
+    console.warn("SUPABASE_URL / SUPABASE_SERVICE_KEY not set: websites added in Manage are stored on local disk and are lost on redeploy.");
 }
 
 // ---------- helpers ----------
@@ -108,23 +85,9 @@ function recordFailure(ip: string): void {
 }
 
 // ---------- image uploads ----------
-const IMAGE_TYPES: Readonly<Record<string, string>> = {
-    "image/jpeg": ".jpg",
-    "image/png": ".png",
-    "image/webp": ".webp",
-    "image/gif": ".gif",
-};
-
-const storage = multer.diskStorage({
-    destination: (_req, _file, cb) => cb(null, UPLOADS_DIR),
-    filename: (_req, file, cb) => {
-        const ext = IMAGE_TYPES[file.mimetype] ?? ".jpg";
-        cb(null, `${Date.now()}-${crypto.randomBytes(6).toString("hex")}${ext}`);
-    },
-});
-
+// Screenshots are held in memory, then handed to the store (Supabase or disk).
 const upload = multer({
-    storage,
+    storage: multer.memoryStorage(),
     limits: { fileSize: 8 * 1024 * 1024, files: 1 },
     fileFilter: (_req, file, cb) => {
         if (!IMAGE_TYPES[file.mimetype]) {
@@ -249,12 +212,13 @@ app.get("/api/session", (req, res) => {
 });
 
 // ---------- website routes ----------
-app.get("/api/websites", (_req, res) => {
-    const items = [...readDB().websites].sort(
-        (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-    );
-    res.set("Cache-Control", "no-cache");
-    res.json(items);
+app.get("/api/websites", async (_req, res, next) => {
+    try {
+        res.set("Cache-Control", "no-cache");
+        res.json(await store.list());
+    } catch (err) {
+        next(err);
+    }
 });
 
 app.post(
@@ -269,73 +233,61 @@ app.post(
             next();
         });
     },
-    (req: Request, res: Response) => {
+    async (req: Request, res: Response) => {
         const body = (req.body ?? {}) as Record<string, unknown>;
         const title = asText(body.title).trim();
         const description = asText(body.description).trim();
         const tags = asText(body.tags);
-        const discardUpload = (): void => {
-            if (req.file) fs.unlink(req.file.path, () => {});
-        };
 
         if (!title) {
-            discardUpload();
             res.status(400).json({ error: "A title is required." });
             return;
         }
 
         const link = cleanUrl(body.url);
         if (link === null) {
-            discardUpload();
             res.status(400).json({ error: "Enter a full link starting with http:// or https://." });
             return;
         }
         if (!link) {
-            discardUpload();
             res.status(400).json({ error: "A live link is required for websites." });
             return;
         }
 
-        const db = readDB();
-        const item: WorkItem = {
-            id: crypto.randomUUID(),
-            title: title.slice(0, 120),
-            description: description.slice(0, 500),
-            url: link,
-            tags: tags
-                .split(",")
-                .map((t) => t.trim().slice(0, 30))
-                .filter(Boolean)
-                .slice(0, 8),
-            image: req.file ? `/uploads/${req.file.filename}` : "",
-            createdAt: new Date().toISOString(),
-        };
-
-        db.websites.unshift(item);
-        writeDB(db);
-        res.status(201).json(item);
+        try {
+            const item = await store.add(
+                {
+                    title: title.slice(0, 120),
+                    description: description.slice(0, 500),
+                    url: link,
+                    tags: tags
+                        .split(",")
+                        .map((t) => t.trim().slice(0, 30))
+                        .filter(Boolean)
+                        .slice(0, 8),
+                },
+                req.file ? { buffer: req.file.buffer, mimetype: req.file.mimetype } : undefined
+            );
+            res.status(201).json(item);
+        } catch (err) {
+            console.error(err);
+            res.status(502).json({ error: "Could not save the website. Please try again." });
+        }
     }
 );
 
-app.delete("/api/websites/:id", requireAuth, (req, res) => {
-    const id = asText(req.params.id);
-    const db = readDB();
-    const item = db.websites.find((entry) => entry.id === id);
-
-    if (!item) {
-        res.status(404).json({ error: "Item not found." });
-        return;
+app.delete("/api/websites/:id", requireAuth, async (req, res) => {
+    try {
+        const removed = await store.remove(asText(req.params.id));
+        if (!removed) {
+            res.status(404).json({ error: "Item not found." });
+            return;
+        }
+        res.status(204).end();
+    } catch (err) {
+        console.error(err);
+        res.status(502).json({ error: "Could not delete the website. Please try again." });
     }
-
-    // Only remove files that were uploaded through the admin panel. Images that
-    // ship with the repo (under /images) must never be deleted from here.
-    if (item.image.startsWith("/uploads/")) {
-        fs.unlink(path.join(UPLOADS_DIR, path.basename(item.image)), () => {});
-    }
-
-    db.websites = db.websites.filter((entry) => entry.id !== id);
-    writeDB(db);
-    res.status(204).end();
 });
 
 // ---------- fallback ----------
