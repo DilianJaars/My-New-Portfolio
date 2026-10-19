@@ -44,43 +44,85 @@
             </section>
 
             <div class="contact-grid">
-                <ul class="contact-list">
-                    <li>
-                        <span class="label">Email. Send me a message anytime.</span>
-                        <a href="mailto:dilian.jaars@gmail.com">dilian.jaars@gmail.com</a>
-                    </li>
-                    <li>
-                        <span class="label">GitHub. View my projects and code.</span>
-                        <a href="https://github.com/DilianJaars" target="_blank" rel="noopener noreferrer">github.com/DilianJaars</a>
-                    </li>
-                    <li>
-                        <span class="label">LinkedIn. Connect with me professionally.</span>
-                        <a href="https://www.linkedin.com/in/dilian-jaars-337781320/" target="_blank" rel="noopener noreferrer">Dilian Jaars</a>
-                    </li>
-                </ul>
+                <div class="contact-side">
+                    <ul class="contact-cards">
+                        <li>
+                            <a class="contact-card cyan" href="mailto:dilian.jaars@gmail.com">
+                                <span class="mono" aria-hidden="true">@</span>
+                                <span class="contact-text">
+                                    <span class="label">Email. Send me a message anytime.</span>
+                                    <span class="value">dilian.jaars@gmail.com</span>
+                                </span>
+                                <span class="arrow" aria-hidden="true">&rarr;</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="contact-card pink" href="https://github.com/DilianJaars" target="_blank" rel="noopener noreferrer">
+                                <span class="mono" aria-hidden="true">GH</span>
+                                <span class="contact-text">
+                                    <span class="label">GitHub. View my projects and code.</span>
+                                    <span class="value">github.com/DilianJaars</span>
+                                </span>
+                                <span class="arrow" aria-hidden="true">&rarr;</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="contact-card yellow" href="https://www.linkedin.com/in/dilian-jaars-337781320/" target="_blank" rel="noopener noreferrer">
+                                <span class="mono" aria-hidden="true">in</span>
+                                <span class="contact-text">
+                                    <span class="label">LinkedIn. Connect with me professionally.</span>
+                                    <span class="value">Dilian Jaars</span>
+                                </span>
+                                <span class="arrow" aria-hidden="true">&rarr;</span>
+                            </a>
+                        </li>
+                    </ul>
 
-                <form class="form-grid" id="contactForm" novalidate>
-                    <div class="field">
-                        <label for="senderName">Your name</label>
-                        <input id="senderName" name="name" type="text" autocomplete="name" required>
-                    </div>
-                    <div class="field">
-                        <label for="senderEmail">Your email</label>
-                        <input id="senderEmail" name="email" type="email" autocomplete="email" required>
-                    </div>
-                    <div class="field">
-                        <label for="subject">Subject</label>
-                        <input id="subject" name="subject" type="text" placeholder="What's this about?" required>
-                    </div>
-                    <div class="field">
-                        <label for="message">Message</label>
-                        <textarea id="message" name="message" placeholder="Write your message here" required></textarea>
-                        <p class="hint">This opens a ready-to-send email in your mail app. Nothing is sent until you press send there.</p>
-                    </div>
-                    <p class="form-message" id="formMessage" role="alert"></p>
-                    <div class="btn-row">
-                        <button class="btn" type="submit">Open in my email app</button>
-                        <button class="btn btn-ghost" type="button" id="gmailButton">Open in Gmail</button>
+                    <aside class="mention" aria-labelledby="mention-title">
+                        <h2 id="mention-title">Helpful to mention</h2>
+                        <ul>
+                            <li>What you need: a website, WordPress, a store or hosting</li>
+                            <li>Roughly how many pages and any must-have features</li>
+                            <li>When you'd like it ready</li>
+                            <li>Your budget, if you have one in mind</li>
+                        </ul>
+                    </aside>
+                </div>
+
+                <form class="contact-form" id="contactForm" novalidate>
+                    <h2 class="form-title">Send a message</h2>
+                    <div class="form-grid">
+                        <div class="field-row">
+                            <div class="field">
+                                <label for="senderName">Your name</label>
+                                <input id="senderName" name="name" type="text" autocomplete="name" required>
+                            </div>
+                            <div class="field">
+                                <label for="senderEmail">Your email</label>
+                                <input id="senderEmail" name="email" type="email" autocomplete="email" required>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label for="subject">Subject</label>
+                            <input id="subject" name="subject" type="text" placeholder="What's this about?" required>
+                            <div class="chips" role="group" aria-label="Quick subjects">
+                                <button class="chip" type="button" data-subject="Website quote">Website</button>
+                                <button class="chip" type="button" data-subject="WordPress quote">WordPress</button>
+                                <button class="chip" type="button" data-subject="Online store quote">Online store</button>
+                                <button class="chip" type="button" data-subject="Hosting and maintenance">Hosting</button>
+                                <button class="chip" type="button" data-subject="Something else">Other</button>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" placeholder="Write your message here" required></textarea>
+                            <p class="hint">This opens a ready-to-send email in your mail app. Nothing is sent until you press send there.</p>
+                        </div>
+                        <p class="form-message" id="formMessage" role="alert"></p>
+                        <div class="btn-row">
+                            <button class="btn" type="submit">Open in my email app</button>
+                            <button class="btn btn-ghost" type="button" id="gmailButton">Open in Gmail</button>
+                        </div>
                     </div>
                 </form>
             </div>

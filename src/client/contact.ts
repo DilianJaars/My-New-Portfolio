@@ -3,6 +3,27 @@ import { byId, setMessage } from "./dom.js";
 const RECIPIENT = "dilian.jaars@gmail.com";
 const form = byId<HTMLFormElement>("contactForm");
 const message = byId("formMessage");
+const subjectInput = byId<HTMLInputElement>("subject");
+const chips = document.querySelectorAll<HTMLButtonElement>("[data-subject]");
+
+function setSubject(value: string): void {
+    subjectInput.value = value;
+    chips.forEach((chip) => chip.setAttribute("aria-pressed", String(chip.dataset.subject === value)));
+}
+
+chips.forEach((chip) => {
+    chip.setAttribute("aria-pressed", "false");
+    chip.addEventListener("click", () => {
+        setSubject(chip.dataset.subject ?? "");
+        subjectInput.focus();
+    });
+});
+
+subjectInput.addEventListener("input", () => setSubject(subjectInput.value));
+
+// A package button on the Services page links here with ?subject=...
+const wanted = new URLSearchParams(window.location.search).get("subject");
+if (wanted) setSubject(wanted.slice(0, 120));
 
 interface Draft {
     subject: string;

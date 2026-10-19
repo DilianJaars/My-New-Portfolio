@@ -1098,34 +1098,159 @@ button.brand[aria-expanded="true"] span {
 /* ---------- contact ---------- */
 
 .contact-grid {
+    align-items: start;
     display: grid;
-    gap: clamp(36px, 6vw, 88px);
+    gap: clamp(32px, 5vw, 72px);
     grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
     padding-bottom: clamp(56px, 9vw, 112px);
 }
 
-.contact-list li {
-    border-top: 2px solid var(--ink);
-    padding: 18px 0 22px;
+.contact-cards {
+    display: grid;
+    gap: 20px;
 }
 
-.contact-list li:last-child {
-    border-bottom: 2px solid var(--ink);
+.contact-card {
+    --accent: var(--cyan);
+    align-items: center;
+    background: var(--white);
+    border: 2px solid var(--ink);
+    box-shadow: 6px 6px 0 var(--accent);
+    color: var(--ink);
+    display: flex;
+    gap: 16px;
+    padding: 18px 20px;
+    text-decoration: none;
+    transition: box-shadow 0.18s ease, transform 0.18s ease;
 }
 
-.contact-list .label {
+.contact-card.pink { --accent: var(--pink); }
+.contact-card.yellow { --accent: var(--yellow); }
+
+.contact-card:hover {
+    box-shadow: 10px 10px 0 var(--accent);
+    transform: translate(-3px, -3px);
+}
+
+.contact-card .mono {
+    align-items: center;
+    background: var(--accent);
+    border: 2px solid var(--ink);
+    border-radius: 50%;
+    display: inline-flex;
+    flex: none;
+    font-family: var(--display);
+    font-stretch: 120%;
+    font-weight: 800;
+    height: 52px;
+    justify-content: center;
+    width: 52px;
+}
+
+.contact-text {
+    display: grid;
+    flex: 1;
+    gap: 2px;
+    min-width: 0;
+}
+
+.contact-card .label {
     color: var(--muted);
-    display: block;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     font-weight: 600;
 }
 
-.contact-list a {
+.contact-card .value {
     font-family: var(--display);
-    font-size: clamp(1.15rem, 2.2vw, 1.6rem);
+    font-size: clamp(1.05rem, 2vw, 1.3rem);
     font-stretch: 112%;
-    font-weight: 700;
+    font-weight: 800;
     overflow-wrap: anywhere;
+}
+
+.contact-card .arrow {
+    font-size: 1.5rem;
+    font-weight: 700;
+    transition: transform 0.18s ease;
+}
+
+.contact-card:hover .arrow {
+    transform: translateX(5px);
+}
+
+.mention {
+    border: 2px dashed var(--ink);
+    margin-top: 32px;
+    padding: 20px 22px 22px;
+}
+
+.mention h2 {
+    font-family: var(--display);
+    font-size: 1.15rem;
+    font-stretch: 118%;
+    font-weight: 800;
+    margin-bottom: 10px;
+}
+
+.mention li {
+    padding: 5px 0 5px 22px;
+    position: relative;
+}
+
+.mention li::before {
+    background: var(--pink);
+    border-radius: 50%;
+    content: "";
+    height: 9px;
+    left: 0;
+    position: absolute;
+    top: 13px;
+    width: 9px;
+}
+
+.contact-form {
+    background: var(--white);
+    border: 2px solid var(--ink);
+    box-shadow: 10px 10px 0 var(--cyan);
+    padding: clamp(22px, 3.5vw, 40px);
+}
+
+.form-title {
+    font-family: var(--display);
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-stretch: 118%;
+    font-weight: 800;
+    letter-spacing: -0.015em;
+    margin-bottom: 22px;
+}
+
+.field-row {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 4px;
+}
+
+.chip {
+    background: none;
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+    cursor: pointer;
+    font-weight: 700;
+    padding: 4px 16px;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.chip:hover,
+.chip[aria-pressed="true"] {
+    background: var(--ink);
+    color: var(--paper);
 }
 
 /* ---------- forms ---------- */
@@ -1395,6 +1520,10 @@ dialog::backdrop {
         grid-template-columns: minmax(0, 1fr);
     }
 
+    .contact-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
     .skills-head {
         position: static;
     }
@@ -1419,6 +1548,14 @@ dialog::backdrop {
     .packages,
     .skill-cards {
         grid-template-columns: minmax(0, 1fr);
+    }
+
+    .field-row {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .contact-card .arrow {
+        display: none;
     }
 
     .price-card li {
