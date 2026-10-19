@@ -559,9 +559,17 @@ button.brand[aria-expanded="true"] span {
 }
 
 .package {
+    background: var(--white);
     border: 2px solid var(--ink);
+    box-shadow: 6px 6px 0 var(--ink);
     display: flex;
     flex-direction: column;
+    transition: box-shadow 0.18s ease, transform 0.18s ease;
+}
+
+.package:hover {
+    box-shadow: 10px 10px 0 var(--ink);
+    transform: translate(-3px, -3px);
 }
 
 .package header {
@@ -610,7 +618,35 @@ button.brand[aria-expanded="true"] span {
 .package li {
     border-bottom: 1px solid var(--line);
     font-size: 1rem;
-    padding: 7px 0;
+    padding: 7px 0 7px 26px;
+    position: relative;
+}
+
+.package li::before {
+    border-bottom: 3px solid var(--ink);
+    border-left: 3px solid var(--ink);
+    content: "";
+    height: 6px;
+    left: 3px;
+    position: absolute;
+    top: 13px;
+    transform: rotate(-45deg);
+    width: 11px;
+}
+
+.package-cta {
+    background: var(--ink);
+    color: var(--paper);
+    font-weight: 700;
+    padding: 12px 20px;
+    text-align: center;
+    text-decoration: none;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.package-cta:hover {
+    background: var(--yellow);
+    color: var(--ink);
 }
 
 .package li:last-child {
@@ -847,6 +883,7 @@ button.brand[aria-expanded="true"] span {
 /* ---------- skills ---------- */
 
 .skills-tally {
+    margin-top: 14px;
     font-family: var(--display);
     font-size: 1.05rem;
     font-stretch: 118%;
@@ -1010,52 +1047,42 @@ button.brand[aria-expanded="true"] span {
 
 /* ---------- services ---------- */
 
-.price-grid {
-    display: grid;
-    gap: 20px;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.price-panel {
-    border: 2px solid var(--ink);
-    display: flex;
-    flex-direction: column;
-}
-
-.price-panel h2 {
-    border-bottom: 2px solid var(--ink);
-    font-family: var(--display);
-    font-size: 1.4rem;
-    font-stretch: 118%;
-    font-weight: 800;
-    letter-spacing: -0.01em;
-    line-height: 1.1;
-    padding: 16px 22px;
-}
-
-.price-list {
+.price-card {
     background: var(--white);
-    flex: 1;
-    padding: 8px 22px 12px;
+    border: 2px solid var(--ink);
+    box-shadow: 8px 8px 0 var(--accent);
+    padding: 10px clamp(18px, 3vw, 30px) 14px;
 }
 
-.price-list li {
+.price-card li {
     align-items: baseline;
+    border-radius: 4px;
     display: flex;
-    gap: 10px;
-    padding: 7px 0;
+    gap: 12px;
+    padding: 11px 8px;
+    transition: background 0.15s ease;
 }
 
-.price-list .leader {
+.price-card li:hover {
+    background: var(--paper);
+}
+
+.price-card .name {
+    font-weight: 600;
+}
+
+.price-card .leader {
     border-bottom: 2px dotted var(--line);
     flex: 1;
     min-width: 12px;
     transform: translateY(-4px);
 }
 
-.price-list .price {
+.price-card .price {
+    font-family: var(--display);
+    font-stretch: 112%;
     font-variant-numeric: tabular-nums;
-    font-weight: 700;
+    font-weight: 800;
     text-align: right;
 }
 
@@ -1364,10 +1391,6 @@ dialog::backdrop {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    .price-grid {
-        grid-template-columns: minmax(0, 1fr);
-    }
-
     .skills-block {
         grid-template-columns: minmax(0, 1fr);
     }
@@ -1396,6 +1419,20 @@ dialog::backdrop {
     .packages,
     .skill-cards {
         grid-template-columns: minmax(0, 1fr);
+    }
+
+    .price-card li {
+        flex-wrap: wrap;
+        gap: 2px 12px;
+    }
+
+    .price-card .leader {
+        display: none;
+    }
+
+    .price-card .price {
+        flex-basis: 100%;
+        text-align: left;
     }
 
     /* On phones the book is one page at a time: screenshot, then details. */
