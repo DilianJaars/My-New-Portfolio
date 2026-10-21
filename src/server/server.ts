@@ -152,6 +152,62 @@ for (const [from, to] of Object.entries(REDIRECTS)) {
     app.get(from, (_req, res) => res.redirect(301, to));
 }
 
+// ---------- entry gate ----------
+// First-time visitors get the basketball page in place of any page of the site.
+// Winning (the browser sets the cookie) or entering the skip code (the server
+// sets it) lets them through. Search engines and link previews go straight in.
+// This is a fun intro, not security: the cookie is not secret.
+const SKIP_CODE = process.env.GATE_SKIP_CODE ?? "1234";
+const GATE_COOKIE = /(?:^|;\s*)dj_gate=1(?:;|$)/;
+const SKIP_GATE_FOR = /bot|crawl|spider|slurp|facebookexternalhit|whatsapp|preview/i;
+const skipAttempts = new Map<string, { count: number; first: number }>();
+
+function isPagePath(p: string): boolean {
+    if (p === "/") return true;
+    if (p.startsWith("/api/") || p === "/healthz") return false;
+    if (p === "/enter" || p === "/enter.html" || p === "/404" || p === "/404.html") return false;
+    const ext = path.extname(p);
+    return ext === "" || ext === ".html";
+}
+
+app.post("/api/gate/skip", (req, res) => {
+    const ip = req.ip ?? "unknown";
+    const now = Date.now();
+    const entry = skipAttempts.get(ip);
+    if (entry && now - entry.first > LOCKOUT_MS) skipAttempts.delete(ip);
+    const current = skipAttempts.get(ip);
+    if (current && current.count >= 8) {
+        res.status(429).json({ error: "Too many tries. Please wait a while." });
+        return;
+    }
+
+    const body = (req.body ?? {}) as Record<string, unknown>;
+    if (!SKIP_CODE || !safeEqual(asText(body.code), SKIP_CODE)) {
+        skipAttempts.set(ip, { count: (current?.count ?? 0) + 1, first: current?.first ?? now });
+        res.status(401).json({ error: "That code is not right." });
+        return;
+    }
+    skipAttempts.delete(ip);
+    res.cookie("dj_gate", "1", { httpOnly: false, sameSite: "lax", secure: IS_PROD, path: "/" });
+    res.json({ ok: true });
+});
+
+app.use((req, res, next) => {
+    if ((req.method !== "GET" && req.method !== "HEAD") || !isPagePath(req.path)) {
+        next();
+        return;
+    }
+    res.vary("Cookie");
+    const passed = GATE_COOKIE.test(req.headers.cookie ?? "");
+    const isBot = SKIP_GATE_FOR.test(req.get("user-agent") ?? "");
+    if (passed || isBot) {
+        next();
+        return;
+    }
+    res.set("Cache-Control", "no-store");
+    res.sendFile(path.join(PUBLIC_DIR, "enter.html"));
+});
+
 app.use(
     express.static(PUBLIC_DIR, {
         extensions: ["html"],

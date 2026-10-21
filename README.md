@@ -61,6 +61,22 @@ run `npm run build:client` (or `npm run build`) to refresh the browser scripts.
 | `npm run build` | Compile the server to `dist/` and the browser scripts to `public/js/` |
 | `npm start` | Run the compiled server (run `npm run build` first) |
 
+## The basketball gate
+
+New visitors see a basketball game before any page of the site. They get 3
+shots, and each is harder: the hoop moves, the wind pushes the ball, and from
+shot 2 a defender blocks the lane. Each shot has a 10 second clock. Sinking one
+basket lets them in (the browser sets a `dj_gate` cookie for the session); if
+all three miss they can try again. Search engines and link previews skip it.
+
+**Skip code:** "Skip with a code" asks for a code, checked on the server. The
+default is `1234`; set `GATE_SKIP_CODE` in Render to change it. After 8 wrong
+tries an IP is blocked for 15 minutes. This is a fun intro, not security: the
+cookie is not secret, so anyone who sets it themselves gets in.
+
+Files: `public/enter.html`, `public/css/gate.css`, `src/client/gate.ts` (the
+game) and `src/client/hoop-physics.ts` (physics and level rules).
+
 ## The book of websites
 
 The home page shows one two-page spread per website: the screenshot on the

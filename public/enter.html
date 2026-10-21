@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sink a shot to enter | Dilian Jaars</title>
+    <meta name="description" content="Sink a basketball shot to enter Dilian Jaars' portfolio.">
+    <meta name="robots" content="noindex">
+    <meta name="theme-color" content="#f2f2ec">
+    <link rel="icon" href="/images/dj-logo.jpg" type="image/jpeg">
+    <link rel="preload" href="/fonts/anybody.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/schibsted-grotesk.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="/css/site.css">
+    <link rel="stylesheet" href="/css/gate.css">
+</head>
+<body class="gate">
+    <main class="gate-main" id="main">
+        <header class="gate-top">
+            <span class="gate-brand">
+                <img src="/images/dj-logo.jpg" alt="" width="40" height="40">
+                <span>Dilian Jaars</span>
+            </span>
+            <div class="gate-shots">
+                <button class="gate-sound" id="soundBtn" type="button" aria-pressed="false">Sound off</button>
+                <span class="gate-shots-label">Shots left</span>
+                <ul class="pips" id="pips" aria-hidden="true">
+                    <li class="pip"></li>
+                    <li class="pip"></li>
+                    <li class="pip"></li>
+                </ul>
+            </div>
+        </header>
+
+        <div class="gate-stage">
+            <canvas id="court" width="1800" height="1120" tabindex="0"
+                aria-label="Basketball court. Drag back and release to shoot, or use the arrow keys to aim and the space bar to shoot."></canvas>
+
+            <div class="gate-intro" id="intro">
+                <p class="gate-kicker">Before you come in</p>
+                <h1 class="display">Sink a shot to enter.</h1>
+                <p>You get <strong>3 shots</strong>, and each one is harder. The hoop moves, the wind pushes, and a defender joins in. Drag back anywhere and let go. On a keyboard, use the arrow keys to aim and the space bar to shoot.</p>
+            </div>
+
+            <div class="gate-result" id="result" hidden role="status">
+                <p class="gate-big" id="resultTitle"></p>
+                <p id="resultText"></p>
+                <button class="btn" id="enterBtn" type="button">Enter portfolio &rarr;</button>
+                <button class="btn" id="retryBtn" type="button" hidden>Try again</button>
+            </div>
+        </div>
+
+        <footer class="gate-foot">
+            <p class="gate-status" id="status" aria-live="polite">Shot 1 of 3.</p>
+            <button class="link-button" id="skipBtn" type="button">Skip with a code</button>
+        </footer>
+
+        <dialog id="skipDialog" aria-labelledby="skipTitle">
+            <form class="dialog-card" id="skipForm" method="dialog">
+                <h2 id="skipTitle">Skip the game</h2>
+                <p>Enter the skip code to go straight in.</p>
+                <div class="field">
+                    <label for="skipCode">Skip code</label>
+                    <input id="skipCode" name="code" type="password" inputmode="numeric" autocomplete="off" required>
+                </div>
+                <p class="form-message" id="skipMessage" role="alert"></p>
+                <div class="btn-row">
+                    <button class="btn" type="submit">Skip</button>
+                    <button class="btn btn-ghost" type="button" id="skipCancel">Cancel</button>
+                </div>
+            </form>
+        </dialog>
+
+        <noscript>
+            <p class="gate-noscript">The shooting game needs JavaScript to run.</p>
+        </noscript>
+    </main>
+
+    <script type="module" src="/js/client/gate.js"></script>
+</body>
+</html>

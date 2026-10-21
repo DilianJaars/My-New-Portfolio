@@ -1,0 +1,314 @@
+/* The basketball gate shown before the home page. */
+
+body.gate {
+    background: var(--paper);
+    min-height: 100vh;
+    min-height: 100dvh;
+}
+
+.gate-main {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin: 0 auto;
+    max-width: 1120px;
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding: 18px clamp(14px, 3vw, 32px) 18px;
+}
+
+.gate-top {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+}
+
+.gate-brand {
+    align-items: center;
+    display: inline-flex;
+    font-family: var(--display);
+    font-size: 1.05rem;
+    font-stretch: 120%;
+    font-weight: 800;
+    gap: 12px;
+}
+
+.gate-brand img {
+    border-radius: 50%;
+    height: 40px;
+    object-fit: cover;
+    width: 40px;
+}
+
+.gate-shots {
+    align-items: center;
+    display: flex;
+    gap: 12px;
+}
+
+.gate-shots-label {
+    font-family: var(--display);
+    font-size: 0.85rem;
+    font-stretch: 120%;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.pips {
+    display: flex;
+    gap: 8px;
+}
+
+.pip {
+    background: #ff8a1f;
+    border: 2px solid var(--ink);
+    border-radius: 50%;
+    height: 26px;
+    position: relative;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    width: 26px;
+}
+
+.pip::after {
+    border-top: 2px solid var(--ink);
+    content: "";
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 50%;
+}
+
+.pip.used {
+    opacity: 0.2;
+    transform: scale(0.8);
+}
+
+.gate-stage {
+    background: var(--white);
+    border: 2px solid var(--ink);
+    box-shadow: 10px 10px 0 var(--cyan);
+    flex: none;
+    position: relative;
+}
+
+#court {
+    cursor: grab;
+    display: block;
+    height: auto;
+    touch-action: none;
+    width: 100%;
+}
+
+#court:active {
+    cursor: grabbing;
+}
+
+#court:focus-visible {
+    outline: 4px solid var(--pink);
+    outline-offset: -4px;
+}
+
+.gate-intro {
+    left: clamp(14px, 3vw, 32px);
+    max-width: 24rem;
+    pointer-events: none;
+    position: absolute;
+    top: clamp(12px, 3vw, 28px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.gate-intro.gone {
+    opacity: 0;
+    transform: translateY(-8px);
+}
+
+.gate-kicker {
+    background: var(--yellow);
+    display: inline-block;
+    font-family: var(--display);
+    font-size: 0.8rem;
+    font-stretch: 125%;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    padding: 2px 10px;
+    text-transform: uppercase;
+}
+
+.gate-intro .display {
+    font-size: clamp(1.9rem, 5.2vw, 3.6rem);
+    margin: 10px 0;
+}
+
+.gate-intro p:last-child {
+    background: rgba(252, 252, 249, 0.82);
+    font-size: clamp(0.85rem, 1.6vw, 1rem);
+}
+
+.gate-result {
+    align-items: center;
+    background: rgba(242, 242, 236, 0.9);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    inset: 0;
+    justify-content: center;
+    padding: 20px;
+    position: absolute;
+    text-align: center;
+}
+
+.gate-result[hidden] {
+    display: none;
+}
+
+.gate-result:not([hidden]) {
+    animation: gate-pop 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.2) both;
+}
+
+.gate-big {
+    font-family: var(--display);
+    font-size: clamp(2.8rem, 11vw, 7rem);
+    font-stretch: 125%;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    line-height: 0.95;
+    text-shadow: 5px 5px 0 var(--pink);
+}
+
+.gate-result p:nth-child(2) {
+    font-size: clamp(1rem, 2.4vw, 1.3rem);
+    font-weight: 600;
+}
+
+@keyframes gate-pop {
+    from {
+        opacity: 0;
+        transform: scale(0.92);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+.gate-foot {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 24px;
+    justify-content: space-between;
+}
+
+.gate-status {
+    color: var(--muted);
+    font-weight: 600;
+}
+
+.gate-foot a {
+    font-weight: 700;
+}
+
+.gate-noscript {
+    background: var(--yellow);
+    padding: 12px 16px;
+}
+
+@media (max-width: 680px) {
+    .gate-shots-label {
+        display: none;
+    }
+
+    .gate-brand {
+        font-size: 0.9rem;
+        gap: 8px;
+        white-space: nowrap;
+    }
+
+    .gate-brand img {
+        height: 32px;
+        width: 32px;
+    }
+
+    .gate-sound {
+        white-space: nowrap;
+    }
+
+    /* On phones the instructions sit under the court instead of over it. */
+    .gate-intro {
+        max-width: none;
+        padding: 16px;
+        position: static;
+    }
+
+    .gate-intro.gone {
+        display: none;
+    }
+
+    .gate-stage {
+        box-shadow: 6px 6px 0 var(--cyan);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .gate-result:not([hidden]) {
+        animation: none;
+    }
+}
+
+.gate-sound {
+    background: none;
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 700;
+    padding: 2px 12px;
+}
+
+.gate-sound[aria-pressed="true"] {
+    background: var(--ink);
+    color: var(--paper);
+}
+
+#skipDialog {
+    background: var(--white);
+    border: 2px solid var(--ink);
+    box-shadow: 8px 8px 0 var(--pink);
+    max-width: min(26rem, 92vw);
+    padding: 0;
+}
+
+#skipDialog::backdrop {
+    background: rgba(20, 22, 31, 0.55);
+}
+
+#skipDialog .dialog-card {
+    display: grid;
+    gap: 14px;
+    padding: 24px;
+}
+
+#skipDialog h2 {
+    font-family: var(--display);
+    font-size: 1.5rem;
+    font-stretch: 118%;
+    font-weight: 800;
+}
+
+#skipDialog.shake {
+    animation: gate-shake 0.35s ease;
+}
+
+@keyframes gate-shake {
+    20%, 60% { transform: translateX(-8px); }
+    40%, 80% { transform: translateX(8px); }
+}
+
+.gate-result .btn[hidden] {
+    display: none;
+}
+
+.gate-foot .link-button {
+    color: var(--ink);
+    font-weight: 700;
+}
