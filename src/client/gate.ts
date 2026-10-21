@@ -16,6 +16,7 @@ import {
     worldAt,
     type Point,
     type Shot,
+    type DefenderState,
     type World,
 } from "./hoop-physics.js";
 
@@ -124,6 +125,8 @@ soundBtn.addEventListener("click", () => {
 type Phase = "aim" | "flying" | "between" | "over";
 let phase: Phase = "aim";
 let shotsTaken = 0;
+let roundsLost = 0;
+const ROUNDS_BEFORE_MERCY = 2; // after this many failed rounds, let the visitor in
 let shot: Shot | null = null;
 let clock = 0; // world time: the hoop and defender never stop moving
 let timeLeft = SHOT_CLOCK;
@@ -325,21 +328,28 @@ function burst(x: number, y: number, count: number, colors: string[], power: num
 
 function showResult(won: boolean, swish: boolean): void {
     phase = "over";
+    if (!won) roundsLost += 1;
+    const mercy = !won && roundsLost >= ROUNDS_BEFORE_MERCY;
     retryBtn.hidden = won;
-    enterBtn.hidden = !won;
+    enterBtn.hidden = !(won || mercy);
+    retryBtn.textContent = mercy ? "Try once more" : "Try again";
     if (won) {
         resultTitle.textContent = swish ? "SWISH!" : "BUCKET!";
         resultText.textContent = `You're in. Level ${shotsTaken} cleared. Welcome to my portfolio.`;
         status.textContent = "You scored. Entering the portfolio.";
         sounds.win();
         window.setTimeout(enterSite, 3200);
+    } else if (mercy) {
+        resultTitle.textContent = "Good effort";
+        resultText.textContent = "Six shots against that defence is rough. Come on in.";
+        status.textContent = "You earned it. You can enter the portfolio, or try once more.";
     } else {
         resultTitle.textContent = "Out of shots";
         resultText.textContent = "Nothing but air. Take another run at it.";
         status.textContent = "Out of shots. Press Try again for three new shots.";
     }
     result.hidden = false;
-    (won ? enterBtn : retryBtn).focus();
+    (won || mercy ? enterBtn : retryBtn).focus();
 }
 
 enterBtn.addEventListener("click", enterSite);
@@ -581,9 +591,11 @@ function drawScoreboard(): void {
     g.fillText(strength === 0 ? "0" : wind < 0 ? `${arrow} ${strength}` : `${strength} ${arrow}`, x + 286, y + 44);
 }
 
-function drawDefender(): void {
-    const d = world.defender;
-    if (!d) return;
+function drawDefenders(): void {
+    world.defenders.forEach((d, i) => drawDefender(d, i));
+}
+
+function drawDefender(d: DefenderState, index: number): void {
     const x = d.x;
     const foot = FLOOR - d.lift;
     const top = d.body.y0;
@@ -604,13 +616,13 @@ function drawDefender(): void {
     g.fillRect(x - 22, foot - 62, 44, 26);
     g.strokeRect(x - 22, foot - 62, 44, 26);
     // jersey
-    g.fillStyle = CYAN;
+    g.fillStyle = index === 0 ? CYAN : YELLOW;
     g.fillRect(x - 22, top + 20, 44, 40);
     g.strokeRect(x - 22, top + 20, 44, 40);
     g.fillStyle = INK;
     g.font = `900 22px ${DISPLAY}`;
     g.textAlign = "center";
-    g.fillText("7", x, top + 50);
+    g.fillText(index === 0 ? "7" : "23", x, top + 50);
     // head
     g.fillStyle = "#d9a679";
     g.beginPath();
@@ -623,9 +635,9 @@ function drawDefender(): void {
     g.strokeStyle = "#d9a679";
     g.beginPath();
     g.moveTo(x - 20, top + 28);
-    g.lineTo(x - 30, top - 42);
+    g.lineTo(x - 36, top - 54);
     g.moveTo(x + 20, top + 28);
-    g.lineTo(x + 30, top - 42);
+    g.lineTo(x + 36, top - 54);
     g.stroke();
     g.lineCap = "butt";
 }
@@ -832,7 +844,7 @@ function draw(): void {
     drawBackground();
     drawScoreboard();
     drawBoard();
-    drawDefender();
+    drawDefenders();
     drawBall();
     drawRimAndNet();
     drawAim();

@@ -35,6 +35,7 @@ export interface DefenderRules {
     swaySpeed: number; // radians per second
     jumpHeight: number;
     jumpSpeed: number; // radians per second
+    offset: number; // shifts his timing so two defenders do not move together
 }
 
 export interface Level {
@@ -44,7 +45,7 @@ export interface Level {
     hoopAmp: number; // how far the hoop slides up and down
     hoopSpeed: number; // radians per second
     windMax: number; // sideways push, px/s squared
-    defender: DefenderRules | null;
+    defenders: readonly DefenderRules[];
 }
 
 export const LEVELS: readonly Level[] = [
@@ -55,7 +56,7 @@ export const LEVELS: readonly Level[] = [
         hoopAmp: 45,
         hoopSpeed: 1.0,
         windMax: 70,
-        defender: null,
+        defenders: [],
     },
     {
         name: "Defender",
@@ -64,16 +65,19 @@ export const LEVELS: readonly Level[] = [
         hoopAmp: 60,
         hoopSpeed: 1.3,
         windMax: 120,
-        defender: { centerX: 440, sway: 55, swaySpeed: 1.1, jumpHeight: 60, jumpSpeed: 2.2 },
+        defenders: [{ centerX: 430, sway: 80, swaySpeed: 1.5, jumpHeight: 85, jumpSpeed: 2.6, offset: 0 }],
     },
     {
         name: "Crunch time",
-        blurb: "Faster hoop, stronger wind, taller defender.",
+        blurb: "Faster hoop, stronger wind, two defenders.",
         rimR: 37,
         hoopAmp: 75,
         hoopSpeed: 1.6,
         windMax: 170,
-        defender: { centerX: 440, sway: 75, swaySpeed: 1.6, jumpHeight: 85, jumpSpeed: 3 },
+        defenders: [
+            { centerX: 360, sway: 70, swaySpeed: 1.9, jumpHeight: 100, jumpSpeed: 3.1, offset: 0 },
+            { centerX: 520, sway: 70, swaySpeed: 1.7, jumpHeight: 100, jumpSpeed: 2.7, offset: 2.1 },
+        ],
     },
 ];
 
@@ -86,7 +90,7 @@ export interface World {
     hoopX: number; // centre of the rim
     rimR: number;
     board: Rect;
-    defender: DefenderState | null;
+    defenders: DefenderState[];
 }
 
 export interface DefenderState {
@@ -102,20 +106,18 @@ export function worldAt(level: Level, wind: number, t: number, phase: number): W
     const backX = BOARD_X - BOARD_HALF - 5;
     const hoopX = backX - level.rimR;
 
-    let defender: DefenderState | null = null;
-    const d = level.defender;
-    if (d) {
-        const x = d.centerX + Math.sin(t * d.swaySpeed + phase * 2) * d.sway;
-        const j = Math.max(0, Math.sin(t * d.jumpSpeed + phase));
+    const defenders: DefenderState[] = level.defenders.map((d) => {
+        const x = d.centerX + Math.sin(t * d.swaySpeed + phase * 2 + d.offset) * d.sway;
+        const j = Math.max(0, Math.sin(t * d.jumpSpeed + phase + d.offset));
         const lift = j * j * d.jumpHeight;
-        const top = FLOOR - lift - 120;
-        defender = {
+        const top = FLOOR - lift - 124;
+        return {
             x,
             lift,
-            body: { x0: x - 22, y0: top, x1: x + 22, y1: FLOOR - lift },
-            hands: { x0: x - 36, y0: top - 52, x1: x + 36, y1: top + 4 },
+            body: { x0: x - 25, y0: top, x1: x + 25, y1: FLOOR - lift },
+            hands: { x0: x - 44, y0: top - 62, x1: x + 44, y1: top + 4 },
         };
-    }
+    });
 
     return {
         level,
@@ -124,7 +126,7 @@ export function worldAt(level: Level, wind: number, t: number, phase: number): W
         hoopX,
         rimR: level.rimR,
         board: { x0: BOARD_X - BOARD_HALF, y0: hoopY - 125, x1: BOARD_X + BOARD_HALF, y1: hoopY + 12 },
-        defender,
+        defenders,
     };
 }
 
@@ -285,9 +287,9 @@ export function step(s: Shot, dt: number, w: World): void {
     }
 
     // the defender
-    if (w.defender) {
-        const hitHands = collideRect(s, w.defender.hands, 0.45);
-        const hitBody = collideRect(s, w.defender.body, 0.45);
+    for (const d of w.defenders) {
+        const hitHands = collideRect(s, d.hands, 0.45);
+        const hitBody = collideRect(s, d.body, 0.45);
         if (hitHands || hitBody) {
             s.blocked = true;
             s.events.push("block");

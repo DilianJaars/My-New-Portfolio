@@ -66,8 +66,9 @@ run `npm run build:client` (or `npm run build`) to refresh the browser scripts.
 New visitors see a basketball game before any page of the site. They get 3
 shots, and each is harder: the hoop moves, the wind pushes the ball, and from
 shot 2 a defender blocks the lane. Each shot has a 10 second clock. Sinking one
-basket lets them in (the browser sets a `dj_gate` cookie for the session); if
-all three miss they can try again. Search engines and link previews skip it.
+basket lets them in (the browser sets a `dj_gate` cookie for the session). If
+all three miss they can try again, and after two failed rounds (six misses) the
+game lets them in anyway. Search engines and link previews skip it.
 
 **Skip code:** "Skip with a code" asks for a code, checked on the server. The
 default is `1234`; set `GATE_SKIP_CODE` in Render to change it. After 8 wrong
