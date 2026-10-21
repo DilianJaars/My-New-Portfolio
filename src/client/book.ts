@@ -47,7 +47,9 @@ function leftPage(i: number): HTMLElement {
         if (item) shot.setAttribute("aria-hidden", "true");
     }
 
-    page.append(shot, el("span", "folio", String(i * 2 + 1)));
+    page.append(el("p", "runhead", "Dilian Jaars"), shot);
+    if (item) page.append(el("p", "caption", `Plate ${i + 1}. ${item.title}`));
+    page.append(el("span", "folio", String(i * 2 + 1)), el("span", "shade"));
     return page;
 }
 
@@ -55,6 +57,7 @@ function rightPage(i: number): HTMLElement {
     const page = el("div", "page page-right");
     const item = items[i];
     const body = el("div", "page-body");
+    if (item) body.append(el("p", "kicker", `Project ${String(i + 1).padStart(2, "0")}`));
 
     if (!item) {
         body.append(el("h3", "", "No websites yet"));
@@ -68,7 +71,10 @@ function rightPage(i: number): HTMLElement {
         body.append(text);
     } else {
         body.append(el("h3", "", item.title));
-        if (item.description) body.append(el("p", "desc", item.description));
+        if (item.description) {
+            // a big first letter only suits a few lines of text
+            body.append(el("p", item.description.length > 110 ? "desc dropcap" : "desc", item.description));
+        }
         if (item.tags.length) body.append(el("p", "tools", item.tags.join(", ")));
         if (item.url) {
             const link = el("a", "btn", "Visit site");
@@ -80,7 +86,8 @@ function rightPage(i: number): HTMLElement {
         }
     }
 
-    page.append(body, el("span", "folio", String(i * 2 + 2)));
+    page.append(el("p", "runhead", "Websites I've built"), body);
+    page.append(el("span", "folio", String(i * 2 + 2)), el("span", "shade"));
     return page;
 }
 
