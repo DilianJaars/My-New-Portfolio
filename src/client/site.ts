@@ -26,4 +26,54 @@ if (toggle && menu) {
     });
 }
 
+// Scroll progress bar and back-to-top button.
+const bar = document.createElement("div");
+bar.className = "scroll-progress";
+bar.setAttribute("aria-hidden", "true");
+const top = document.createElement("button");
+top.type = "button";
+top.className = "to-top";
+top.textContent = "\u2191";
+top.setAttribute("aria-label", "Back to top");
+top.hidden = true;
+document.body.append(bar, top);
+
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+let ticking = false;
+const paint = (): void => {
+    ticking = false;
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    const y = window.scrollY;
+    bar.style.transform = `scaleX(${max > 0 ? Math.min(1, y / max) : 0})`;
+    top.hidden = y < 600;
+};
+window.addEventListener(
+    "scroll",
+    () => {
+        if (!ticking) {
+            ticking = true;
+            requestAnimationFrame(paint);
+        }
+    },
+    { passive: true }
+);
+top.addEventListener("click", () => window.scrollTo({ top: 0, behavior: reduceMotion.matches ? "auto" : "smooth" }));
+paint();
+
+// Footer link to play the entry game again.
+const footerList = document.querySelector(".site-footer ul");
+if (footerList) {
+    const item = document.createElement("li");
+    const replay = document.createElement("button");
+    replay.type = "button";
+    replay.className = "link-button";
+    replay.textContent = "Replay the game";
+    replay.addEventListener("click", () => {
+        document.cookie = "dj_gate=; Max-Age=0; path=/";
+        window.location.assign("/");
+    });
+    item.append(replay);
+    footerList.append(item);
+}
+
 export {};

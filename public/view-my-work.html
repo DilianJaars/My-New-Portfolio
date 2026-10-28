@@ -9,6 +9,11 @@
     <meta property="og:type" content="website">
     <meta property="og:title" content="Websites | Dilian Jaars">
     <meta property="og:description" content="Websites designed and built by Dilian Jaars.">
+    <link rel="canonical" href="https://dilian.online/view-my-work.html">
+    <meta property="og:url" content="https://dilian.online/view-my-work.html">
+    <meta property="og:image" content="https://dilian.online/images/dj-logo.jpg">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Websites | Dilian Jaars">
     <link rel="icon" href="/images/dj-logo.jpg" type="image/jpeg">
     <link rel="preload" href="/fonts/anybody.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="/fonts/schibsted-grotesk.woff2" as="font" type="font/woff2" crossorigin>
@@ -46,6 +51,12 @@
             <div class="work-toolbar">
                 <p class="muted" id="toolbarText"></p>
                 <button class="btn btn-ghost" id="manageButton" type="button">Manage</button>
+            </div>
+
+            <div class="filters" id="filters" hidden>
+                <label class="visually-hidden" for="searchBox">Search websites</label>
+                <input id="searchBox" type="search" placeholder="Search websites" autocomplete="off">
+                <div class="filter-chips" id="filterChips"></div>
             </div>
 
             <div id="panel" aria-live="polite" tabindex="-1">

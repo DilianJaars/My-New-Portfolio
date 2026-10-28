@@ -3,6 +3,11 @@ import { byId, el, setMessage } from "./dom.js";
 
 const panel = byId("panel");
 const toolbarText = byId("toolbarText");
+const filters = byId("filters");
+const searchBox = byId<HTMLInputElement>("searchBox");
+const filterChips = byId("filterChips");
+let activeTag = "";
+let query = "";
 const dialog = byId<HTMLDialogElement>("managerDialog");
 const loginView = byId("loginView");
 const adminView = byId("adminView");
@@ -112,13 +117,56 @@ function render(): void {
         return;
     }
 
-    toolbarText.textContent = `${websites.length} ${websites.length === 1 ? "website" : "websites"}`;
     if (websites.length === 0) {
+        filters.hidden = true;
+        toolbarText.textContent = "0 websites";
         panel.replaceChildren(createEmpty());
         return;
     }
-    panel.replaceChildren(...websites.map(createItem));
+
+    const tags = [...new Set(websites.flatMap((w) => w.tags))].sort((a, b) => a.localeCompare(b));
+    if (activeTag && !tags.includes(activeTag)) activeTag = "";
+    filters.hidden = websites.length < 2;
+    if (!filters.hidden) renderChips(tags);
+
+    const needle = query.trim().toLowerCase();
+    const shown = websites.filter(
+        (w) =>
+            (!activeTag || w.tags.includes(activeTag)) &&
+            (!needle || `${w.title} ${w.description} ${w.tags.join(" ")}`.toLowerCase().includes(needle))
+    );
+    const filtered = shown.length !== websites.length;
+    toolbarText.textContent = filtered
+        ? `${shown.length} of ${websites.length} websites`
+        : `${websites.length} ${websites.length === 1 ? "website" : "websites"}`;
+
+    if (shown.length === 0) {
+        const box = el("div", "empty");
+        box.append(el("h3", "", "Nothing matches that."), el("p", "muted", "Try a different word or clear the filter."));
+        panel.replaceChildren(box);
+        return;
+    }
+    panel.replaceChildren(...shown.map(createItem));
 }
+
+function renderChips(tags: string[]): void {
+    const make = (label: string, tag: string): HTMLButtonElement => {
+        const chip = el("button", "chip", label);
+        chip.type = "button";
+        chip.setAttribute("aria-pressed", String(activeTag === tag));
+        chip.addEventListener("click", () => {
+            activeTag = tag;
+            render();
+        });
+        return chip;
+    };
+    filterChips.replaceChildren(make("All", ""), ...tags.map((t) => make(t, t)));
+}
+
+searchBox.addEventListener("input", () => {
+    query = searchBox.value;
+    render();
+});
 
 // ---------- data ----------
 async function load(): Promise<void> {

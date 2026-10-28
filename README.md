@@ -166,3 +166,10 @@ Two ways around that:
 - **Use Supabase** (above, free).
 - **Add a Render persistent disk** (paid) mounted on `data/` and
   `public/uploads/`, or move to a real database and image storage.
+
+## Extra features
+
+- **Estimate calculator** (Services page): built from the price rows marked `data-calc`, so prices live in one place; sends the choices to the contact form.
+- **Website filter**: search box and tag chips on the Websites page (shown with 2+ websites).
+- **SEO**: `public/sitemap.xml`, canonical/OpenGraph tags and JSON-LD. Update the domain there if it changes from dilian.online.
+- **Polish**: scroll progress bar, back-to-top button, copy-email button, and a "Replay the game" footer link.

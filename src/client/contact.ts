@@ -25,6 +25,9 @@ subjectInput.addEventListener("input", () => setSubject(subjectInput.value));
 const wanted = new URLSearchParams(window.location.search).get("subject");
 if (wanted) setSubject(wanted.slice(0, 120));
 
+const draft = new URLSearchParams(window.location.search).get("message");
+if (draft) byId<HTMLTextAreaElement>("message").value = draft.slice(0, 1500);
+
 interface Draft {
     subject: string;
     body: string;
@@ -67,3 +70,24 @@ byId("gmailButton").addEventListener("click", () => {
     window.open(url, "_blank", "noopener");
     setMessage(message, "Gmail opened in a new tab with the message ready to send.", true);
 });
+
+// Copy-email button next to the email card.
+const emailCard = document.querySelector<HTMLElement>('.contact-card[href^="mailto:"]');
+if (emailCard?.parentElement && navigator.clipboard) {
+    const copy = document.createElement("button");
+    copy.type = "button";
+    copy.className = "link-button copy-email";
+    copy.textContent = "Copy email address";
+    copy.addEventListener("click", () => {
+        navigator.clipboard.writeText("dilian.jaars@gmail.com").then(
+            () => {
+                copy.textContent = "Copied!";
+                setTimeout(() => (copy.textContent = "Copy email address"), 2000);
+            },
+            () => {
+                copy.textContent = "Could not copy";
+            }
+        );
+    });
+    emailCard.parentElement.append(copy);
+}
