@@ -1843,3 +1843,25 @@ dialog::backdrop {
         transition-duration: 0.01ms !important;
     }
 }
+
+/* ---------- editing a website ---------- */
+
+label.check {
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    font-weight: 600;
+    gap: 10px;
+}
+
+input[type="checkbox"] {
+    accent-color: var(--ink);
+    flex: none;
+    height: 20px;
+    padding: 0;
+    width: 20px;
+}
+
+.actions .link-button + .link-button {
+    margin-left: 4px;
+}

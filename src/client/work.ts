@@ -12,6 +12,14 @@ const loginMessage = byId("loginMessage");
 const itemMessage = byId("itemMessage");
 const manageButton = byId<HTMLButtonElement>("manageButton");
 const addButton = byId<HTMLButtonElement>("addButton");
+const addTitle = byId("addTitle");
+const cancelEdit = byId<HTMLButtonElement>("cancelEdit");
+const removeImageField = byId("removeImageField");
+const imageHint = byId("imageHint");
+const DEFAULT_IMAGE_HINT = imageHint.textContent ?? "";
+
+/** The website being edited, or null when the form adds a new one. */
+let editing: WorkItem | null = null;
 
 /** null means "not loaded yet". */
 let websites: WorkItem[] | null = null;
@@ -48,6 +56,12 @@ function createItem(item: WorkItem): HTMLElement {
         actions.append(link);
     }
     if (isAdmin) {
+        const edit = el("button", "link-button", "Edit");
+        edit.type = "button";
+        edit.setAttribute("aria-label", `Edit ${item.title}`);
+        edit.addEventListener("click", () => startEdit(item));
+        actions.append(edit);
+
         const remove = el("button", "link-button", "Delete");
         remove.type = "button";
         remove.setAttribute("aria-label", `Delete ${item.title}`);
@@ -143,6 +157,45 @@ async function deleteItem(item: WorkItem): Promise<void> {
     }
 }
 
+// ---------- editing ----------
+function setField(name: string, value: string): void {
+    const field = itemForm.elements.namedItem(name);
+    if (field instanceof HTMLInputElement || field instanceof HTMLTextAreaElement) field.value = value;
+}
+
+/** Switches the form between "add a website" and "edit this website". */
+function setEditing(item: WorkItem | null): void {
+    editing = item;
+    itemForm.reset();
+    setMessage(itemMessage);
+    addTitle.textContent = item ? "Edit website" : "Add a website";
+    addButton.textContent = item ? "Save changes" : "Add website";
+    cancelEdit.classList.toggle("hidden", !item);
+    removeImageField.classList.toggle("hidden", !item?.image);
+    imageHint.textContent = item
+        ? item.image
+            ? "Leave empty to keep the current screenshot, or choose a new one to replace it."
+            : "This website has no screenshot yet. Choose one to add it."
+        : DEFAULT_IMAGE_HINT;
+
+    if (item) {
+        setField("title", item.title);
+        setField("url", item.url);
+        setField("description", item.description);
+        setField("tags", item.tags.join(", "));
+    }
+}
+
+function startEdit(item: WorkItem): void {
+    setEditing(item);
+    showAuthView();
+    setMessage(loginMessage);
+    dialog.showModal();
+    itemForm.querySelector<HTMLInputElement>("#title")?.focus();
+}
+
+cancelEdit.addEventListener("click", () => setEditing(null));
+
 // ---------- admin dialog ----------
 function showAuthView(): void {
     loginView.classList.toggle("hidden", isAdmin);
@@ -159,7 +212,7 @@ manageButton.addEventListener("click", () => {
         await checkSession();
         showAuthView();
         setMessage(loginMessage);
-        setMessage(itemMessage);
+        setEditing(null);
         dialog.showModal();
     })();
 });
@@ -167,6 +220,7 @@ manageButton.addEventListener("click", () => {
 dialog.querySelectorAll<HTMLElement>("[data-close]").forEach((button) =>
     button.addEventListener("click", () => dialog.close())
 );
+dialog.addEventListener("close", () => setEditing(null));
 dialog.addEventListener("click", (event) => {
     if (event.target === dialog) dialog.close();
 });
@@ -214,21 +268,31 @@ itemForm.addEventListener("submit", (event) => {
     void (async () => {
         setMessage(itemMessage);
         addButton.disabled = true;
+        const wasEditing = editing;
 
         try {
-            const response = await fetch("/api/websites", { method: "POST", body: new FormData(itemForm) });
-            if (!response.ok) throw new Error(await readError(response, "Couldn't add this website."));
-            const created = (await response.json()) as WorkItem;
-            (websites ??= []).unshift(created);
-            itemForm.reset();
+            const response = await fetch(
+                wasEditing ? `/api/websites/${encodeURIComponent(wasEditing.id)}` : "/api/websites",
+                { method: wasEditing ? "PUT" : "POST", body: new FormData(itemForm) }
+            );
+            if (!response.ok) {
+                throw new Error(await readError(response, wasEditing ? "Couldn't save the changes." : "Couldn't add this website."));
+            }
+            const saved = (await response.json()) as WorkItem;
+            if (wasEditing) {
+                websites = (websites ?? []).map((entry) => (entry.id === saved.id ? saved : entry));
+            } else {
+                (websites ??= []).unshift(saved);
+            }
+            setEditing(null);
             render();
-            setMessage(itemMessage, "Added.", true);
+            setMessage(itemMessage, wasEditing ? "Saved." : "Added.", true);
             setTimeout(() => {
                 setMessage(itemMessage);
                 dialog.close();
             }, 700);
         } catch (error) {
-            setMessage(itemMessage, error instanceof Error ? error.message : "Couldn't add this website.");
+            setMessage(itemMessage, error instanceof Error ? error.message : "Something went wrong.");
         } finally {
             addButton.disabled = false;
         }

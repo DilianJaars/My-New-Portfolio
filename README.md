@@ -90,8 +90,9 @@ reduced motion. With no websites yet it shows a "No websites yet" page.
 ## The admin panel
 
 On the Websites page, **Manage** asks for the admin password. Once signed in
-you can add a website (title, live link, screenshot, description, tools) or
-delete existing ones. New sites appear in the book on the home page straight
+you can add a website (title, live link, screenshot, description, tools),
+**edit** an existing one (change any field, replace or remove its screenshot) or
+delete it. New sites appear in the book on the home page straight
 away.
 
 Security notes:

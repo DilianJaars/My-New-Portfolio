@@ -277,60 +277,76 @@ app.get("/api/websites", async (_req, res, next) => {
     }
 });
 
-app.post(
-    "/api/websites",
-    requireAuth,
-    (req: Request, res: Response, next: NextFunction) => {
-        upload.single("image")(req, res, (err: unknown) => {
-            if (err) {
-                res.status(400).json({ error: err instanceof Error ? err.message : "Upload failed." });
-                return;
-            }
-            next();
-        });
-    },
-    async (req: Request, res: Response) => {
-        const body = (req.body ?? {}) as Record<string, unknown>;
-        const title = asText(body.title).trim();
-        const description = asText(body.description).trim();
-        const tags = asText(body.tags);
-
-        if (!title) {
-            res.status(400).json({ error: "A title is required." });
+const parseUpload = (req: Request, res: Response, next: NextFunction): void => {
+    upload.single("image")(req, res, (err: unknown) => {
+        if (err) {
+            res.status(400).json({ error: err instanceof Error ? err.message : "Upload failed." });
             return;
         }
+        next();
+    });
+};
 
-        const link = cleanUrl(body.url);
-        if (link === null) {
-            res.status(400).json({ error: "Enter a full link starting with http:// or https://." });
-            return;
-        }
-        if (!link) {
-            res.status(400).json({ error: "A live link is required for websites." });
-            return;
-        }
+type Fields = { title: string; description: string; url: string; tags: string[] };
 
-        try {
-            const item = await store.add(
-                {
-                    title: title.slice(0, 120),
-                    description: description.slice(0, 500),
-                    url: link,
-                    tags: tags
-                        .split(",")
-                        .map((t) => t.trim().slice(0, 30))
-                        .filter(Boolean)
-                        .slice(0, 8),
-                },
-                req.file ? { buffer: req.file.buffer, mimetype: req.file.mimetype } : undefined
-            );
-            res.status(201).json(item);
-        } catch (err) {
-            console.error(err);
-            res.status(502).json({ error: "Could not save the website. Please try again." });
-        }
+/** Validates the website form. Returns the fields, or an error message. */
+function readWebsiteFields(req: Request): Fields | { error: string } {
+    const body = (req.body ?? {}) as Record<string, unknown>;
+    const title = asText(body.title).trim();
+    if (!title) return { error: "A title is required." };
+
+    const link = cleanUrl(body.url);
+    if (link === null) return { error: "Enter a full link starting with http:// or https://." };
+    if (!link) return { error: "A live link is required for websites." };
+
+    return {
+        title: title.slice(0, 120),
+        description: asText(body.description).trim().slice(0, 500),
+        url: link,
+        tags: asText(body.tags)
+            .split(",")
+            .map((t) => t.trim().slice(0, 30))
+            .filter(Boolean)
+            .slice(0, 8),
+    };
+}
+
+const uploadedImage = (req: Request) =>
+    req.file ? { buffer: req.file.buffer, mimetype: req.file.mimetype } : undefined;
+
+app.post("/api/websites", requireAuth, parseUpload, async (req: Request, res: Response) => {
+    const fields = readWebsiteFields(req);
+    if ("error" in fields) {
+        res.status(400).json({ error: fields.error });
+        return;
     }
-);
+    try {
+        res.status(201).json(await store.add(fields, uploadedImage(req)));
+    } catch (err) {
+        console.error(err);
+        res.status(502).json({ error: "Could not save the website. Please try again." });
+    }
+});
+
+app.put("/api/websites/:id", requireAuth, parseUpload, async (req: Request, res: Response) => {
+    const fields = readWebsiteFields(req);
+    if ("error" in fields) {
+        res.status(400).json({ error: fields.error });
+        return;
+    }
+    const removeImage = asText((req.body as Record<string, unknown> | undefined)?.removeImage) === "1";
+    try {
+        const updated = await store.update(asText(req.params.id), fields, uploadedImage(req), removeImage);
+        if (!updated) {
+            res.status(404).json({ error: "Item not found." });
+            return;
+        }
+        res.json(updated);
+    } catch (err) {
+        console.error(err);
+        res.status(502).json({ error: "Could not save the changes. Please try again." });
+    }
+});
 
 app.delete("/api/websites/:id", requireAuth, async (req, res) => {
     try {

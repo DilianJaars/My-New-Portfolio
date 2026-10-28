@@ -178,6 +178,70 @@ export function createStore(rootDir: string) {
             return item;
         },
 
+        /**
+         * Changes a website. `image` replaces the screenshot; `removeImage`
+         * clears it. Returns null if no website has this id.
+         */
+        async update(
+            id: string,
+            fields: Omit<WorkItem, "id" | "image" | "createdAt">,
+            image?: UploadedImage,
+            removeImage = false
+        ): Promise<WorkItem | null> {
+            const db = readFileDb();
+            const local = db.websites.find((entry) => entry.id === id);
+            if (local) {
+                const oldImage = local.image;
+                let nextImage = oldImage;
+                if (image) {
+                    const filename = `${Date.now()}-${crypto.randomBytes(6).toString("hex")}${IMAGE_TYPES[image.mimetype] ?? ".jpg"}`;
+                    fs.writeFileSync(path.join(uploadsDir, filename), image.buffer);
+                    nextImage = `/uploads/${filename}`;
+                } else if (removeImage) {
+                    nextImage = "";
+                }
+                Object.assign(local, fields, { image: nextImage });
+                writeFileDb(db);
+                // only files uploaded through the panel are ever deleted
+                if (nextImage !== oldImage && oldImage.startsWith("/uploads/")) {
+                    fs.unlink(path.join(uploadsDir, path.basename(oldImage)), () => {});
+                }
+                return local;
+            }
+
+            if (usingSupabase && UUID.test(id)) {
+                const res = await sb(`/rest/v1/websites?id=eq.${id}&select=*`, { headers: headers() });
+                const current = ((await res.json()) as Row[])[0];
+                if (!current) return null;
+
+                let nextImage = current.image;
+                if (image) nextImage = await uploadRemote(image);
+                else if (removeImage) nextImage = "";
+
+                try {
+                    const patched = await sb(`/rest/v1/websites?id=eq.${id}`, {
+                        method: "PATCH",
+                        headers: headers({ "Content-Type": "application/json", Prefer: "return=representation" }),
+                        body: JSON.stringify({
+                            title: fields.title,
+                            description: fields.description,
+                            url: fields.url,
+                            tags: fields.tags,
+                            image: nextImage,
+                        }),
+                    });
+                    const row = ((await patched.json()) as Row[])[0];
+                    if (!row) throw new Error("Update returned no row.");
+                    if (nextImage !== current.image) await deleteRemoteImage(current.image);
+                    return fromRow(row);
+                } catch (err) {
+                    if (nextImage !== current.image) await deleteRemoteImage(nextImage);
+                    throw err;
+                }
+            }
+            return null;
+        },
+
         /** Returns false if no website has this id. */
         async remove(id: string): Promise<boolean> {
             const db = readFileDb();
