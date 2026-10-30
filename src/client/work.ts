@@ -1,5 +1,6 @@
 import type { ApiError, SessionInfo, WorkItem } from "../shared/types.js";
 import { byId, el, setMessage } from "./dom.js";
+import { createShelf } from "./shelf.js";
 
 const panel = byId("panel");
 const toolbarText = byId("toolbarText");
@@ -32,53 +33,23 @@ let isAdmin = false;
 let adminEnabled = true;
 
 // ---------- rendering ----------
-function createItem(item: WorkItem): HTMLElement {
-    const hasImage = Boolean(item.image);
-    const root = el("article", `work-item${hasImage ? "" : " no-image"}`);
-
-    if (hasImage) {
-        const media = el("div", "work-media");
-        const img = el("img");
-        img.src = item.image;
-        img.alt = `Screenshot of ${item.title}`;
-        img.loading = "lazy";
-        media.append(img);
-        root.append(media);
-    }
-
-    const body = el("div");
-    body.append(el("h3", "", item.title));
-    if (item.description) body.append(el("p", "desc", item.description));
-    if (item.tags.length) body.append(el("p", "tools", item.tags.join(", ")));
-
-    const actions = el("div", "actions");
-    if (item.url) {
-        const link = el("a", "btn", "Visit site");
-        link.href = item.url;
-        link.target = "_blank";
-        link.rel = "noopener noreferrer";
-        link.setAttribute("aria-label", `Visit ${item.title} (opens in a new tab)`);
-        actions.append(link);
-    }
-    if (isAdmin) {
+const shelf = createShelf({
+    label: "My websites, on a shelf",
+    actions(item) {
+        if (!isAdmin) return null;
+        const group = el("span", "admin-actions");
         const edit = el("button", "link-button", "Edit");
         edit.type = "button";
         edit.setAttribute("aria-label", `Edit ${item.title}`);
         edit.addEventListener("click", () => startEdit(item));
-        actions.append(edit);
-
         const remove = el("button", "link-button", "Delete");
         remove.type = "button";
         remove.setAttribute("aria-label", `Delete ${item.title}`);
         remove.addEventListener("click", () => void deleteItem(item));
-        actions.append(remove);
-    }
-    if (actions.childElementCount) body.append(actions);
-
-    root.append(body);
-    return root;
-}
-
+        group.append(edit, remove);
+        return group;
+    },
+});
 function createEmpty(): HTMLElement {
     const box = el("div", "empty");
     box.append(el("h3", "", "No websites here yet."));
@@ -146,7 +117,8 @@ function render(): void {
         panel.replaceChildren(box);
         return;
     }
-    panel.replaceChildren(...shown.map(createItem));
+    panel.replaceChildren(shelf.element);
+    shelf.setItems(shown);
 }
 
 function renderChips(tags: string[]): void {

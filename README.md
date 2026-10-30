@@ -170,6 +170,7 @@ Two ways around that:
 ## Extra features
 
 - **Estimate calculator** (Services page): built from the price rows marked `data-calc`, so prices live in one place; sends the choices to the contact form.
+- **Shelf**: websites stand as upright spines; the chosen one steps forward as a cover (home page and Websites page).
 - **Website filter**: search box and tag chips on the Websites page (shown with 2+ websites).
 - **SEO**: `public/sitemap.xml`, canonical/OpenGraph tags and JSON-LD. Update the domain there if it changes from dilian.online.
 - **Polish**: scroll progress bar, back-to-top button, copy-email button, and a "Replay the game" footer link.
