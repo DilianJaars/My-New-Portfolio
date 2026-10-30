@@ -2334,3 +2334,145 @@ a.cover:focus-visible {
     .spine, .cover-play { transition: none; }
     .cover.pop { animation: none; }
 }
+
+/* ---------- shelf: realism layer ---------- */
+
+.shelf {
+    background:
+        linear-gradient(180deg, rgba(20, 22, 31, 0.16), rgba(20, 22, 31, 0.04) 45%, rgba(20, 22, 31, 0.1)),
+        #e2e0d4;
+    border-radius: 10px 10px 0 0;
+    box-shadow:
+        inset 0 14px 22px -10px rgba(0, 0, 0, 0.38),
+        inset 14px 0 18px -12px rgba(0, 0, 0, 0.3),
+        inset -14px 0 18px -12px rgba(0, 0, 0, 0.3);
+    padding: 44px 28px 0;
+}
+
+.shelf-board {
+    background:
+        repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.07) 0 2px, transparent 2px 9px),
+        linear-gradient(180deg, #8a6240 0, #6b4a2f 30%, #4d3422 100%);
+    border-radius: 0 0 4px 4px;
+    box-shadow:
+        inset 0 2px 0 rgba(255, 255, 255, 0.28),
+        0 14px 18px -6px rgba(0, 0, 0, 0.35);
+    height: 20px;
+}
+
+.spine {
+    background-color: var(--c, var(--cyan));
+    background-image:
+        linear-gradient(90deg, rgba(0, 0, 0, 0.32) 0, rgba(255, 255, 255, 0.26) 14%, rgba(255, 255, 255, 0) 38%, rgba(0, 0, 0, 0.1) 78%, rgba(0, 0, 0, 0.4) 100%),
+        linear-gradient(var(--foil, rgba(255, 226, 150, 0.85)), var(--foil, rgba(255, 226, 150, 0.85))),
+        linear-gradient(var(--foil, rgba(255, 226, 150, 0.85)), var(--foil, rgba(255, 226, 150, 0.85))),
+        linear-gradient(var(--foil, rgba(255, 226, 150, 0.85)), var(--foil, rgba(255, 226, 150, 0.85))),
+        linear-gradient(var(--foil, rgba(255, 226, 150, 0.85)), var(--foil, rgba(255, 226, 150, 0.85)));
+    background-position: 0 0, 0 52px, 0 57px, 0 calc(100% - 44px), 0 calc(100% - 49px);
+    background-repeat: no-repeat;
+    background-size: 100% 100%, 100% 2px, 100% 1px, 100% 2px, 100% 1px;
+    border: 1px solid rgba(0, 0, 0, 0.55);
+    border-bottom: 0;
+    border-radius: 3px 3px 0 0;
+    box-shadow:
+        inset 0 3px 0 rgba(255, 255, 255, 0.4),
+        inset 0 -10px 14px rgba(0, 0, 0, 0.18),
+        inset 2px 0 0 rgba(255, 255, 255, 0.18);
+    filter: drop-shadow(7px 0 5px rgba(0, 0, 0, 0.3));
+    padding-top: 12px;
+}
+
+.spine.ink { --foil: rgba(255, 214, 10, 0.8); }
+.spine.paper { background-color: #f4f1e4; --foil: rgba(0, 166, 224, 0.7); }
+
+.spine::before {
+    background:
+        repeating-linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0 1px, transparent 1px 3px),
+        repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.05) 0 1px, transparent 1px 5px);
+    mix-blend-mode: multiply;
+}
+
+.spine-dot {
+    background: radial-gradient(circle at 35% 30%, #fff 0 25%, #e9e6d8 60%, #b9b5a2 100%);
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35), inset 0 -2px 3px rgba(0, 0, 0, 0.15);
+    height: 20px;
+    width: 20px;
+}
+
+.spine-title {
+    padding-bottom: 40px;
+    padding-top: 40px;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.35), 0 -1px 0 rgba(0, 0, 0, 0.3);
+}
+
+.spine.ink .spine-title {
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.6);
+}
+
+.spine-tag {
+    background: #f6f3e6;
+    border: 0;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+    color: #14161f;
+    transform: rotate(-1.5deg);
+}
+
+button.spine:hover,
+button.spine:focus-visible {
+    box-shadow:
+        inset 0 3px 0 rgba(255, 255, 255, 0.4),
+        inset 0 -10px 14px rgba(0, 0, 0, 0.18),
+        inset 2px 0 0 rgba(255, 255, 255, 0.18);
+    filter: drop-shadow(10px 6px 8px rgba(0, 0, 0, 0.35));
+    transform: translateY(-16px) rotate(-1deg);
+}
+
+.spine.ghost {
+    background-color: #d3d0c3;
+    background-size: 100% 100%, 0 0, 0 0, 0 0, 0 0;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-bottom: 0;
+    opacity: 0.8;
+}
+
+.spine.ghost::before { display: block; }
+
+.cover {
+    background-color: var(--c, var(--cyan));
+    border: 1px solid rgba(0, 0, 0, 0.6);
+    border-radius: 3px 5px 0 0;
+    box-shadow:
+        inset 4px 0 0 rgba(0, 0, 0, 0.28),
+        inset 7px 0 0 rgba(255, 255, 255, 0.22),
+        inset 10px 0 8px -4px rgba(0, 0, 0, 0.35),
+        7px 0 0 #1a1c26,
+        9px 0 0 rgba(255, 255, 255, 0.12),
+        20px 4px 26px rgba(0, 0, 0, 0.4);
+}
+
+.cover::after {
+    background:
+        linear-gradient(115deg, rgba(255, 255, 255, 0.34) 0, rgba(255, 255, 255, 0.08) 28%, rgba(255, 255, 255, 0) 45%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0) 12%, rgba(0, 0, 0, 0) 85%, rgba(0, 0, 0, 0.22));
+    content: "";
+    inset: 0;
+    pointer-events: none;
+    position: absolute;
+    z-index: 1;
+}
+
+.cover-tag,
+.cover-play {
+    z-index: 2;
+}
+
+.cover-tag {
+    background: #f6f3e6;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+    color: #14161f;
+}
+
+.cover.no-shot .cover-initials {
+    text-shadow: 0 2px 0 rgba(255, 255, 255, 0.3), 0 -2px 0 rgba(0, 0, 0, 0.35);
+}
