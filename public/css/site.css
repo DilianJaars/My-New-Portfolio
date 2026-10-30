@@ -1,6 +1,6 @@
 /* Dilian Jaars portfolio: shared styles
 
-   Idea: a risograph print. Soft pink-cream ink on a royal blue sheet, with hard offset shadows where the "plates" are slightly out of
+   Idea: a risograph print. Royal blue ink on a soft pink-cream sheet, with hard offset shadows where the "plates" are slightly out of
    register. Each ink colour marks something: cyan = websites and front end,
    pink = logos and programming, yellow = mockups and practice.
 
@@ -23,16 +23,16 @@
 }
 
 :root {
-    --paper: #2d5acf;
-    --white: #264ab3;
-    --ink: #fce5df;
+    --paper: #fce5df;
+    --white: #fff4f0;
+    --ink: #2d5acf;
     --navy: #0f1f5c;
     --cyan: #9bbcff;
     --pink: #f6a6b8;
-    --yellow: #fbd3c6;
-    --muted: #c6d3f6;
-    --line: rgba(252, 229, 223, 0.32);
-    --danger: #ffb4ab;
+    --yellow: #f9c3b2;
+    --muted: #4a62ad;
+    --line: rgba(45, 90, 207, 0.3);
+    --danger: #b3261e;
 
     --display: "Anybody", "Arial Black", "Helvetica Neue", Arial, sans-serif;
     --text: "Schibsted Grotesk", "Helvetica Neue", Arial, sans-serif;
@@ -2089,7 +2089,6 @@ button.spine:focus-visible {
 .ink-cyan,
 .ink-pink,
 .ink-yellow,
-.cta,
 .skills-tally strong,
 .calc-check:has(input:checked),
 .calc-check:has(input:checked) small,
@@ -2115,11 +2114,32 @@ dialog::backdrop {
 
 .calc-result {
     background: var(--navy);
-    color: var(--ink);
+    color: var(--paper);
 }
 
 .calc-note {
-    color: var(--muted);
+    color: #c6d3f6;
+}
+
+.cta {
+    background: var(--ink);
+    color: var(--paper);
+}
+
+.cta .btn {
+    background: var(--paper);
+    box-shadow: 4px 4px 0 var(--pink);
+    color: var(--ink);
+}
+
+.cta .btn:hover {
+    box-shadow: 2px 2px 0 var(--pink);
+}
+
+.cta .btn-ghost {
+    background: transparent;
+    border-color: var(--paper);
+    color: var(--paper);
 }
 
 .calc-line strong {
@@ -2156,19 +2176,20 @@ dialog::backdrop {
 .spine.ink,
 .cover.ink {
     --c: var(--ink);
-    color: var(--navy);
+    color: var(--paper);
+    --foil: rgba(252, 229, 223, 0.5);
 }
 
 .spine.paper,
 .cover.paper {
     --c: var(--navy);
     background-color: var(--navy);
-    color: var(--ink);
+    color: var(--paper);
     --foil: rgba(252, 229, 223, 0.55);
 }
 
 .spine.ink .spine-title {
-    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.4);
 }
 
 .spine.paper .spine-title {
@@ -2177,7 +2198,7 @@ dialog::backdrop {
 
 .spine-tag,
 .cover-tag {
-    background: var(--ink);
+    background: var(--paper);
     color: var(--navy);
 }
 
@@ -2207,4 +2228,9 @@ dialog::backdrop {
 .chip:hover,
 .chip[aria-pressed="true"] {
     color: var(--paper);
+}
+
+.copy-email,
+.site-footer .link-button {
+    color: var(--ink);
 }

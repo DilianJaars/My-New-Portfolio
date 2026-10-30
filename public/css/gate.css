@@ -124,7 +124,8 @@ body.gate {
 
 .gate-kicker {
     background: var(--yellow);
-    color: var(--navy);
+    background: var(--ink);
+    color: var(--paper);
     display: inline-block;
     font-family: var(--display);
     font-size: 0.8rem;
@@ -141,13 +142,13 @@ body.gate {
 }
 
 .gate-intro p:last-child {
-    background: rgba(15, 31, 92, 0.78);
+    background: rgba(255, 244, 240, 0.85);
     font-size: clamp(0.85rem, 1.6vw, 1rem);
 }
 
 .gate-result {
     align-items: center;
-    background: rgba(15, 31, 92, 0.92);
+    background: rgba(255, 244, 240, 0.94);
     display: flex;
     flex-direction: column;
     gap: 12px;

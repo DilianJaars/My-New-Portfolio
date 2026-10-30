@@ -48,7 +48,7 @@ const PINK = token("--pink", "#ff5a8a");
 const YELLOW = token("--yellow", "#ffd60a");
 const PAPER = token("--paper", "#f2f2ec");
 const WHITE = token("--white", "#fcfcf9");
-const CREAM = token("--ink", "#fce5df");
+const CREAM = "#fce5df";
 const ORANGE = "#ff8a1f";
 
 // ---------- passing the gate ----------
