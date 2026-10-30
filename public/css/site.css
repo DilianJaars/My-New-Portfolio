@@ -2234,3 +2234,58 @@ dialog::backdrop {
 .site-footer .link-button {
     color: var(--ink);
 }
+
+/* ---------- portrait card on the contact page ---------- */
+
+.hello-card {
+    align-items: stretch;
+    background: var(--white);
+    border: 2px solid var(--ink);
+    box-shadow: 6px 6px 0 var(--cyan);
+    display: grid;
+    gap: 0;
+    grid-template-columns: 170px 1fr;
+    margin: 0 0 24px;
+    overflow: hidden;
+}
+
+.hello-card img {
+    height: 100%;
+    min-height: 220px;
+    object-fit: cover;
+    object-position: 50% 8%;
+    width: 100%;
+}
+
+.hello-card figcaption {
+    align-content: center;
+    display: grid;
+    gap: 2px;
+    padding: 16px 18px;
+}
+
+.hello-card strong {
+    font-family: var(--display);
+    font-size: 1.15rem;
+}
+
+.hello-card span {
+    color: var(--muted);
+    font-weight: 600;
+}
+
+.hello-card .hello-note {
+    color: var(--ink);
+    font-weight: 400;
+    margin-top: 8px;
+}
+
+@media (max-width: 420px) {
+    .hello-card {
+        grid-template-columns: 120px 1fr;
+    }
+
+    .hello-card figcaption {
+        padding: 12px 14px;
+    }
+}
