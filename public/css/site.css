@@ -1,7 +1,6 @@
 /* Dilian Jaars portfolio: shared styles
 
-   Idea: a risograph print. Spot-colour inks (cyan, pink, yellow) on newsprint
-   paper, with hard offset shadows where the "plates" are slightly out of
+   Idea: a risograph print. Soft pink-cream ink on a royal blue sheet, with hard offset shadows where the "plates" are slightly out of
    register. Each ink colour marks something: cyan = websites and front end,
    pink = logos and programming, yellow = mockups and practice.
 
@@ -24,15 +23,16 @@
 }
 
 :root {
-    --paper: #f2f2ec;
-    --white: #fcfcf9;
-    --ink: #14161f;
-    --cyan: #00a6e0;
-    --pink: #ff5a8a;
-    --yellow: #ffd60a;
-    --muted: #555a69;
-    --line: #cdd0c6;
-    --danger: #b3261e;
+    --paper: #2d5acf;
+    --white: #264ab3;
+    --ink: #fce5df;
+    --navy: #0f1f5c;
+    --cyan: #9bbcff;
+    --pink: #f6a6b8;
+    --yellow: #fbd3c6;
+    --muted: #c6d3f6;
+    --line: rgba(252, 229, 223, 0.32);
+    --danger: #ffb4ab;
 
     --display: "Anybody", "Arial Black", "Helvetica Neue", Arial, sans-serif;
     --text: "Schibsted Grotesk", "Helvetica Neue", Arial, sans-serif;
@@ -651,365 +651,6 @@ button.brand[aria-expanded="true"] span {
 
 .package li:last-child {
     border-bottom: 0;
-}
-
-/* ---------- the book of websites (home) ---------- */
-
-.book-wrap {
-    --sheet: #fbf8ef;
-    --sheet-edge: #ddd5bd;
-    --pad: clamp(20px, 3vw, 36px);
-    perspective: 2600px;
-}
-
-/* The cover: cloth-bound boards around the pages, with stitching and a
-   shadow on the table underneath. */
-.book-cover {
-    background:
-        linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent 40%, rgba(0, 0, 0, 0.25)),
-        repeating-linear-gradient(45deg, rgba(255,255,255,0.035) 0 1px, transparent 1px 3px), repeating-linear-gradient(-45deg, rgba(0,0,0,0.18) 0 1px, transparent 1px 3px),
-        #1d2538;
-    border-radius: 6px 12px 12px 6px;
-    box-shadow:
-        inset 0 0 0 1px rgba(255, 255, 255, 0.1),
-        inset 3px 0 6px rgba(0, 0, 0, 0.5),
-        0 2px 0 #0f1422,
-        0 6px 0 #0b0f1a,
-        0 26px 34px -10px rgba(20, 22, 31, 0.55),
-        0 50px 60px -30px rgba(20, 22, 31, 0.45);
-    padding: clamp(10px, 1.8vw, 20px) clamp(10px, 1.8vw, 20px) clamp(14px, 2.4vw, 26px);
-    position: relative;
-}
-
-/* gold stitching just inside the cover edge */
-.book-cover::before {
-    border: 2px dashed rgba(255, 214, 10, 0.55);
-    border-radius: 4px 9px 9px 4px;
-    content: "";
-    inset: 5px;
-    pointer-events: none;
-    position: absolute;
-}
-
-/* a ribbon bookmark lying down the spine */
-.book-cover::after {
-    background: linear-gradient(90deg, #e04877, var(--pink) 50%, #e04877);
-    bottom: -26px;
-    box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.35);
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 50% calc(100% - 12px), 0 100%);
-    content: "";
-    left: calc(50% + 14px);
-    pointer-events: none;
-    position: absolute;
-    top: 6px;
-    width: 14px;
-    z-index: 5;
-}
-
-/* The page block: cream paper, with the stacked page edges showing along the
-   bottom and sides. */
-.book {
-    background: var(--sheet);
-    border-radius: 2px;
-    box-shadow:
-        0 1px 0 var(--sheet-edge),
-        0 2px 0 var(--sheet),
-        0 3px 0 var(--sheet-edge),
-        0 4px 0 var(--sheet),
-        0 5px 0 #cfc6ab,
-        -1px 1px 0 var(--sheet-edge),
-        1px 1px 0 var(--sheet-edge),
-        -2px 3px 0 var(--sheet),
-        2px 3px 0 var(--sheet),
-        -3px 4px 0 var(--sheet-edge),
-        3px 4px 0 var(--sheet-edge),
-        0 8px 14px rgba(0, 0, 0, 0.35);
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    min-height: clamp(420px, 46vw, 560px);
-    position: relative;
-    transform-style: preserve-3d;
-}
-
-/* The gutter: the crease where the pages meet the binding. */
-.book::after {
-    background: linear-gradient(
-        90deg,
-        rgba(60, 40, 10, 0) 0%,
-        rgba(60, 40, 10, 0.1) 30%,
-        rgba(60, 40, 10, 0.28) 46%,
-        rgba(30, 20, 5, 0.5) 50%,
-        rgba(60, 40, 10, 0.28) 54%,
-        rgba(60, 40, 10, 0.1) 70%,
-        rgba(60, 40, 10, 0) 100%
-    );
-    bottom: 0;
-    content: "";
-    left: 50%;
-    pointer-events: none;
-    position: absolute;
-    top: 0;
-    transform: translateX(-50%);
-    width: 64px;
-    z-index: 3;
-}
-
-.page {
-    background-color: var(--sheet);
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .42 0 0 0 0 .33 0 0 0 0 .2 0 0 0 .11 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-    padding: var(--pad);
-    position: relative;
-}
-
-/* pages curve down into the spine */
-.page-left {
-    background-image:
-        linear-gradient(90deg, transparent 80%, rgba(60, 40, 10, 0.1) 94%, rgba(60, 40, 10, 0.2)),
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .42 0 0 0 0 .33 0 0 0 0 .2 0 0 0 .11 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-
-.page-right {
-    background-image:
-        linear-gradient(270deg, transparent 80%, rgba(60, 40, 10, 0.1) 94%, rgba(60, 40, 10, 0.2)),
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .42 0 0 0 0 .33 0 0 0 0 .2 0 0 0 .11 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-
-/* a slightly curled lower corner on the right page */
-.page-right::before {
-    background: linear-gradient(135deg, transparent 50%, rgba(60, 40, 10, 0.16) 50%, rgba(255, 255, 255, 0.5) 100%);
-    bottom: 0;
-    box-shadow: -3px -3px 6px rgba(0, 0, 0, 0.12);
-    content: "";
-    height: 26px;
-    pointer-events: none;
-    position: absolute;
-    right: 0;
-    width: 26px;
-}
-
-.runhead {
-    border-bottom: 1px solid rgba(60, 40, 10, 0.25);
-    color: #7a6f58;
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: 0.72rem;
-    font-style: italic;
-    letter-spacing: 0.08em;
-    margin-bottom: 18px;
-    padding-bottom: 6px;
-    text-transform: uppercase;
-}
-
-.page-right .runhead {
-    text-align: right;
-}
-
-/* the screenshot, mounted like a photo plate with tape at the corners */
-.page-left::before,
-.page-left::after {
-    background: rgba(255, 214, 10, 0.78);
-    content: "";
-    height: 20px;
-    position: absolute;
-    top: calc(var(--pad) + 22px);
-    width: 54px;
-    z-index: 2;
-}
-
-.page-left::before {
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-    left: calc(var(--pad) - 18px);
-    transform: rotate(-38deg);
-}
-
-.page-left::after {
-    background: rgba(0, 166, 224, 0.62);
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-    right: calc(var(--pad) - 18px);
-    transform: rotate(36deg);
-}
-
-.shot {
-    aspect-ratio: 4 / 3;
-    background: #fff;
-    border: 8px solid #fff;
-    box-shadow:
-        0 1px 2px rgba(0, 0, 0, 0.3),
-        0 6px 14px rgba(60, 40, 10, 0.25);
-    overflow: hidden;
-    position: relative;
-    transform: rotate(-1deg);
-}
-
-.shot img {
-    height: 100%;
-    inset: 0;
-    object-fit: cover;
-    position: absolute;
-    width: 100%;
-}
-
-.shot.placeholder {
-    align-items: center;
-    background: var(--shot, var(--cyan));
-    display: flex;
-    font-family: var(--display);
-    font-size: clamp(3.4rem, 9vw, 7rem);
-    font-stretch: 125%;
-    font-weight: 800;
-    justify-content: center;
-    letter-spacing: -0.02em;
-}
-
-.caption {
-    color: #6c6350;
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: 0.92rem;
-    font-style: italic;
-    margin-top: 18px;
-    text-align: center;
-}
-
-.page-body {
-    flex: 1;
-}
-
-.kicker {
-    color: var(--pink);
-    font-family: var(--display);
-    font-size: 0.78rem;
-    font-stretch: 125%;
-    font-weight: 800;
-    letter-spacing: 0.1em;
-    margin-bottom: 6px;
-    text-transform: uppercase;
-}
-
-.page-right h3 {
-    font-family: var(--display);
-    font-size: clamp(1.6rem, 3.2vw, 2.5rem);
-    font-stretch: 118%;
-    font-weight: 800;
-    letter-spacing: -0.02em;
-    line-height: 1.05;
-    margin-bottom: 8px;
-}
-
-.page-right h3::after {
-    background: linear-gradient(90deg, var(--ink) 0 40%, transparent 40% 46%, var(--ink) 46% 52%, transparent 52%);
-    content: "";
-    display: block;
-    height: 3px;
-    margin-top: 14px;
-    width: 90px;
-}
-
-.page-right .desc {
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: 1.05rem;
-    line-height: 1.65;
-    margin: 16px 0 14px;
-}
-
-.page-right .desc.dropcap::first-letter {
-    color: var(--cyan);
-    float: left;
-    font-family: var(--display);
-    font-size: 3.4rem;
-    font-weight: 900;
-    line-height: 0.85;
-    padding: 4px 8px 0 0;
-}
-
-.page-right .tools {
-    color: #6c6350;
-    font-family: Georgia, "Times New Roman", serif;
-    font-style: italic;
-    margin-bottom: 24px;
-}
-
-.folio {
-    color: #7a6f58;
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: 0.9rem;
-    font-style: italic;
-    font-variant-numeric: tabular-nums;
-    margin-top: 16px;
-}
-
-.page-left .folio,
-.page-right .folio {
-    align-self: center;
-}
-
-.folio::before,
-.folio::after {
-    content: "\2014";
-    margin: 0 8px;
-    opacity: 0.5;
-}
-
-/* The page that turns. It sits over one half of the book and flips across
-   the spine; its two faces are the page being left and the page arriving. */
-.leaf {
-    height: 100%;
-    position: absolute;
-    top: 0;
-    transform-style: preserve-3d;
-    transition: transform 0.9s cubic-bezier(0.45, 0.05, 0.25, 1);
-    width: 50%;
-    z-index: 2;
-}
-
-.leaf-next {
-    left: 50%;
-    transform-origin: left center;
-}
-
-.leaf-prev {
-    left: 0;
-    transform-origin: right center;
-}
-
-.leaf-next.turning {
-    transform: rotateY(-180deg);
-}
-
-.leaf-prev.turning {
-    transform: rotateY(180deg);
-}
-
-.leaf .page {
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-    inset: 0;
-    position: absolute;
-}
-
-.leaf .page.back {
-    transform: rotateY(180deg);
-}
-
-/* the turning page darkens as it passes through the vertical */
-.leaf .page .shade {
-    background: linear-gradient(90deg, rgba(30, 20, 5, 0.5), rgba(30, 20, 5, 0.05) 70%, rgba(30, 20, 5, 0));
-    inset: 0;
-    opacity: 0;
-    pointer-events: none;
-    position: absolute;
-    z-index: 4;
-}
-
-.leaf.turning .page .shade {
-    animation: page-shade 0.9s ease-in-out both;
-}
-
-@keyframes page-shade {
-    0% { opacity: 0; }
-    50% { opacity: 1; }
-    100% { opacity: 0; }
 }
 
 .book-controls {
@@ -1773,36 +1414,6 @@ dialog::backdrop {
         text-align: left;
     }
 
-    /* On phones the book is one page at a time: screenshot, then details. */
-    .book {
-        grid-template-columns: minmax(0, 1fr);
-        min-height: 0;
-    }
-
-    .book::after,
-    .book-cover::after {
-        display: none;
-    }
-
-    .page-left,
-    .page-right {
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .42 0 0 0 0 .33 0 0 0 0 .2 0 0 0 .11 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    }
-
-    .page-left::before,
-    .page-left::after,
-    .page-right::before {
-        display: none;
-    }
-
-    .page-left {
-        border-bottom: 1px dashed rgba(60, 40, 10, 0.3);
-    }
-
-    .shot {
-        aspect-ratio: 16 / 10;
-    }
-
     .book-controls {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1811,11 +1422,6 @@ dialog::backdrop {
     .book-status {
         grid-column: 1 / -1;
         order: -1;
-    }
-
-    .page-left .folio,
-    .page-right .folio {
-        display: none;
     }
 
     .hero {
@@ -2475,4 +2081,130 @@ button.spine:focus-visible {
 
 .cover.no-shot .cover-initials {
     text-shadow: 0 2px 0 rgba(255, 255, 255, 0.3), 0 -2px 0 rgba(0, 0, 0, 0.35);
+}
+
+/* ---------- royal blue palette: dark text on the light inks ---------- */
+
+.package-cta:hover,
+.ink-cyan,
+.ink-pink,
+.ink-yellow,
+.cta,
+.skills-tally strong,
+.calc-check:has(input:checked),
+.calc-check:has(input:checked) small,
+.mention li::before {
+    color: var(--navy);
+}
+
+.ink-cyan,
+.ink-pink,
+.ink-yellow {
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+}
+
+::placeholder {
+    color: var(--muted);
+    opacity: 0.8;
+}
+
+dialog::backdrop {
+    background: rgba(8, 16, 48, 0.78);
+}
+
+.calc-result {
+    background: var(--navy);
+    color: var(--ink);
+}
+
+.calc-note {
+    color: var(--muted);
+}
+
+.calc-line strong {
+    color: var(--yellow);
+}
+
+/* the shelf: a lacquered cream board in front of a deep blue recess */
+
+.shelf {
+    background:
+        linear-gradient(180deg, rgba(8, 16, 48, 0.4), rgba(8, 16, 48, 0.1) 50%, rgba(8, 16, 48, 0.22)),
+        #2347a8;
+    box-shadow:
+        inset 0 14px 22px -10px rgba(5, 10, 40, 0.65),
+        inset 14px 0 18px -12px rgba(5, 10, 40, 0.5),
+        inset -14px 0 18px -12px rgba(5, 10, 40, 0.5);
+}
+
+.shelf-board {
+    background:
+        repeating-linear-gradient(90deg, rgba(15, 31, 92, 0.05) 0 2px, transparent 2px 9px),
+        linear-gradient(180deg, #fff3ee 0, #fce5df 35%, #e3bfba 100%);
+    box-shadow:
+        inset 0 2px 0 rgba(255, 255, 255, 0.7),
+        0 14px 18px -6px rgba(5, 10, 40, 0.55);
+}
+
+.spine,
+.cover {
+    color: var(--navy);
+    --foil: rgba(15, 31, 92, 0.32);
+}
+
+.spine.ink,
+.cover.ink {
+    --c: var(--ink);
+    color: var(--navy);
+}
+
+.spine.paper,
+.cover.paper {
+    --c: var(--navy);
+    background-color: var(--navy);
+    color: var(--ink);
+    --foil: rgba(252, 229, 223, 0.55);
+}
+
+.spine.ink .spine-title {
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.spine.paper .spine-title {
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.5);
+}
+
+.spine-tag,
+.cover-tag {
+    background: var(--ink);
+    color: var(--navy);
+}
+
+.spine.ghost {
+    background-color: #1c3f9a;
+    border-color: rgba(5, 10, 40, 0.5);
+    opacity: 0.9;
+}
+
+.cover-play {
+    color: var(--navy);
+}
+
+.calc-check input {
+    accent-color: var(--navy);
+    flex: none;
+    height: 18px;
+    margin: 3px 0 0;
+    padding: 0;
+    width: 18px;
+}
+
+.chip {
+    color: var(--ink);
+}
+
+.chip:hover,
+.chip[aria-pressed="true"] {
+    color: var(--paper);
 }

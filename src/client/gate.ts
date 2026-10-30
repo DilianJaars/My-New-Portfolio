@@ -42,12 +42,13 @@ const SHOT_CLOCK = 10; // seconds to take each shot
 // ---------- colours (read from the site's CSS tokens) ----------
 const css = getComputedStyle(document.documentElement);
 const token = (name: string, fallback: string): string => css.getPropertyValue(name).trim() || fallback;
-const INK = token("--ink", "#14161f");
+const INK = token("--navy", "#0f1f5c");
 const CYAN = token("--cyan", "#00a6e0");
 const PINK = token("--pink", "#ff5a8a");
 const YELLOW = token("--yellow", "#ffd60a");
 const PAPER = token("--paper", "#f2f2ec");
 const WHITE = token("--white", "#fcfcf9");
+const CREAM = token("--ink", "#fce5df");
 const ORANGE = "#ff8a1f";
 
 // ---------- passing the gate ----------
@@ -366,7 +367,7 @@ function handleEvents(s: Shot): void {
     for (const ev of s.events) {
         if (ev === "floor") {
             sounds.floor();
-            burst(s.x, FLOOR - 4, 6, [INK, "#8a8e9a"], 260);
+            burst(s.x, FLOOR - 4, 6, [INK, "#8fa3da"], 260);
         } else if (ev === "rim") {
             sounds.rim();
             lastHitAt = clock;
@@ -563,7 +564,7 @@ function drawScoreboard(): void {
     g.fillRect(x + 6, y + 6, 300, 56);
     g.fillStyle = INK;
     g.fillRect(x, y, 300, 56);
-    g.fillStyle = PAPER;
+    g.fillStyle = CREAM;
     g.font = `800 12px ${DISPLAY}`;
     g.textBaseline = "alphabetic";
     g.textAlign = "left";
@@ -582,7 +583,7 @@ function drawScoreboard(): void {
     // wind gauge
     g.textAlign = "right";
     g.font = `800 12px ${DISPLAY}`;
-    g.fillStyle = PAPER;
+    g.fillStyle = CREAM;
     g.fillText("WIND", x + 286, y + 20);
     const strength = Math.round(Math.abs(wind) / 10);
     g.fillStyle = CYAN;
@@ -600,7 +601,7 @@ function drawDefender(d: DefenderState, index: number): void {
     const foot = FLOOR - d.lift;
     const top = d.body.y0;
     // shadow
-    g.fillStyle = "rgba(20, 22, 31, 0.3)";
+    g.fillStyle = "rgba(8, 16, 48, 0.35)";
     g.beginPath();
     g.ellipse(x, FLOOR + 12, 30 - d.lift / 5, 6, 0, 0, Math.PI * 2);
     g.fill();
@@ -751,7 +752,7 @@ function drawBall(): void {
 
     const height = Math.max(0, FLOOR - y - BALL_R);
     const sh = Math.max(0.35, 1 - height / 520);
-    g.fillStyle = "rgba(20, 22, 31, 0.28)";
+    g.fillStyle = "rgba(8, 16, 48, 0.33)";
     g.beginPath();
     g.ellipse(x, FLOOR + 14, BALL_R * 1.15 * sh, 5 * sh, 0, 0, Math.PI * 2);
     g.fill();
